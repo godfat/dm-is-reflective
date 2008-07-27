@@ -16,7 +16,7 @@ placeholder
 
  require 'dm-core'
 
- # setup first, then dm-mapping can know it should load up which adapter
+ # setup first, or dm-mapping can't determine which adapter it should load up
  DataMapper.setup :default, 'sqlite3://db/development.sqlite3'
 
  require 'dm-mapping'
