@@ -14,7 +14,33 @@ placeholder
 
 == SYNOPSIS:
 
-placeholder
+ require 'dm-core'
+
+ # setup first, then dm-mapping can know it should load up which adapter
+ DataMapper.setup :default, 'sqlite3://db/development.sqlite3'
+
+ require 'dm-mapping'
+
+ class User
+   include DataMapper::Resource
+   mapping /*/
+   mapping DataMapper::Mapping::All
+   mapping /_at$/, /^salt_/
+   mapping :account, :email
+   mapping *storage_fields
+ end
+
+ DataMapper.repository.storages
+ # => ['users']
+
+ User.storage_fields
+ # => ['account', 'email', 'created_at', 'salt_first', 'salt_second']
+
+ DataMapper.repository.fields('users')
+ # => ['account', 'email', 'created_at', 'salt_first', 'salt_second']
+
+ DataMapper.repository.storages_and_fields
+ # => {'users' => ['account', 'email', 'created_at', 'salt_first', 'salt_second']}
 
 == REQUIREMENTS:
 
