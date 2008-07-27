@@ -1,0 +1,5 @@
+= dm-mapping todo list
+
+* DataMapper::Resource#mapping
+* DataMapper::Resource#storage_fields
+* DataMapper.repository.storages_and_fields

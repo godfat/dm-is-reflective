@@ -24,7 +24,7 @@ end
 namespace :git do
   desc 'push to github'
   task 'push' do
-    sh 'git push github master'
+    sh 'git push origin master'
   end
 end
 
