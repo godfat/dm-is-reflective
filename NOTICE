@@ -1,0 +1,5 @@
+= notice for other stuffs
+
+* this project skeleton is built through Mr Bones 2.0.3:
+    gem install bones
+    http://codeforpeople.rubyforge.org/bones/

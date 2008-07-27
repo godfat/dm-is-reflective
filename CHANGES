@@ -1,0 +1,104 @@
+= dm-mapper changes history
+
+== dm-mapping 0.1.0, 2008-07-27
+
+* birthday!
+* added DataMapper.repository.storages for sqlite3.
+* please refer:
+  http://groups.google.com/group/datamapper/browse_thread/thread/b9ca41120c5c9389
+
+original message:
+
+  from Lin Jen-Shin
+  to DataMapper
+  cc godfat
+  date	Sun, Jul 27, 2008 at 5:40 PM
+  subject Manipulate an existing database.
+  mailed-by gmail.com
+
+  Greetings,
+
+  DataMapper looks very promising for me, so I am thinking of
+  using it in the near future. I hate separate my domain objects into
+  two parts in Rails, writing migration and switching to ActiveRecord,
+  vice versa, is very annoying to me.
+
+  But there's a very convenient feature to me in ActiveRecord,
+  that is ActiveRecord automatically mapping all fields in a table.
+  It makes me easily control an existing database without any domain object.
+
+  For example,
+
+    require 'active_record'
+
+    ActiveRecord::Base.establish_connection(
+      :adapter => 'sqlite3',
+      :database => 'db/development.sqlite3'
+    )
+
+    clsas User < ActiveRecord::Base
+    end
+
+    User.find 1
+    => #<User id: 1, account: "admin", created_at: "2008-05-18 20:08:37", etc.>
+
+  Some people would use database admin such as phpMyAdmin to
+  accomplish this kind of task, but I prefer anything in Ruby,
+  calling Ruby function, manipulating data without SQL and
+  any domain object. (i.e. I didn't have to load up entire environment.)
+
+  In DataMapper, I didn't find an easy way to accomplish this.
+  I am sorry if there's one but I didn't find it, please point out,
+  many thanks. In short, I would like to do this in DataMapper:
+
+    class User
+      include DataMapper::Resource
+      mapping :account, :created_at
+    end
+
+  or
+
+    class User
+      include DataMapper::Resource
+      mapping All
+    end
+
+    class User
+      include DataMapper::ResourceAll
+    end
+
+  or
+
+    class User
+      include DataMapper::Resource
+      mapping *storage_fields
+    end
+
+  The above User.storage_fields should return an Array,
+  telling all the fields in the table, e.g. [:account, :created_at, :etc]
+  or a Hash includes data type, e.g. {:account => String,
+                                      :created_at => DateTime}
+  then mapping *storage_fields should change to:
+
+    mapping *storage_fields.each_key.to_a
+
+  If it's possible, a feature returning the database schema as well:
+
+    DataMapper.repository.storages
+    # => [:users, :posts, :etc]
+
+    DataMapper.repository.storages_and_fields
+    # => {:users => {:account => String},
+          :posts => {:title => String, :content => Text}}
+
+  or returning DataObject::Field, DataObject::Storage, etc.
+
+    DataMapper.repository.storage
+    # => [#<DataObject::Storage @name='users' @fields=
+           [#<DataObject::Field @name='account' @type=String>]>]
+
+  If you feel this kind of feature is indeed needed or not bad for
+  adding it, I could try to provide a patch for it. Though I didn't
+  read the source code deeply, not knowning it's easy or not.
+
+  sincerely,
