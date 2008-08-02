@@ -17,20 +17,20 @@ placeholder
  require 'dm-core'
 
  # setup first, or dm-mapping can't determine which adapter it should load up
- DataMapper.setup :default, 'sqlite3://db/development.sqlite3'
+ DataMapper.setup :default, 'sqlite3:db/development.sqlite3'
 
  require 'dm-mapping'
 
  class User
    include DataMapper::Resource
-   mapping /*/
+   mapping /.*/
    mapping DataMapper::Mapping::All
    mapping /_at$/, /^salt_/
    mapping :account, :email
    mapping *storage_fields
  end
 
- DataMapper.repository.storages
+ DataMapper.repository.adapter.storages
  # => ['users']
 
  User.storage_fields
@@ -39,7 +39,7 @@ placeholder
  DataMapper.repository.fields('users')
  # => ['account', 'email', 'created_at', 'salt_first', 'salt_second']
 
- DataMapper.repository.storages_and_fields
+ DataMapper.repository.adapter.storages_and_fields
  # => {'users' => ['account', 'email', 'created_at', 'salt_first', 'salt_second']}
 
 == REQUIREMENTS:
