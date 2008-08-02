@@ -4,7 +4,7 @@ require 'dm-core'
 
 module DataMapper
   module Mapping
-    All = /*/
+    All = /.*/
   end
 end
 
