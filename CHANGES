@@ -1,5 +1,14 @@
 = dm-mapper changes history
 
+== dm-mapping 0.2.0, 2008-08-02
+
+* added Sqlite3Adapter::Migration#fields
+* added DataMapper::Model#mapping
+* added DataMapper::Model#fields
+* added DataMapper::TypeMap#find_primitive for reversed lookup.
+  mapping SQL type back to Ruby type.
+* added corresponded test.
+
 == dm-mapping 0.1.0, 2008-07-27
 
 * birthday!

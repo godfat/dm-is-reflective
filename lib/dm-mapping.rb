@@ -3,6 +3,12 @@ gem 'dm-core', '=0.9.3'
 require 'dm-core'
 
 module DataMapper
+  module Mapping
+    All = /*/
+  end
+end
+
+module DataMapper
   module Adapters
     class AbstractAdapter
       module Migration

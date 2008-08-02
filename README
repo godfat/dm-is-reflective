@@ -1,4 +1,4 @@
-= dm-mapping 0.1.0
+= dm-mapping 0.2.0
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   strip any number: 18god29fat7029 (at] godfat32 -dooot- 20org
 
@@ -33,14 +33,26 @@ placeholder
  DataMapper.repository.adapter.storages
  # => ['users']
 
- User.storage_fields
- # => ['account', 'email', 'created_at', 'salt_first', 'salt_second']
+ User.fields
+ # => [['account',     String,   {}],
+       ['email',       String,   {}],
+       ['created_at',  DateTime, {}],
+       ['salt_first',  String,   {}],
+       ['salt_second', String,   {}]]
 
- DataMapper.repository.fields('users')
- # => ['account', 'email', 'created_at', 'salt_first', 'salt_second']
+ DataMapper.repository.adapter.fields('users')
+ # => [['account',     String,   {}],
+       ['email',       String,   {}],
+       ['created_at',  DateTime, {}],
+       ['salt_first',  String,   {}],
+       ['salt_second', String,   {}]]
 
  DataMapper.repository.adapter.storages_and_fields
- # => {'users' => ['account', 'email', 'created_at', 'salt_first', 'salt_second']}
+ # => {'users' => [['account',     String,   {}],
+                   ['email',       String,   {}],
+                   ['created_at',  DateTime, {}],
+                   ['salt_first',  String,   {}],
+                   ['salt_second', String,   {}]] }
 
 == REQUIREMENTS:
 

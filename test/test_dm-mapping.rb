@@ -19,10 +19,9 @@ class DMMTest < Test::Unit::TestCase
     include DataMapper::Resource
     belongs_to :user
 
-    property :id,         Integer, :serial => true
-
-    property :title,  String
-    property :body,       Text
+    property :id,    Integer, :serial => true
+    property :title, String
+    property :body,  Text
   end
 
   class Tmp; end
@@ -47,7 +46,7 @@ class DMMTest < Test::Unit::TestCase
     #
 
     Tmp.send :include, DataMapper::Resource
-    @dm = DataMapper.setup :default, 'sqlite3:tmp.db'
+    @dm = DataMapper.setup :default, 'sqlite3:test.db'
     assert_equal ['dmm_test_comments', 'dmm_test_users'], @dm.storages.sort
 
     Tmp.storage_names[:default] = 'dmm_test_comments'
