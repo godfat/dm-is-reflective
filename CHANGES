@@ -1,5 +1,11 @@
 = dm-mapper changes history
 
+== dm-mapping 0.2.1, 2008-08-03
+
+* fixed a bug that type map should lookup for parent.
+* fixed a bug that sql type could be lower case.
+  fixed by calling upcase.
+
 == dm-mapping 0.2.0, 2008-08-02
 
 * added Sqlite3Adapter::Migration#fields

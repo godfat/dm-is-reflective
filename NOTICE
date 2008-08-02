@@ -1,5 +1,9 @@
 = notice for other stuffs
 
-* this project skeleton is built through Mr Bones 2.0.3:
-    gem install bones
+* dm-mapping is a plugin of DataMapper
+    > sudo gem install dm-core
+    http://datamapper.org
+
+* this project skeleton is built through Mr Bones
+    > sudo gem install bones
     http://codeforpeople.rubyforge.org/bones/

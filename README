@@ -1,4 +1,4 @@
-= dm-mapping 0.2.0
+= dm-mapping 0.2.1
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   strip any number: 18god29fat7029 (at] godfat32 -dooot- 20org
 
@@ -6,7 +6,8 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
 == DESCRIPTION:
 
-placeholder
+ DataMapper plugin that helps you manipulate an existing database.
+ It creates mappings between existing columns and model's properties.
 
 == FEATURES:
 
@@ -60,7 +61,7 @@ placeholder
 
 == INSTALL:
 
-* sudo gem install dm-mapping
+> sudo gem install dm-mapping
 
 == LICENSE:
 

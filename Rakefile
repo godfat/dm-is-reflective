@@ -35,7 +35,7 @@ PROJ.url = 'http://github.com/godfat/dm-mapping'
 PROJ.description = PROJ.summary = paragraphs_of('README', 'description').join("\n\n")
 PROJ.changes = paragraphs_of('CHANGES', 0..1).join("\n\n")
 PROJ.rubyforge.name = 'ludy'
-PROJ.version = paragraphs_of('README', 0).first.split("\n").first.split(' ').last
+PROJ.version = File.open('lib/dm-mapping/version.rb', 0){ |f| f.read.gsub(/.*VERSION = "(.*)".*/m, '\1') }
 
 PROJ.gem.dependencies << 'dm-core'
 # PROJ.gem.executables = []

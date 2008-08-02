@@ -22,7 +22,7 @@ module DataMapper
         def fields table
           query_table(table).map{ |field|
             type, chain = self.class.type_map.
-              find_primitive(field.type.gsub(/\(\d+\)/, ''))
+              find_primitive(field.type.gsub(/\(\d+\)/, '').upcase)
 
             # stupid hack
             type = String if type == Class
