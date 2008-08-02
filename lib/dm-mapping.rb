@@ -17,6 +17,10 @@ module DataMapper
         def storages
           raise NotImplementedError
         end
+
+        def fields storage
+          raise NotImplementedError
+        end
       end
     end
   end
