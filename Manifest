@@ -4,9 +4,12 @@ LICENSE
 NOTICE
 README
 Rakefile
+TODO
 dm-mapping.gemspec
 lib/dm-mapping.rb
-lib/dm-mapping/sqlite3adapter.rb
+lib/dm-mapping/adapters/sqlite3adapter.rb
+lib/dm-mapping/model.rb
+lib/dm-mapping/type_map.rb
 lib/dm-mapping/version.rb
 tasks/ann.rake
 tasks/bones.rake

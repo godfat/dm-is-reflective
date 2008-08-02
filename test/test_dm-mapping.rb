@@ -27,7 +27,7 @@ class DMMTest < Test::Unit::TestCase
   class Tmp; end
 
   def test_storages
-    @dm = DataMapper.setup :default, 'sqlite3:test.db'
+    @dm = DataMapper.setup :default, 'sqlite3:tmp.db'
     require 'dm-mapping'
     DataMapper.auto_migrate!
 
@@ -46,7 +46,7 @@ class DMMTest < Test::Unit::TestCase
     #
 
     Tmp.send :include, DataMapper::Resource
-    @dm = DataMapper.setup :default, 'sqlite3:test.db'
+    @dm = DataMapper.setup :default, 'sqlite3:tmp.db'
     assert_equal ['dmm_test_comments', 'dmm_test_users'], @dm.storages.sort
 
     Tmp.storage_names[:default] = 'dmm_test_comments'
