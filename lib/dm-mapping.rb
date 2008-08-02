@@ -22,4 +22,4 @@ module DataMapper
   end
 end
 
-require "dm-mapping/#{DataMapper.repository.adapter.class.to_s.split('::').last.downcase}"
+require "dm-mapping/adapters/#{DataMapper.repository.adapter.class.to_s.split('::').last.downcase}"
