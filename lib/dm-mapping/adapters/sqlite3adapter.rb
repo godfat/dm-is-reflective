@@ -26,7 +26,7 @@ module DataMapper
             # stupid hack
             type = String if type == Class
 
-            [field.name, type, chain.attributes]
+            [field.name, type] #, chain.attributes]
           }
         end
       end

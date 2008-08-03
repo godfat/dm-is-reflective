@@ -22,20 +22,22 @@ module DataMapper
     # convient way to map through fields
     def map_fields
       fields.map{ |field|
-        yield *field
+        yield(*field)
       }
     end
 
     protected
     def mapping_regexp regexp
-      map_fields{ |name, type, attrs|
-        property name.to_sym, type, attrs if name =~ regexp
+      map_fields{ |name, type| #, attrs|
+        # property name.to_sym, type, attrs if name =~ regexp
+        property name.to_sym, type if name =~ regexp
       }
     end
 
     def mapping_type type_target
-      map_fields{ |name, type, attrs|
-        property name.to_sym, type, attrs if name == type_target
+      map_fields{ |name, type| #, attrs|
+        # property name.to_sym, type, attrs if name == type_target
+        property name.to_sym, type if name == type_target
       }
     end
 

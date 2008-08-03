@@ -5,6 +5,8 @@
 * added support of mapping Integer, DateTime, etc.
 * renamed some internals.
 * changed the way requiring adapter. no more setup first.
+* don't return attributes in fields. dunno what's that...
+  it would return different things in different scenario.
 
 == dm-mapping 0.2.1, 2008-08-03
 

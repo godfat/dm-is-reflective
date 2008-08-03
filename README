@@ -1,4 +1,4 @@
-= dm-mapping 0.2.1
+= dm-mapping 0.2.2
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   strip any number: 18god29fat7029 (at] godfat32 -dooot- 20org
 
@@ -35,25 +35,25 @@ placeholder
  # => ['users']
 
  User.fields
- # => [['account',     String,   {}],
-       ['email',       String,   {}],
-       ['created_at',  DateTime, {}],
-       ['salt_first',  String,   {}],
-       ['salt_second', String,   {}]]
+ # => [['account',     String  ],
+       ['email',       String  ],
+       ['created_at',  DateTime],
+       ['salt_first',  String, ],
+       ['salt_second', String, ]]
 
  DataMapper.repository.adapter.fields('users')
- # => [['account',     String,   {}],
-       ['email',       String,   {}],
-       ['created_at',  DateTime, {}],
-       ['salt_first',  String,   {}],
-       ['salt_second', String,   {}]]
+ # => [['account',     String,   ],
+       ['email',       String,   ],
+       ['created_at',  DateTime, ],
+       ['salt_first',  String,   ],
+       ['salt_second', String,   ]]
 
  DataMapper.repository.adapter.storages_and_fields
- # => {'users' => [['account',     String,   {}],
-                   ['email',       String,   {}],
-                   ['created_at',  DateTime, {}],
-                   ['salt_first',  String,   {}],
-                   ['salt_second', String,   {}]] }
+ # => {'users' => [['account',     String,   ],
+                   ['email',       String,   ],
+                   ['created_at',  DateTime, ],
+                   ['salt_first',  String,   ],
+                   ['salt_second', String,   ]]}
 
 == REQUIREMENTS:
 

@@ -27,27 +27,38 @@ class DMMTest < Test::Unit::TestCase
 
   class Tmp; end
 
+  @@dm = DataMapper.setup :default, 'sqlite3:tmp.db'
+  def dm; @@dm; end
+
+  def setup
+    User.auto_migrate!
+    Comment.auto_migrate!
+  end
+
+  def comment_fields
+    [["body",    DataMapper::Types::Text],
+     ["id",      Integer                ],
+     ["title",   String                 ],
+     ["user_id", Integer                ]]
+  end
+
   def test_storages
-    @dm = DataMapper.setup :default, 'sqlite3:tmp.db'
-    DataMapper.auto_migrate!
+    assert_equal ['dmm_test_comments', 'dmm_test_users'], dm.storages.sort
+    assert_equal comment_fields, dm.fields('dmm_test_comments').sort
+  end
 
-    assert_equal ['dmm_test_comments', 'dmm_test_users'], @dm.storages.sort
-    comment_fields = [["body", DataMapper::Types::Text, {}],
-                      ["id", Integer, {}],
-                      ["title", String, {}],
-                      ["user_id", Integer, {}]]
-
-    assert_equal comment_fields, @dm.fields('dmm_test_comments').sort
-
+  def test_create_comment
     Comment.create(:title => 'XD')
     assert_equal 1, Comment.first.id
     assert_equal 'XD', Comment.first.title
+  end
 
-    #
+  def test_mapping_all
+    test_create_comment # for fixtures
 
     Tmp.send :include, DataMapper::Resource
-    @dm = DataMapper.setup :default, 'sqlite3:tmp.db'
-    assert_equal ['dmm_test_comments', 'dmm_test_users'], @dm.storages.sort
+    local_dm = DataMapper.setup :default, 'sqlite3:tmp.db'
+    assert_equal ['dmm_test_comments', 'dmm_test_users'], local_dm.storages.sort
 
     Tmp.storage_names[:default] = 'dmm_test_comments'
     assert_equal 'dmm_test_comments', Tmp.storage_name
@@ -59,4 +70,5 @@ class DMMTest < Test::Unit::TestCase
     assert_equal 'XD', Tmp.first.title
     assert_equal 1, Tmp.first.id
   end
+
 end

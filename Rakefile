@@ -28,6 +28,9 @@ namespace :git do
   end
 end
 
+# supress warnings, there's too many warnings in dm-core
+PROJ.ruby_opts.delete '-w'
+
 PROJ.name = 'dm-mapping'
 PROJ.authors = 'Lin Jen-Shin (a.k.a. godfat 真常)'
 PROJ.email = 'strip any number: 18god29fat7029 (at] godfat32 -dooot- 20org'
