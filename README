@@ -1,4 +1,4 @@
-= dm-mapping 0.2.2
+= dm-mapping 0.3.0
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   strip any number: 18god29fat7029 (at] godfat32 -dooot- 20org
 
@@ -8,10 +8,6 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
  DataMapper plugin that helps you manipulate an existing database.
  It creates mappings between existing columns and model's properties.
-
-== FEATURES:
-
-placeholder
 
 == SYNOPSIS:
 
@@ -27,7 +23,7 @@ placeholder
    mapping /.*/
    mapping DataMapper::Mapping::All
    mapping /_at$/, /^salt_/
-   mapping :account, :email
+   mapping :id, :email
    mapping *storage_fields
  end
 
@@ -35,25 +31,25 @@ placeholder
  # => ['users']
 
  User.fields
- # => [['account',     String  ],
-       ['email',       String  ],
-       ['created_at',  DateTime],
-       ['salt_first',  String, ],
-       ['salt_second', String, ]]
+ # => [['id',          Integer,  {:serial => true}],
+       ['email',       String,   {:default => 'nospam@nospam.tw'}],
+       ['created_at',  DateTime, {}],
+       ['salt_first',  String,   {}],
+       ['salt_second', String,   {}]]
 
  DataMapper.repository.adapter.fields('users')
- # => [['account',     String,   ],
-       ['email',       String,   ],
-       ['created_at',  DateTime, ],
-       ['salt_first',  String,   ],
-       ['salt_second', String,   ]]
+ # => [['id',          Integer,  {:serial => true}],
+       ['email',       String,   {:default => 'nospam@nospam.tw'}],
+       ['created_at',  DateTime, {}],
+       ['salt_first',  String,   {}],
+       ['salt_second', String,   {}]]
 
  DataMapper.repository.adapter.storages_and_fields
- # => {'users' => [['account',     String,   ],
-                   ['email',       String,   ],
-                   ['created_at',  DateTime, ],
-                   ['salt_first',  String,   ],
-                   ['salt_second', String,   ]]}
+ # => {'users' => [['id',          Integer,  {:serial => true}],
+                   ['email',       String,   {:default => 'nospam@nospam.tw'}],
+                   ['created_at',  DateTime, {}],
+                   ['salt_first',  String,   {}],
+                   ['salt_second', String,   {}]]}
 
 == REQUIREMENTS:
 

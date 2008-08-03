@@ -7,6 +7,7 @@ Rakefile
 TODO
 dm-mapping.gemspec
 lib/dm-mapping.rb
+lib/dm-mapping/adapters/abstract_adapter.rb
 lib/dm-mapping/adapters/sqlite3adapter.rb
 lib/dm-mapping/model.rb
 lib/dm-mapping/type_map.rb

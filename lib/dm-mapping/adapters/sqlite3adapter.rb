@@ -26,7 +26,12 @@ module DataMapper
             # stupid hack
             type = String if type == Class
 
-            [field.name, type] #, chain.attributes]
+            attrs = {}
+            attrs[:serial] = true if field.pk != 0
+            attrs[:nullable] = true if field.notnull != 0 && !attrs[:serial]
+            attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
+
+            [field.name, type, attrs.merge(chain.attributes)]
           }
         end
       end

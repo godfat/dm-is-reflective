@@ -1,12 +1,13 @@
 = dm-mapper changes history
 
-== dm-mapping 0.2.2,
+== dm-mapping 0.3.0,
 
 * added support of mapping Integer, DateTime, etc.
 * renamed some internals.
 * changed the way requiring adapter. no more setup first.
-* don't return attributes in fields. dunno what's that...
-  it would return different things in different scenario.
+* added Migration#storages_and_fields
+* added mapping :serial => true for primary key.
+* added mapping :default, and :nullable.
 
 == dm-mapping 0.2.1, 2008-08-03
 
