@@ -8,6 +8,8 @@
 * added Migration#storages_and_fields
 * added mapping :serial => true for primary key.
 * added mapping :default, and :nullable.
+* added support of mapping name. (through passing symbol or string)
+* added support of multiple arguments.
 
 == dm-mapping 0.2.1, 2008-08-03
 

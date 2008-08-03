@@ -17,25 +17,46 @@ module DataMapper
     end
 
     protected
-    def mapping target = Mapping::All
+    def mapping *targets
       DataMapper.ensure_required_dm_mapping_adapter
+      targets << Mapping::All if targets.empty?
 
-      if target.kind_of?(Regexp)
-        mapping_regexp target
-      else
-        mapping_type target
-      end
+      targets.each{ |target|
+        case target
+          when Regexp;
+            mapping_regexp target
+
+          when Symbol, String;
+            mapping_symbol target.to_sym
+
+          when Class;
+            mapping_class target
+
+          else
+            raise ArgumnetError.new("invalid argument: #{target.inspect}")
+        end
+      }
     end
 
+    private
     def mapping_regexp regexp
       map_fields{ |name, type, attrs|
         property name.to_sym, type, attrs if name =~ regexp
       }
     end
 
-    def mapping_type type_target
+    def mapping_symbol symbol
       map_fields{ |name, type, attrs|
-        property name.to_sym, type, attrs if name == type_target
+        if name.to_sym == symbol
+          property symbol, type, attrs
+          break
+        end
+      }
+    end
+
+    def mapping_class klass
+      map_fields{ |name, type, attrs|
+        property name.to_sym, type, attrs if type == klass
       }
     end
 
