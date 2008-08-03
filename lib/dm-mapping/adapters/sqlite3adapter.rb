@@ -1,7 +1,6 @@
 
-require 'dm-mapping'
+require 'dm-mapping/adapters/abstract_adapter'
 require 'dm-mapping/type_map'
-require 'dm-mapping/model'
 
 module DataMapper
   module Adapters
@@ -22,7 +21,7 @@ module DataMapper
         def fields table
           query_table(table).map{ |field|
             type, chain = self.class.type_map.
-              find_primitive(field.type.gsub(/\(\d+\)/, '').upcase)
+              lookup_primitive(field.type.gsub(/\(\d+\)/, '').upcase)
 
             # stupid hack
             type = String if type == Class

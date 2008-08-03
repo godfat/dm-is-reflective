@@ -3,27 +3,28 @@ gem 'dm-core', '=0.9.3'
 require 'dm-core'
 
 module DataMapper
+
   module Mapping
     All = /.*/
   end
-end
 
-module DataMapper
-  module Adapters
-    class AbstractAdapter
-      module Migration
-        # returns all tables in the repository.
-        # e.g. ['comments', 'posts']
-        def storages
-          raise NotImplementedError
-        end
+  class << self
+    # ensure the using adapter is extended by dm-mapping
+    def ensure_required_dm_mapping_adapter
+      adapter_name = repository.adapter.class.to_s.split('::').last.downcase
+      require "dm-mapping/adapters/#{adapter_name}"
+    end
 
-        def fields storage
-          raise NotImplementedError
-        end
-      end
+    # dirty hack that hook requirement after setup.
+    alias_method :__setup_alias_by_dm_mapping__, :setup
+    private :__setup_alias_by_dm_mapping__
+    def setup name, uri_or_options
+      adapter = __setup_alias_by_dm_mapping__ name, uri_or_options
+      ensure_required_dm_mapping_adapter
+      adapter
     end
   end
+
 end
 
-require "dm-mapping/adapters/#{DataMapper.repository.adapter.class.to_s.split('::').last.downcase}"
+require 'dm-mapping/model'

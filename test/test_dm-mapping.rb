@@ -3,6 +3,7 @@ require 'test/unit'
 
 require 'rubygems'
 require 'data_mapper'
+require 'dm-mapping'
 
 class DMMTest < Test::Unit::TestCase
   class User
@@ -28,7 +29,6 @@ class DMMTest < Test::Unit::TestCase
 
   def test_storages
     @dm = DataMapper.setup :default, 'sqlite3:tmp.db'
-    require 'dm-mapping'
     DataMapper.auto_migrate!
 
     assert_equal ['dmm_test_comments', 'dmm_test_users'], @dm.storages.sort
