@@ -128,4 +128,10 @@ class DMMTest < Test::Unit::TestCase
     assert_equal ['id', 'user_id'], model.properties.map(&:name).map(&:to_s).sort
   end
 
+  def test_invalid_argument
+    assert_raise(ArgumentError){
+      User.send :mapping, 29
+    }
+  end
+
 end

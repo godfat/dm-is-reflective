@@ -33,7 +33,7 @@ module DataMapper
             mapping_class target
 
           else
-            raise ArgumnetError.new("invalid argument: #{target.inspect}")
+            raise ArgumentError.new("invalid argument: #{target.inspect}")
         end
       }
     end
