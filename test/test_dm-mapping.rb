@@ -25,8 +25,10 @@ class DMMTest < Test::Unit::TestCase
     property :body,  Text
   end
 
-  class Model
-    include DataMapper::Resource
+  class Model; end
+
+  def create_fake_model
+    Model.dup.__send__ :include, DataMapper::Resource
   end
 
   @@dm = DataMapper.setup :default, 'sqlite3:tmp.db'
@@ -64,8 +66,8 @@ class DMMTest < Test::Unit::TestCase
 
   def test_mapping_all
     test_create_comment # for fixtures
+    model = create_fake_model
 
-    model = Model.dup
     local_dm = DataMapper.setup :default, 'sqlite3:tmp.db'
     assert_equal ['dmm_test_comments', 'dmm_test_users'], local_dm.storages.sort
 
@@ -81,7 +83,8 @@ class DMMTest < Test::Unit::TestCase
   end
 
   def test_mapping_and_create
-    model = Model.dup
+    model = create_fake_model
+
     local_dm = DataMapper.setup :default, 'sqlite3:tmp.db'
     model.storage_names[:default] = 'dmm_test_comments'
     model.send :mapping
@@ -89,6 +92,9 @@ class DMMTest < Test::Unit::TestCase
     model.create(:title => 'orz')
     assert_equal 'orz', model.first.title
     assert_equal 1, model.first.id
+
+    model.create
+    assert_equal 'default title', model.get(2).title
   end
 
   def test_storages_and_fields
