@@ -66,7 +66,7 @@ class DMMTest < Test::Unit::TestCase
     assert_equal 1, Tmp.count
     assert_equal comment_fields, Tmp.fields.sort
 
-    Tmp.mapping
+    Tmp.send :mapping
     assert_equal 'XD', Tmp.first.title
     assert_equal 1, Tmp.first.id
   end

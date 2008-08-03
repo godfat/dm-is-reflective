@@ -3,16 +3,6 @@ require 'dm-mapping'
 
 module DataMapper
   module Model
-    def mapping target = Mapping::All
-      DataMapper.ensure_required_dm_mapping_adapter
-
-      if target.kind_of?(Regexp)
-        mapping_regexp target
-      else
-        mapping_type target
-      end
-    end
-
     # returing all fields, with format [[name, type, attrs]]
     def fields
       DataMapper.ensure_required_dm_mapping_adapter
@@ -27,6 +17,16 @@ module DataMapper
     end
 
     protected
+    def mapping target = Mapping::All
+      DataMapper.ensure_required_dm_mapping_adapter
+
+      if target.kind_of?(Regexp)
+        mapping_regexp target
+      else
+        mapping_type target
+      end
+    end
+
     def mapping_regexp regexp
       map_fields{ |name, type| #, attrs|
         # property name.to_sym, type, attrs if name =~ regexp
