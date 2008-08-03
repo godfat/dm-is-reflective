@@ -20,11 +20,20 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
  class User
    include DataMapper::Resource
+   # maping all
    mapping /.*/
-   mapping DataMapper::Mapping::All
+
+   # mapping for ended with _at, and started with salt_
    mapping /_at$/, /^salt_/
+
+   # mapping id and email
    mapping :id, :email
-   mapping *storage_fields
+
+   # mapping all fields with type String, and id
+   mapping String, :id
+
+   # mapping login, and all fields with type Integer
+   mapping :login, Integer
  end
 
  DataMapper.repository.adapter.storages
