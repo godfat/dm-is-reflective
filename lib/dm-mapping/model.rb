@@ -1,6 +1,4 @@
 
-require 'dm-mapping'
-
 module DataMapper
   module Model
     # returing all fields, with format [[name, type, attrs]]
@@ -9,19 +7,14 @@ module DataMapper
       DataMapper.repository.adapter.fields storage_name
     end
 
-    # convient way to map through fields
-    def map_fields
-      fields.map{ |field|
-        yield(*field)
-      }
-    end
-
     protected
     def mapping *targets
       DataMapper.ensure_required_dm_mapping_adapter
-      targets << Mapping::All if targets.empty?
+      targets << /.*/ if targets.empty?
 
-      map_fields{ |name, type, attrs|
+      fields.map{ |field|
+        name, type, attrs = field
+
         targets.each{ |target|
           case target
             when Regexp;

@@ -10,6 +10,7 @@
 * added mapping :default, and :nullable.
 * added support of mapping name. (through passing symbol or string)
 * added support of multiple arguments.
+* removed Mapping::All, use /.*/ instead.
 
 == dm-mapping 0.2.1, 2008-08-03
 

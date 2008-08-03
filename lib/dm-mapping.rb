@@ -4,10 +4,6 @@ require 'dm-core'
 
 module DataMapper
 
-  module Mapping
-    All = /.*/
-  end
-
   class << self
     # ensure the using adapter is extended by dm-mapping
     def ensure_required_dm_mapping_adapter
