@@ -1,13 +1,11 @@
 = dm-mapper changes history
 
-== dm-mapping 0.4.0, 2008-08-04
-
+=== dm-mapping 0.4.0, 2008-08-04
 * added Migration#auto_genclass.
 * updated README.
 * added more rdoc.
 
-== dm-mapping 0.3.0, 2008-08-04
-
+=== dm-mapping 0.3.0, 2008-08-04
 * added support of mapping Integer, DateTime, etc.
 * renamed some internals.
 * changed the way requiring adapter. no more setup first.
@@ -18,14 +16,12 @@
 * added support of multiple arguments.
 * removed Mapping::All, use /.*/ instead.
 
-== dm-mapping 0.2.1, 2008-08-03
-
+=== dm-mapping 0.2.1, 2008-08-03
 * fixed a bug that type map should lookup for parent.
 * fixed a bug that sql type could be lower case.
   fixed by calling upcase.
 
-== dm-mapping 0.2.0, 2008-08-02
-
+=== dm-mapping 0.2.0, 2008-08-02
 * added Sqlite3Adapter::Migration#fields
 * added DataMapper::Model#mapping
 * added DataMapper::Model#fields
@@ -33,8 +29,7 @@
   mapping SQL type back to Ruby type.
 * added corresponded test.
 
-== dm-mapping 0.1.0, 2008-07-27
-
+=== dm-mapping 0.1.0, 2008-07-27
 * birthday!
 * added DataMapper.repository.storages for sqlite3.
 * please refer:

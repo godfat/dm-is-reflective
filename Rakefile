@@ -45,14 +45,19 @@ PROJ.gem.dependencies << ['dm-core', '>=0.9.3']
 # PROJ.gem.files = []
 
 PROJ.manifest_file = 'Manifest'
-PROJ.exclude << 'Manifest' << '^tmp'
+PROJ.exclude << 'Manifest' << '^tmp' << 'tmp$' << '^pkg'
 
+PROJ.readme_file = 'README'
 PROJ.rdoc.main = 'README'
-PROJ.rdoc.exclude << 'Manifest' << 'Rakefile' << 'tmp$' << '^tmp'
+PROJ.rdoc.remote_dir = 'dm-mapping'
+PROJ.rdoc.exclude << 'Rakefile' << '^tasks' << '^test'
 PROJ.rdoc.include << '\w+'
 PROJ.rdoc.opts << '--diagram' if !WIN32 and `which dot` =~ %r/\/dot/
 PROJ.rdoc.opts << '--charset=utf-8' << '--inline-source' << '--line-numbers' << '--promiscuous'
 
 PROJ.spec.opts << '--color'
+
+PROJ.ann.file = "ann-dm-mapping-#{PROJ.version}"
+PROJ.ann.paragraphs.concat %w[SYNOPSIS REQUIREMENTS INSTALL LICENSE]
 
 # EOF
