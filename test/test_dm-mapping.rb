@@ -25,17 +25,26 @@ class DMMTest < Test::Unit::TestCase
     property :body,  Text
   end
 
+
+  # override it to test with another adapter
+  # NOTE:
+  #   please provide an clean database because it is a destructive test!!
+  def setup_data_mapper
+    DataMapper.setup(:default, 'sqlite3:tmp.db')
+  end
+
+
   class Model; end
 
   def create_fake_model
-    [Model.dup.__send__(:include, DataMapper::Resource),
-     DataMapper.setup(:default, 'sqlite3:tmp.db')]
+    [ Model.dup.__send__(:include, DataMapper::Resource),
+      setup_data_mapper ]
   end
 
-  @@dm = DataMapper.setup :default, 'sqlite3:tmp.db'
-  def dm; @@dm; end
-
+  attr_reader :dm
   def setup
+    @dm = setup_data_mapper
+    # this is 2x faster than DataMapper.auto_migrate!
     User.auto_migrate!
     Comment.auto_migrate!
   end
@@ -132,6 +141,27 @@ class DMMTest < Test::Unit::TestCase
     assert_raise(ArgumentError){
       User.send :mapping, 29
     }
+  end
+
+  def test_auto_genclass
+    for_test_auto_genclass
+    for_test_auto_genclass Object
+  end
+
+  def for_test_auto_genclass scope = DataMapper::Mapping
+    assert_equal ["#{scope == Object ? '' : "#{scope}::"}DmmTestComment",
+                  "#{scope == Object ? '' : "#{scope}::"}DmmTestUser"],
+                 dm.auto_genclass(scope).map(&:to_s).sort
+
+    comment = scope.const_get('DmmTestComment')
+
+    assert_equal comment_fields, comment.fields.sort
+
+    test_create_comment
+
+    assert_equal 'XD', comment.first.title
+    comment.create(:title => 'orz', :body => 'dm-mapping')
+    assert_equal 'dm-mapping', comment.get(2).body
   end
 
 end
