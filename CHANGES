@@ -1,7 +1,7 @@
 = dm-mapper changes history
 
 === dm-mapping 0.4.0, 2008-08-04
-* added Migration#auto_genclass.
+* added Migration#auto_genclass!.
 * updated README.
 * added more rdoc.
 

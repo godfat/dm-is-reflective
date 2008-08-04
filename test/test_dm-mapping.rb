@@ -44,7 +44,7 @@ class DMMTest < Test::Unit::TestCase
   attr_reader :dm
   def setup
     @dm = setup_data_mapper
-    # this is 2x faster than DataMapper.auto_migrate!
+    # this is significant faster than DataMapper.auto_migrate!
     User.auto_migrate!
     Comment.auto_migrate!
   end
@@ -151,7 +151,7 @@ class DMMTest < Test::Unit::TestCase
   def for_test_auto_genclass scope = DataMapper::Mapping
     assert_equal ["#{scope == Object ? '' : "#{scope}::"}DmmTestComment",
                   "#{scope == Object ? '' : "#{scope}::"}DmmTestUser"],
-                 dm.auto_genclass(scope).map(&:to_s).sort
+                 dm.auto_genclass!(scope).map(&:to_s).sort
 
     comment = scope.const_get('DmmTestComment')
 

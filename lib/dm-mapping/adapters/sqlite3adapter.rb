@@ -4,7 +4,7 @@ require 'dm-mapping/type_map'
 
 module DataMapper
   module Adapters
-    class Sqlite3Adapter < DataObjectsAdapter
+    class Sqlite3Adapter < DataObjectsAdapter #:nodoc: all
       module Migration
         def storages
 # activerecord-2.1.0/lib/active_record/connection_adapters/sqlite_adapter.rb: 177

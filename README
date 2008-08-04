@@ -62,13 +62,13 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
                    ['salt_second', String,   {}]]}
 
  # there's no guarantee of the order in returned array
- dm.auto_genclass
+ dm.auto_genclass!
  # => [DataMapper::Mapping::User,
        DataMapper::Mapping::SchemaInfo,
        DataMapper::Mapping::Session]
 
  # you can change the scope of generated models:
- dm.auto_genclass Object
+ dm.auto_genclass! Object
  # => [User, SchemaInfo, Session]
 
 == REQUIREMENTS:
