@@ -33,14 +33,14 @@ PROJ.ruby_opts.delete '-w'
 
 PROJ.name = 'dm-mapping'
 PROJ.authors = 'Lin Jen-Shin (a.k.a. godfat 真常)'
-PROJ.email = 'strip any number: 18god29fat7029 (at] godfat32 -dooot- 20org'
+PROJ.email = 'godfat (XD) godfat.org'
 PROJ.url = 'http://github.com/godfat/dm-mapping'
 PROJ.description = PROJ.summary = paragraphs_of('README', 'description').join("\n\n")
 PROJ.changes = paragraphs_of('CHANGES', 0..1).join("\n\n")
 PROJ.rubyforge.name = 'ludy'
 PROJ.version = File.open('lib/dm-mapping/version.rb', 0){ |f| f.read.gsub(/.*VERSION = '(.*)'.*/m, '\1') }
 
-PROJ.gem.dependencies << ['dm-core', '>=0.9.3']
+PROJ.gem.dependencies << ['dm-core', '>=0.9.3'] << ['extlib', '>=0.9.3']
 # PROJ.gem.executables = []
 # PROJ.gem.files = []
 

@@ -25,4 +25,4 @@ tasks/setup.rb
 tasks/spec.rake
 tasks/svn.rake
 tasks/test.rake
-test/test_dm-mapping.rb
+test/test_sqlite3.rb
