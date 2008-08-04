@@ -1,4 +1,4 @@
 = dm-mapping todo list
 
-* postgresql adapter
-* mysql adapter
+* postgresql adapter in 0.5
+* mysql adapter in 0.6

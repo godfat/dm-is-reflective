@@ -1,6 +1,12 @@
 = dm-mapper changes history
 
-== dm-mapping 0.3.0,
+== dm-mapping 0.4.0, 2008-08-04
+
+* added Migration#auto_genclass.
+* updated README.
+* added more rdoc.
+
+== dm-mapping 0.3.0, 2008-08-04
 
 * added support of mapping Integer, DateTime, etc.
 * renamed some internals.

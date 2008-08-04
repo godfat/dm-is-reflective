@@ -19,6 +19,17 @@ module DataMapper
             result
           }
         end
+
+        def auto_genclass scope = DataMapper::Mapping
+          require 'extlib'
+          storages_and_fields.map{ |storage, fields|
+            model = Class.new
+            model.__send__ :include, DataMapper::Resource
+            model.storage_names[:default] = storage
+            model.__send__ :mapping, /.*/
+            scope.const_set(Extlib::Inflection.classify(storage), model)
+          }
+        end
       end
     end
   end

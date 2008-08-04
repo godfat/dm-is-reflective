@@ -1,8 +1,9 @@
-= dm-mapping 0.3.0
+= dm-mapping 0.4.0
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   strip any number: 18god29fat7029 (at] godfat32 -dooot- 20org
 
 * github-project[http://github.com/godfat/dm-mapping]
+* rubyforge-project[http://rubyforge.org/projects/ludy]
 
 == DESCRIPTION:
 
@@ -11,12 +12,11 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
 == SYNOPSIS:
 
- require 'dm-core'
-
- # setup first, or dm-mapping can't determine which adapter it should load up
- DataMapper.setup :default, 'sqlite3:db/development.sqlite3'
-
  require 'dm-mapping'
+ dm = DataMapper.setup :default, 'sqlite3:db/development.sqlite3'
+
+ dm.object_id == DataMapper.repository.adapter.object_id
+ # => true
 
  class User
    include DataMapper::Resource
@@ -36,29 +36,37 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
    mapping :login, Integer
  end
 
- DataMapper.repository.adapter.storages
+ # there's no guarantee of the order in storages array
+ dm.storages
  # => ['users']
 
- User.fields
- # => [['id',          Integer,  {:serial => true}],
+ # there's no guarantee of the order in fields array
+ User.fields.sort
+ # => [['created_at',  DateTime, {}],
        ['email',       String,   {:default => 'nospam@nospam.tw'}],
-       ['created_at',  DateTime, {}],
+       ['id',          Integer,  {:serial => true}],
        ['salt_first',  String,   {}],
        ['salt_second', String,   {}]]
 
- DataMapper.repository.adapter.fields('users')
- # => [['id',          Integer,  {:serial => true}],
-       ['email',       String,   {:default => 'nospam@nospam.tw'}],
-       ['created_at',  DateTime, {}],
-       ['salt_first',  String,   {}],
-       ['salt_second', String,   {}]]
+ dm.fields('users').sort == User.fields.sort
+ # => true
 
- DataMapper.repository.adapter.storages_and_fields
+ dm.storages_and_fields
  # => {'users' => [['id',          Integer,  {:serial => true}],
                    ['email',       String,   {:default => 'nospam@nospam.tw'}],
                    ['created_at',  DateTime, {}],
                    ['salt_first',  String,   {}],
                    ['salt_second', String,   {}]]}
+
+ # there's no guarantee of the order in returned array
+ dm.auto_genclass
+ # => [DataMapper::Mapping::User,
+       DataMapper::Mapping::SchemaInfo,
+       DataMapper::Mapping::Session]
+
+ # you can change the scope of generated models:
+ dm.auto_genclass Object
+ # => [User, SchemaInfo, Session]
 
 == REQUIREMENTS:
 
