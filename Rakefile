@@ -58,6 +58,6 @@ PROJ.rdoc.opts << '--charset=utf-8' << '--inline-source' << '--line-numbers' << 
 PROJ.spec.opts << '--color'
 
 PROJ.ann.file = "ann-dm-mapping-#{PROJ.version}"
-PROJ.ann.paragraphs.concat %w[SYNOPSIS REQUIREMENTS INSTALL LICENSE]
+PROJ.ann.paragraphs.concat %w[LINKS SYNOPSIS REQUIREMENTS INSTALL LICENSE]
 
 # EOF
