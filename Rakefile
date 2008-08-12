@@ -45,7 +45,7 @@ PROJ.gem.dependencies << ['dm-core', '>=0.9.3'] << ['extlib', '>=0.9.3']
 # PROJ.gem.files = []
 
 PROJ.manifest_file = 'Manifest'
-PROJ.exclude << 'Manifest' << '^tmp' << 'tmp$' << '^pkg'
+PROJ.exclude << 'Manifest' << '^tmp' << 'tmp$' << '^pkg' << '.gitignore'
 
 PROJ.readme_file = 'README'
 PROJ.rdoc.main = 'README'

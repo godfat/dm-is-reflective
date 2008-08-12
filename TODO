@@ -1,4 +1,5 @@
 = dm-mapping todo list
 
-* postgresql adapter in 0.5
-* mysql adapter in 0.6
+* automatic determine model relationship
+* mysql adapter in 0.5
+* postgresql adapter in 0.6

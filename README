@@ -23,7 +23,7 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
  class User
    include DataMapper::Resource
-   # maping all
+   # mapping all
    mapping /.*/
 
    # mapping for ended with _at, and started with salt_
@@ -74,6 +74,7 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 == REQUIREMENTS:
 
 * dm-core 0.9.3
+* at least one do_* adapter (currently only sqlite3 is supported)
 
 == INSTALL:
 
