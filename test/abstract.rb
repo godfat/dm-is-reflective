@@ -1,11 +1,13 @@
 
-require 'test/unit'
-
 require 'rubygems'
 require 'data_mapper'
 require 'dm-mapping'
 
-class DMMTest < Test::Unit::TestCase
+module Abstract
+  def setup_data_mapper
+    raise 'please provide an clean database because it is a destructive test!!'
+  end
+
   class User
     include DataMapper::Resource
     has n, :comments
@@ -24,15 +26,6 @@ class DMMTest < Test::Unit::TestCase
     property :title, String,  :default => 'default title'
     property :body,  Text
   end
-
-
-  # override it to test with another adapter
-  # NOTE:
-  #   please provide an clean database because it is a destructive test!!
-  def setup_data_mapper
-    DataMapper.setup(:default, 'sqlite3:tmp.db')
-  end
-
 
   class Model; end
 
@@ -64,8 +57,8 @@ class DMMTest < Test::Unit::TestCase
   end
 
   def test_storages
-    assert_equal ['dmm_test_comments', 'dmm_test_users'], dm.storages.sort
-    assert_equal comment_fields, dm.fields('dmm_test_comments').sort
+    assert_equal ['abstract_comments', 'abstract_users'], dm.storages.sort
+    assert_equal comment_fields, dm.fields('abstract_comments').sort
   end
 
   def test_create_comment
@@ -77,10 +70,10 @@ class DMMTest < Test::Unit::TestCase
   def test_mapping_all
     test_create_comment # for fixtures
     model, local_dm = create_fake_model
-    model.storage_names[:default] = 'dmm_test_comments'
+    model.storage_names[:default] = 'abstract_comments'
 
-    assert_equal ['dmm_test_comments', 'dmm_test_users'], local_dm.storages.sort
-    assert_equal 'dmm_test_comments', model.storage_name
+    assert_equal ['abstract_comments', 'abstract_users'], local_dm.storages.sort
+    assert_equal 'abstract_comments', model.storage_name
 
     assert_equal 1, model.count
     assert_equal comment_fields, model.fields.sort
@@ -92,7 +85,7 @@ class DMMTest < Test::Unit::TestCase
 
   def test_mapping_and_create
     model, local_dm = create_fake_model
-    model.storage_names[:default] = 'dmm_test_comments'
+    model.storage_names[:default] = 'abstract_comments'
     model.send :mapping
 
     model.create(:title => 'orz')
@@ -104,8 +97,9 @@ class DMMTest < Test::Unit::TestCase
   end
 
   def test_storages_and_fields
-    assert_equal user_fields, dm.fields('dmm_test_users').sort
-    assert_equal( {'dmm_test_users' => user_fields, 'dmm_test_comments' => comment_fields},
+    assert_equal user_fields, dm.fields('abstract_users').sort
+    assert_equal( {'abstract_users' => user_fields,
+                   'abstract_comments' => comment_fields},
                   dm.storages_and_fields.inject({}){ |r, i|
                     key, value = i
                     r[key] = value.sort
@@ -115,7 +109,7 @@ class DMMTest < Test::Unit::TestCase
 
   def test_mapping_type
     model, local_dm = create_fake_model
-    model.storage_names[:default] = 'dmm_test_comments'
+    model.storage_names[:default] = 'abstract_comments'
     model.send :mapping, Integer
 
     assert_equal ['id', 'user_id'], model.properties.map(&:name).map(&:to_s).sort
@@ -123,7 +117,7 @@ class DMMTest < Test::Unit::TestCase
 
   def test_mapping_multiple
     model, local_dm = create_fake_model
-    model.storage_names[:default] = 'dmm_test_users'
+    model.storage_names[:default] = 'abstract_users'
     model.send :mapping, :login, Integer
 
     assert_equal ['id', 'login'], model.properties.map(&:name).map(&:to_s).sort
@@ -131,7 +125,7 @@ class DMMTest < Test::Unit::TestCase
 
   def test_mapping_regexp
     model, local_dm = create_fake_model
-    model.storage_names[:default] = 'dmm_test_comments'
+    model.storage_names[:default] = 'abstract_comments'
     model.send :mapping, /id$/
 
     assert_equal ['id', 'user_id'], model.properties.map(&:name).map(&:to_s).sort
@@ -149,11 +143,11 @@ class DMMTest < Test::Unit::TestCase
   end
 
   def for_test_auto_genclass scope = DataMapper::Mapping
-    assert_equal ["#{scope == Object ? '' : "#{scope}::"}DmmTestComment",
-                  "#{scope == Object ? '' : "#{scope}::"}DmmTestUser"],
+    assert_equal ["#{scope == Object ? '' : "#{scope}::"}AbstractComment",
+                  "#{scope == Object ? '' : "#{scope}::"}AbstractUser"],
                  dm.auto_genclass!(scope).map(&:to_s).sort
 
-    comment = scope.const_get('DmmTestComment')
+    comment = scope.const_get('AbstractComment')
 
     assert_equal comment_fields, comment.fields.sort
 
