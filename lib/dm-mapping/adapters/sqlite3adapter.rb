@@ -23,9 +23,6 @@ module DataMapper
             type, chain = self.class.type_map.
               lookup_primitive(field.type.gsub(/\(\d+\)/, '').upcase)
 
-            # stupid hack
-            type = String if type == Class
-
             attrs = {}
             attrs[:serial] = true if field.pk != 0
             attrs[:nullable] = true if field.notnull != 0 && !attrs[:serial]

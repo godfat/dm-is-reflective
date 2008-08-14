@@ -50,17 +50,17 @@ class DMMTest < Test::Unit::TestCase
   end
 
   def user_fields
-    [['created_at', DateTime,                {}],
-     ['id',         Integer,                 {:serial => true}],
-     ['login',      String,                  {}],
-     ['sig',        DataMapper::Types::Text, {}]]
+    [['created_at', DateTime, {}],
+     ['id',         Integer,  {:serial => true}],
+     ['login',      String,   {:size => 50}],
+     ['sig',        DM::Text, {}]]
   end
 
   def comment_fields
-    [['body',    DataMapper::Types::Text, {}],
-     ['id',      Integer                , {:serial => true}],
-     ['title',   String                 , {:default => 'default title'}],
-     ['user_id', Integer                , {}]]
+    [['body',    DM::Text, {}],
+     ['id',      Integer,  {:serial => true}],
+     ['title',   String,   {:size => 50, :default => 'default title'}],
+     ['user_id', Integer,  {}]]
   end
 
   def test_storages

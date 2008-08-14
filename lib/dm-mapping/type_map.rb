@@ -7,7 +7,11 @@ module DataMapper
     #       # => { DateTime => {:auto_validation => true} }
     def lookup_primitive primitive, type_map = self
       type_map.chains.find{ |type, chain|
-        primitive == chain.primitive
+        primitive == chain.primitive &&
+        [Integer, Float, BigDecimal,
+         String, TrueClass, FalseClass,
+         DateTime, Date, Time,
+         DM::Text, DM::Boolean].member?(type)
       } or lookup_primitive(primitive, type_map.parent)
     end
   end
