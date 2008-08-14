@@ -11,8 +11,9 @@ module DataMapper
   class << self
     # ensure the using adapter is extended by dm-mapping
     def ensure_required_dm_mapping_adapter
-      adapter_name = repository.adapter.class.to_s.split('::').last.downcase
-      require "dm-mapping/adapters/#{adapter_name}"
+      require 'extlib'
+      adapter_name = repository.adapter.class.to_s.split('::').last
+      require "dm-mapping/adapters/#{Extlib::Inflection.underscore(adapter_name)}"
     end
 
     # dirty hack that hook requirement after setup.
