@@ -1,10 +1,11 @@
 = dm-mapper changes history
 
-=== dm-mapping 0.5.0, 
+=== dm-mapping 0.5.0, 2008-08-14
 * feature added
- - added mysql_adapter support.
+ - added mysql adapter support.
+ - reflect size 65535 in TEXT for sqlite3 adapter.
 * bug fixed
- - reflect varchar(size) instead of default size.
+ - reflect VARCHAR(size) instead of default size in sqlite3 adapter.
 * misc
  - renamed sqlite3adapter to sqlite3_adapter.
 

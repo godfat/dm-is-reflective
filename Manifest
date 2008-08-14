@@ -7,7 +7,8 @@ TODO
 dm-mapping.gemspec
 lib/dm-mapping.rb
 lib/dm-mapping/adapters/abstract_adapter.rb
-lib/dm-mapping/adapters/sqlite3adapter.rb
+lib/dm-mapping/adapters/mysql_adapter.rb
+lib/dm-mapping/adapters/sqlite3_adapter.rb
 lib/dm-mapping/model.rb
 lib/dm-mapping/type_map.rb
 lib/dm-mapping/version.rb
@@ -24,4 +25,5 @@ tasks/setup.rb
 tasks/spec.rake
 tasks/svn.rake
 tasks/test.rake
-test/test_sqlite3.rb
+test/abstract.rb
+test/test_dm-mapping.rb

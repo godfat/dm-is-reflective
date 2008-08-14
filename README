@@ -1,4 +1,4 @@
-= dm-mapping 0.4.1
+= dm-mapping 0.5.0
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   godfat (XD) godfat.org
 
@@ -17,9 +17,6 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
  require 'dm-mapping'
  dm = DataMapper.setup :default, 'sqlite3:db/development.sqlite3'
-
- dm.object_id == DataMapper.repository.adapter.object_id
- # => true
 
  class User
    include DataMapper::Resource
@@ -45,21 +42,26 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
  # there's no guarantee of the order in fields array
  User.fields.sort
- # => [['created_at',  DateTime, {}],
-       ['email',       String,   {:size => 255, :default => 'nospam@nospam.tw'}],
-       ['id',          Integer,  {:serial => true}],
-       ['salt_first',  String,   {:size => 50}],
-       ['salt_second', String,   {:size => 50}]]
+ # => [['created_at',  DateTime, {:nullable => true}],
+       ['email',       String,   {:nullable => true, :size => 255,
+                                  :default => 'nospam@nospam.tw'}],
+       ['id',          Integer,  {:nullable => false, :serial => true,
+                                  :key => true}],
+       ['salt_first',  String,   {:nullable => true, :size => 50}],
+       ['salt_second', String,   {:nullable => true, :size => 50}]]
 
  dm.fields('users').sort == User.fields.sort
  # => true
 
  dm.storages_and_fields
- # => {'users' => [['id',          Integer,  {:serial => true}],
-                   ['email',       String,   {:default => 'nospam@nospam.tw'}],
-                   ['created_at',  DateTime, {}],
-                   ['salt_first',  String,   {:size => 50}],
-                   ['salt_second', String,   {:size => 50}]]}
+ # => {'users' => [['id',          Integer,  {:nullable => false,
+                                              :serial => true,
+                                              :key => true}],
+                   ['email',       String,   {:nullable => true,
+                                              :default => 'nospam@nospam.tw'}],
+                   ['created_at',  DateTime, {:nullable => true}],
+                   ['salt_first',  String,   {:nullable => true, :size => 50}],
+                   ['salt_second', String,   {:nullable => true, :size => 50}]]}
 
  # there's no guarantee of the order in returned array
  dm.auto_genclass!
@@ -74,7 +76,7 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 == REQUIREMENTS:
 
 * dm-core 0.9.3
-* at least one do_* adapter (currently only sqlite3 is supported)
+* at least one do_* adapter (currently supports sqlite3 and mysql)
 
 == INSTALL:
 
