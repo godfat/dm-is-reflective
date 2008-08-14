@@ -45,15 +45,16 @@ PROJ.gem.dependencies << ['dm-core', '>=0.9.3'] << ['extlib', '>=0.9.3']
 # PROJ.gem.files = []
 
 PROJ.manifest_file = 'Manifest'
-PROJ.exclude << 'Manifest' << '^tmp' << 'tmp$' << '^pkg' << '.gitignore'
+PROJ.exclude += ['Manifest', '^tmp', 'tmp$', '^pkg', '.gitignore', '^ann-']
 
 PROJ.readme_file = 'README'
 PROJ.rdoc.main = 'README'
 PROJ.rdoc.remote_dir = 'dm-mapping'
-PROJ.rdoc.exclude << 'Rakefile' << '^tasks' << '^test'
+PROJ.rdoc.exclude += ['Rakefile', '^tasks', '^test']
 PROJ.rdoc.include << '\w+'
 PROJ.rdoc.opts << '--diagram' if !WIN32 and `which dot` =~ %r/\/dot/
-PROJ.rdoc.opts << '--charset=utf-8' << '--inline-source' << '--line-numbers' << '--promiscuous'
+PROJ.rdoc.opts += ['--charset=utf-8', '--inline-source', 
+                   '--line-numbers', '--promiscuous']
 
 PROJ.spec.opts << '--color'
 

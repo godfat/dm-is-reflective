@@ -1,4 +1,4 @@
-= dm-mapping 0.4.0
+= dm-mapping 0.4.1
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   godfat (XD) godfat.org
 
@@ -46,10 +46,10 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
  # there's no guarantee of the order in fields array
  User.fields.sort
  # => [['created_at',  DateTime, {}],
-       ['email',       String,   {:default => 'nospam@nospam.tw'}],
+       ['email',       String,   {:size => 255, :default => 'nospam@nospam.tw'}],
        ['id',          Integer,  {:serial => true}],
-       ['salt_first',  String,   {}],
-       ['salt_second', String,   {}]]
+       ['salt_first',  String,   {:size => 50}],
+       ['salt_second', String,   {:size => 50}]]
 
  dm.fields('users').sort == User.fields.sort
  # => true
@@ -58,8 +58,8 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
  # => {'users' => [['id',          Integer,  {:serial => true}],
                    ['email',       String,   {:default => 'nospam@nospam.tw'}],
                    ['created_at',  DateTime, {}],
-                   ['salt_first',  String,   {}],
-                   ['salt_second', String,   {}]]}
+                   ['salt_first',  String,   {:size => 50}],
+                   ['salt_second', String,   {:size => 50}]]}
 
  # there's no guarantee of the order in returned array
  dm.auto_genclass!
