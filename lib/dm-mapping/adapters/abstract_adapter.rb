@@ -18,7 +18,12 @@ module DataMapper
         #        ['salt_first',  String,   {}],
         #        ['salt_second', String,   {}]]
         def fields storage
-          raise NotImplementedError
+          dmm_query_storage(storage).map{ |field|
+            type, chain = self.class.type_map.
+              lookup_primitive(dmm_primitive(field))
+
+            [dmm_field_name(field), type, dmm_attributes(field)]
+          }
         end
 
         # returns a hash with storage names in keys and
@@ -57,6 +62,11 @@ module DataMapper
             model.__send__ :mapping, /.*/
             scope.const_set(Extlib::Inflection.classify(storage), model)
           }
+        end
+
+        private
+        def dmm_query_storage
+          raise NotImplementError.new("#{self.class}#fields is not implemented.")
         end
       end
     end

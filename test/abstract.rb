@@ -8,6 +8,9 @@ module Abstract
     raise 'please provide an clean database because it is a destructive test!!'
   end
 
+  AttrCommon = {:nullable => true}
+  AttrCommonPK = {:serial => true, :key => true, :nullable => false}
+
   class User
     include DataMapper::Resource
     has n, :comments
@@ -23,7 +26,7 @@ module Abstract
     belongs_to :user
 
     property :id,    Integer, :serial => true
-    property :title, String,  :default => 'default title'
+    property :title, String,  :size => 50, :default => 'default title'
     property :body,  Text
   end
 
@@ -40,20 +43,6 @@ module Abstract
     # this is significant faster than DataMapper.auto_migrate!
     User.auto_migrate!
     Comment.auto_migrate!
-  end
-
-  def user_fields
-    [['created_at', DateTime, {}],
-     ['id',         Integer,  {:serial => true}],
-     ['login',      String,   {:size => 70}],
-     ['sig',        DM::Text, {}]]
-  end
-
-  def comment_fields
-    [['body',    DM::Text, {}],
-     ['id',      Integer,  {:serial => true}],
-     ['title',   String,   {:size => 50, :default => 'default title'}],
-     ['user_id', Integer,  {}]]
   end
 
   def test_storages

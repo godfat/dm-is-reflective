@@ -18,22 +18,29 @@ module DataMapper
           query sql
         end
 
-        def fields table
-          query_table(table).map{ |field|
-            type, chain = self.class.type_map.
-              lookup_primitive(field.type.gsub(/\(\d+\)/, '').upcase)
+        private
+        alias_method :dmm_query_storage, :query_table
+        def dmm_field_name field
+          field.name
+        end
 
-            attrs = {}
-            attrs[:serial] = true if field.pk != 0
-            attrs[:nullable] = true if field.notnull != 0 && !attrs[:serial]
-            attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
+        def dmm_primitive field
+          field.type.gsub(/\(\d+\)/, '')
+        end
 
-            ergo = field.type.match(/\((\d+)\)/)
-            size = ergo && ergo[1].to_i
-            attrs[:size] = size if size
+        def dmm_attributes field, attrs = {}
+          if field.pk != 0
+            attrs[:key] = true
+            attrs[:serial] = true if supports_serial?
+          end
+          attrs[:nullable] = field.notnull != 99
+          attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
 
-            [field.name, type, chain.attributes.merge(attrs)]
-          }
+          ergo = field.type.match(/\((\d+)\)/)
+          size = ergo && ergo[1].to_i
+          attrs[:size] = size if size
+
+          attrs
         end
       end
     end
