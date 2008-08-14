@@ -10,6 +10,22 @@ module Abstract
 
   AttrCommon = {:nullable => true}
   AttrCommonPK = {:serial => true, :key => true, :nullable => false}
+  AttrText = {:size => 65535}.merge AttrCommon
+
+  def user_fields
+    [['created_at', DateTime, AttrCommon],
+     ['id',         Integer,  AttrCommonPK],
+     ['login',      String,   {:size => 70}.merge(AttrCommon)],
+     ['sig',        DM::Text, AttrText]]
+  end
+
+  def comment_fields
+    [['body',    DM::Text, AttrText],
+     ['id',      Integer,  AttrCommonPK],
+     ['title',   String,   {:size => 50, :default => 'default title'}.
+                            merge(AttrCommon)],
+     ['user_id', Integer,  AttrCommon]]
+  end
 
   class User
     include DataMapper::Resource

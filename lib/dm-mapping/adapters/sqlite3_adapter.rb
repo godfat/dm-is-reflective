@@ -36,9 +36,13 @@ module DataMapper
           attrs[:nullable] = field.notnull != 99
           attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
 
-          ergo = field.type.match(/\((\d+)\)/)
-          size = ergo && ergo[1].to_i
-          attrs[:size] = size if size
+          if field.type.upcase == 'TEXT'
+            attrs[:size] = 65535
+          else
+            ergo = field.type.match(/\((\d+)\)/)
+            size = ergo && ergo[1].to_i
+            attrs[:size] = size if size
+          end
 
           attrs
         end
