@@ -1,5 +1,13 @@
 = dm-mapper changes history
 
+=== dm-mapping 0.5.0, 
+* feature added
+ - added mysql_adapter support.
+* bug fixed
+ - reflect varchar(size) instead of default size.
+* misc
+ - renamed sqlite3adapter to sqlite3_adapter.
+
 === dm-mapping 0.4.1, 2008-08-14
 * removed type hack, replaced with rejecting special type to lookup.
 

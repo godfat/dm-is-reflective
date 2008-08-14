@@ -13,7 +13,7 @@ module Abstract
     has n, :comments
 
     property :id,         Integer, :serial => true
-    property :login,      String
+    property :login,      String, :size => 70
     property :sig,        Text
     property :created_at, DateTime
   end
@@ -45,7 +45,7 @@ module Abstract
   def user_fields
     [['created_at', DateTime, {}],
      ['id',         Integer,  {:serial => true}],
-     ['login',      String,   {:size => 50}],
+     ['login',      String,   {:size => 70}],
      ['sig',        DM::Text, {}]]
   end
 
@@ -138,11 +138,7 @@ module Abstract
   end
 
   def test_auto_genclass
-    for_test_auto_genclass
-    for_test_auto_genclass Object
-  end
-
-  def for_test_auto_genclass scope = DataMapper::Mapping
+    scope = self.class
     assert_equal ["#{scope == Object ? '' : "#{scope}::"}AbstractComment",
                   "#{scope == Object ? '' : "#{scope}::"}AbstractUser"],
                  dm.auto_genclass!(scope).map(&:to_s).sort
