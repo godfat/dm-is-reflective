@@ -5,7 +5,7 @@ require 'dm-mapping'
 
 module Abstract
   def setup_data_mapper
-    raise 'please provide an clean database because it is a destructive test!!'
+    raise 'please provide a clean database because it is a destructive test!!'
   end
 
   AttrCommon = {:nullable => true}

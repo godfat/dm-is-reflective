@@ -1,4 +1,7 @@
 = dm-mapping todo list
 
+* 0.5.1 added more mysql data type mapping
+* 0.5.1 added auto_genclass! and auto_genclasses!
+* 0.5.1 return meaning thins in mapping
 * 0.6 postgresql adapter
 * 0.7 automatic determine model relationship
