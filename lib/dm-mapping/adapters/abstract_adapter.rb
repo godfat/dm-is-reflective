@@ -59,6 +59,16 @@ module DataMapper
           }
         end
 
+        # automaticly generate a model class and mapping
+        # all fields with mapping /.*/ for you.
+        #  e.g.
+        #       dm.auto_genclass! 'users'
+        #       # => DataMapper::Mapping::User
+        #
+        # you can change the scope of generated model:
+        #  e.g.
+        #       dm.auto_genclass! 'users', Object
+        #       # => User
         def auto_genclass! storage, scope = DataMapper::Mapping
           dmm_genclass storage, fields(storage), scope
         end
