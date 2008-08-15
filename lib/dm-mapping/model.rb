@@ -16,11 +16,18 @@ module DataMapper
     # you can pass it Regexp to map any field it matched, or just
     # the field name in Symbol or String, or a Class telling it
     # map any field which type equals to the Class.
+    # returned value is an array of properties indicating fields it mapped
     #  e.g.
     #       class User
     #         include DataMapper::Resource
-    #         # maping all
-    #         mapping /.*/
+    #         mapping all
+    #         mapping /.*/  # e.g. => [#<Property:#<Class:0x18f89b8>:id>,
+    #                       #          #<Property:#<Class:0x18f89b8>:title>,
+    #                       #          #<Property:#<Class:0x18f89b8>:body>,
+    #                       #          #<Property:#<Class:0x18f89b8>:user_id>]
+    #
+    #         # mapping all (with no argument at all)
+    #         mapping
     #
     #         # mapping for ended with _at, and started with salt_
     #         mapping /_at$/, /^salt_/
@@ -41,22 +48,24 @@ module DataMapper
       fields.map{ |field|
         name, type, attrs = field
 
-        targets.each{ |target|
+        mapped = targets.each{ |target|
           case target
             when Regexp;
-              property name.to_sym, type, attrs if name =~ target
+              break name if name =~ target
 
             when Symbol, String;
-              property name.to_sym, type, attrs if name == target.to_s
+              break name if name == target.to_s
 
             when Class;
-              property name.to_sym, type, attrs if type == target
+              break name if type == target
 
             else
               raise ArgumentError.new("invalid argument: #{target.inspect}")
           end
         }
-      }
+
+        property mapped.to_sym, type, attrs if mapped.kind_of?(String)
+      }.compact
     end
   end
 end

@@ -159,4 +159,12 @@ module Abstract
     assert_equal 'dm-mapping', comment.get(2).body
   end
 
+  def test_mapping_return_value
+    model, local_dm = create_fake_model
+    model.storage_names[:default] = 'abstract_comments'
+    mapped = model.send :mapping, /.*/
+
+    assert_equal model.properties.map(&:object_id).sort, mapped.map(&:object_id).sort
+  end
+
 end
