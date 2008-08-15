@@ -61,6 +61,10 @@ module Abstract
     Comment.auto_migrate!
   end
 
+  def new_scope
+    self.class.const_set("Scope#{object_id.object_id}", Module.new)
+  end
+
   def test_storages
     assert_equal ['abstract_comments', 'abstract_users'], dm.storages.sort
     assert_equal comment_fields, dm.fields('abstract_comments').sort
@@ -70,6 +74,15 @@ module Abstract
     Comment.create(:title => 'XD')
     assert_equal 1, Comment.first.id
     assert_equal 'XD', Comment.first.title
+  end
+
+  def test_create_user
+    now = Time.now
+    User.create(:created_at => now)
+    assert_equal 1, User.first.id
+    assert_equal now.asctime, User.first.created_at.asctime
+
+    return now
   end
 
   def test_mapping_all
@@ -142,11 +155,11 @@ module Abstract
     }
   end
 
-  def test_auto_genclass
-    scope = self.class
+  def test_auto_genclasses
+    scope = new_scope
     assert_equal ["#{scope == Object ? '' : "#{scope}::"}AbstractComment",
                   "#{scope == Object ? '' : "#{scope}::"}AbstractUser"],
-                 dm.auto_genclass!(scope).map(&:to_s).sort
+                 dm.auto_genclasses!(scope).map(&:to_s).sort
 
     comment = scope.const_get('AbstractComment')
 
@@ -157,6 +170,21 @@ module Abstract
     assert_equal 'XD', comment.first.title
     comment.create(:title => 'orz', :body => 'dm-mapping')
     assert_equal 'dm-mapping', comment.get(2).body
+  end
+
+  def test_auto_genclass
+    scope = new_scope
+    assert_equal "#{scope}::AbstractUser",
+                 dm.auto_genclass!('abstract_users', scope).to_s
+
+    user = scope.const_get('AbstractUser')
+    assert_equal user_fields, user.fields.sort
+
+    now = test_create_user
+
+    assert_equal now.asctime, user.first.created_at.asctime
+    user.create(:login => 'godfat')
+    assert_equal 'godfat', user.get(2).login
   end
 
   def test_mapping_return_value

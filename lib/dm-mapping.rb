@@ -4,7 +4,7 @@ require 'dm-core'
 
 module DataMapper
 
-  # default scope for Migration#auto_genclass!.
+  # default scope for Migration#auto_genclasses! series.
   module Mapping # namespace
   end
 

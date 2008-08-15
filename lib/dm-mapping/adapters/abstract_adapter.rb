@@ -44,29 +44,37 @@ module DataMapper
         # automaticly generate all model classes and mapping
         # all fields with mapping /.*/ for you.
         #  e.g.
-        #       dm.auto_genclass!
+        #       dm.auto_genclasses!
         #       # => [DataMapper::Mapping::User,
         #       #     DataMapper::Mapping::SchemaInfo,
         #       #     DataMapper::Mapping::Session]
         #
         # you can change the scope of generated models:
         #  e.g.
-        #       dm.auto_genclass! Object
+        #       dm.auto_genclasses! Object
         #       # => [User, SchemaInfo, Session]
-        def auto_genclass! scope = DataMapper::Mapping
-          require 'extlib'
+        def auto_genclasses! scope = DataMapper::Mapping
           storages_and_fields.map{ |storage, fields|
-            model = Class.new
-            model.__send__ :include, DataMapper::Resource
-            model.storage_names[:default] = storage
-            model.__send__ :mapping, /.*/
-            scope.const_set(Extlib::Inflection.classify(storage), model)
+            dmm_genclass storage, fields, scope
           }
+        end
+
+        def auto_genclass! storage, scope = DataMapper::Mapping
+          dmm_genclass storage, fields(storage), scope
         end
 
         private
         def dmm_query_storage
           raise NotImplementError.new("#{self.class}#fields is not implemented.")
+        end
+
+        def dmm_genclass storage, fields, scope
+          require 'extlib'
+          model = Class.new
+          model.__send__ :include, DataMapper::Resource
+          model.storage_names[:default] = storage
+          model.__send__ :mapping, /.*/
+          scope.const_set(Extlib::Inflection.classify(storage), model)
         end
       end
     end
