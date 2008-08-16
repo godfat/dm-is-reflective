@@ -20,7 +20,7 @@ module DataMapper
     #  e.g.
     #       class User
     #         include DataMapper::Resource
-    #         mapping all
+    #         # mapping all
     #         mapping /.*/  # e.g. => [#<Property:#<Class:0x18f89b8>:id>,
     #                       #          #<Property:#<Class:0x18f89b8>:title>,
     #                       #          #<Property:#<Class:0x18f89b8>:body>,
@@ -29,7 +29,7 @@ module DataMapper
     #         # mapping all (with no argument at all)
     #         mapping
     #
-    #         # mapping for ended with _at, and started with salt_
+    #         # mapping for field name ended with _at, and started with salt_
     #         mapping /_at$/, /^salt_/
     #
     #         # mapping id and email

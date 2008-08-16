@@ -1,4 +1,4 @@
-= dm-mapping 0.5.0
+= dm-mapping 0.6.0
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   godfat (XD) godfat.org
 
@@ -29,7 +29,7 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
    # mapping all (with no argument at all)
    mapping
 
-   # mapping for ended with _at, and started with salt_
+   # mapping for field name ended with _at, and started with salt_
    mapping /_at$/, /^salt_/
 
    # mapping id and email
@@ -47,37 +47,50 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
  # => ['users']
 
  # there's no guarantee of the order in fields array
- User.fields.sort
- # => [['created_at',  DateTime, {:nullable => true}],
-       ['email',       String,   {:nullable => true, :size => 255,
-                                  :default => 'nospam@nospam.tw'}],
-       ['id',          Integer,  {:nullable => false, :serial => true,
-                                  :key => true}],
-       ['salt_first',  String,   {:nullable => true, :size => 50}],
-       ['salt_second', String,   {:nullable => true, :size => 50}]]
+ User.fields
+ # => [[:created_at,  DateTime, {:nullable => true}],
+       [:email,       String,   {:nullable => true, :size => 255,
+                                 :default => 'nospam@nospam.tw'}],
+       [:id,          Integer,  {:nullable => false, :serial => true,
+                                 :key => true}],
+       [:salt_first,  String,   {:nullable => true, :size => 50}],
+       [:salt_second, String,   {:nullable => true, :size => 50}]]
 
- dm.fields('users').sort == User.fields.sort
+ dm.fields('users').sort_by{ |field| field.first.to_s } ==
+        User.fields.sort_by{ |field| field.first.to_s }
  # => true
 
  dm.storages_and_fields
- # => {'users' => [['id',          Integer,  {:nullable => false,
-                                              :serial => true,
-                                              :key => true}],
-                   ['email',       String,   {:nullable => true,
-                                              :default => 'nospam@nospam.tw'}],
-                   ['created_at',  DateTime, {:nullable => true}],
-                   ['salt_first',  String,   {:nullable => true, :size => 50}],
-                   ['salt_second', String,   {:nullable => true, :size => 50}]]}
+ # => {'users' => [[:id,          Integer,  {:nullable => false,
+                                             :serial => true,
+                                             :key => true}],
+                   [:email,       String,   {:nullable => true,
+                                             :default => 'nospam@nospam.tw'}],
+                   [:created_at,  DateTime, {:nullable => true}],
+                   [:salt_first,  String,   {:nullable => true, :size => 50}],
+                   [:salt_second, String,   {:nullable => true, :size => 50}]]}
 
  # there's no guarantee of the order in returned array
- dm.auto_genclasses!
+ dm.auto_genclass!
  # => [DataMapper::Mapping::User,
        DataMapper::Mapping::SchemaInfo,
        DataMapper::Mapping::Session]
 
  # you can change the scope of generated models:
- dm.auto_genclasses! Object
+ dm.auto_genclass! :scope => Object
  # => [User, SchemaInfo, Session]
+
+ # you can generate classes for tables you specified only:
+ dm.auto_genclass! :scope => Object, :storages => /^phpbb_/
+ # => [PhpbbUser, PhpbbPost, PhpbbConfig]
+
+ # you can generate classes with String too:
+ dm.auto_genclass! :storages => ['users', 'config'], :scope => Object
+ # => [User, Config]
+
+ # you can generate a class only:
+ dm.auto_genclass! :storages => 'users'
+ # => [DataMapper::Mapping::User]
 
 == REQUIREMENTS:
 

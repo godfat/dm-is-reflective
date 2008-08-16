@@ -12,11 +12,13 @@ module DataMapper
 
         # returns all fields, with format [[name, type, attrs]]
         #  e.g.
-        #       [['created_at',  DateTime, {}],
-        #        ['email',       String,   {:default => 'nospam@nospam.tw'}],
-        #        ['id',          Integer,  {:serial => true}],
-        #        ['salt_first',  String,   {}],
-        #        ['salt_second', String,   {}]]
+        #       [[:created_at,  DateTime, {:nullable => true}],
+        #        [:email,       String,   {:nullable => true, :size => 255,
+        #                                  :default => 'nospam@nospam.tw'}],
+        #        [:id,          Integer,  {:nullable => false, :serial => true,
+        #                                  :key => true}],
+        #        [:salt_first,  String,   {:nullable => true, :size => 50}],
+        #        [:salt_second, String,   {:nullable => true, :size => 50}]]
         def fields storage
           dmm_query_storage(storage).map{ |field|
             type, chain = self.class.type_map.
@@ -28,11 +30,14 @@ module DataMapper
 
         # returns a hash with storage names in keys and
         # corresponded fields in values. e.g.
-        #   {'users' => [['id',          Integer,  {:serial => true}],
-        #                ['email',       String,   {:default => 'nospam@nospam.tw'}],
-        #                ['created_at',  DateTime, {}],
-        #                ['salt_first',  String,   {}],
-        #                ['salt_second', String,   {}]]}
+        #   {'users' => [[:id,          Integer,  {:nullable => false,
+        #                                          :serial => true,
+        #                                          :key => true}],
+        #                [:email,       String,   {:nullable => true,
+        #                                          :default => 'nospam@nospam.tw'}],
+        #                [:created_at,  DateTime, {:nullable => true}],
+        #                [:salt_first,  String,   {:nullable => true, :size => 50}],
+        #                [:salt_second, String,   {:nullable => true, :size => 50}]]}
         # see Migration#storages and Migration#fields for detail
         def storages_and_fields
           storages.inject({}){ |result, storage|
