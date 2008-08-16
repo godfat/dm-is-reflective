@@ -1,7 +1,9 @@
 
 gem 'dm-core', '=0.9.3'
 require 'dm-core'
-require 'extlib'
+
+require 'extlib/hook'
+require 'extlib/inflection'
 
 module DataMapper
   include Extlib::Hook
