@@ -104,7 +104,6 @@ module DataMapper
         end
 
         def dmm_genclass storage, scope
-          require 'extlib'
           model = Class.new
           model.__send__ :include, DataMapper::Resource
           model.storage_names[:default] = storage

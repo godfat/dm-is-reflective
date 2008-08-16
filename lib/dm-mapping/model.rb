@@ -5,7 +5,6 @@ module DataMapper
     #  e.g.
     #       DataMapper.repository.adapter.fields storage_name
     def fields
-      DataMapper.ensure_required_dm_mapping_adapter
       DataMapper.repository.adapter.fields storage_name
     end
 
@@ -42,7 +41,6 @@ module DataMapper
     #         mapping :login, Integer
     #       end
     def mapping *targets
-      DataMapper.ensure_required_dm_mapping_adapter
       targets << /.*/ if targets.empty?
 
       fields.map{ |field|

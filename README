@@ -15,7 +15,7 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
 == SYNOPSIS:
 
- require 'dm-mapping'
+ require 'dm-mapping' # this would require 'dm-core'
  dm = DataMapper.setup :default, 'sqlite3:db/development.sqlite3'
 
  class User
