@@ -1,9 +1,12 @@
 = dm-mapper changes history
 
-=== dm-mapping 0.6.0,
+=== dm-mapping 0.6.0, 2008-08-16
 * mapping returns an array of properties indicating fields it mapped.
 * performance boosted by refactored mapping implementation.
 * changed the way using auto_genclass!, now accepts args like mapping!
+* changed fields to return field name with Symbol instead of String.
+  this would make it be more consistent with DataMapper.
+* storage names remain String.
 
 === dm-mapping 0.5.0, 2008-08-14
 * feature added
