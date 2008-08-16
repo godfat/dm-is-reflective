@@ -13,22 +13,22 @@ module Abstract
   AttrText = {:size => 65535}.merge AttrCommon
 
   def user_fields
-    [['created_at', DateTime, AttrCommon],
-     ['id',         Integer,  AttrCommonPK],
-     ['login',      String,   {:size => 70}.merge(AttrCommon)],
-     ['sig',        DM::Text, AttrText]]
+    [[:created_at, DateTime, AttrCommon],
+     [:id,         Integer,  AttrCommonPK],
+     [:login,      String,   {:size => 70}.merge(AttrCommon)],
+     [:sig,        DM::Text, AttrText]]
   end
 
   def comment_fields
-    [['body',    DM::Text, AttrText],
-     ['id',      Integer,  AttrCommonPK],
-     ['title',   String,   {:size => 50, :default => 'default title'}.
+    [[:body,    DM::Text, AttrText],
+     [:id,      Integer,  AttrCommonPK],
+     [:title,   String,   {:size => 50, :default => 'default title'}.
                             merge(AttrCommon)],
-     ['user_id', Integer,  AttrCommon]]
+     [:user_id, Integer,  AttrCommon]]
   end
 
   def super_user_fields
-    [['id',      Integer,  AttrCommonPK]]
+    [[:id,      Integer,  AttrCommonPK]]
   end
 
   class User
@@ -59,6 +59,12 @@ module Abstract
 
   Tables = ['abstract_comments', 'abstract_super_users', 'abstract_users']
 
+  def sort_fields fields
+    fields.sort_by{ |field|
+      field.first.to_s
+    }
+  end
+
   def create_fake_model
     [ Model.dup.__send__(:include, DataMapper::Resource),
       setup_data_mapper ]
@@ -79,7 +85,7 @@ module Abstract
 
   def test_storages
     assert_equal Tables, dm.storages.sort
-    assert_equal comment_fields, dm.fields('abstract_comments').sort
+    assert_equal comment_fields, sort_fields(dm.fields('abstract_comments'))
   end
 
   def test_create_comment
@@ -106,7 +112,7 @@ module Abstract
     assert_equal 'abstract_comments', model.storage_name
 
     assert_equal 1, model.count
-    assert_equal comment_fields, model.fields.sort
+    assert_equal comment_fields, sort_fields(model.fields)
 
     model.send :mapping
     assert_equal 'XD', model.first.title
@@ -127,13 +133,13 @@ module Abstract
   end
 
   def test_storages_and_fields
-    assert_equal user_fields, dm.fields('abstract_users').sort
+    assert_equal user_fields, sort_fields(dm.fields('abstract_users'))
     assert_equal( {'abstract_users' => user_fields,
                    'abstract_comments' => comment_fields,
                    'abstract_super_users' => super_user_fields},
                   dm.storages_and_fields.inject({}){ |r, i|
                     key, value = i
-                    r[key] = value.sort
+                    r[key] = value.sort_by{ |v| v.first.to_s }
                     r
                   } )
   end
@@ -177,7 +183,7 @@ module Abstract
 
     comment = scope.const_get('AbstractComment')
 
-    assert_equal comment_fields, comment.fields.sort
+    assert_equal comment_fields, sort_fields(comment.fields)
 
     test_create_comment
 
@@ -193,7 +199,7 @@ module Abstract
                                    :storages => 'abstract_users').map(&:to_s)
 
     user = scope.const_get('AbstractUser')
-    assert_equal user_fields, user.fields.sort
+    assert_equal user_fields, sort_fields(user.fields)
 
     now = test_create_user
 
@@ -206,10 +212,10 @@ module Abstract
     scope = new_scope
     assert_equal ["#{scope}::AbstractSuperUser", "#{scope}::AbstractUser"],
                  dm.auto_genclass!(:scope => scope,
-                                   :storages => /_users$/).map(&:to_s)
+                                   :storages => /_users$/).map(&:to_s).sort
 
     user = scope.const_get('AbstractSuperUser')
-    assert_equal SuperUser.fields.sort, user.fields.sort
+    assert_equal sort_fields(SuperUser.fields), sort_fields(user.fields)
   end
 
   def test_mapping_return_value

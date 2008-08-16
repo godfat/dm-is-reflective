@@ -22,7 +22,7 @@ module DataMapper
             type, chain = self.class.type_map.
               lookup_primitive(dmm_primitive(field))
 
-            [dmm_field_name(field), type, dmm_attributes(field)]
+            [dmm_field_name(field).to_sym, type, dmm_attributes(field)]
           }
         end
 
@@ -73,7 +73,7 @@ module DataMapper
           opts[:storages] ||= /.*/
           opts[:storages] = [opts[:storages]].flatten
 
-          storages_and_fields.map{ |storage, fields|
+          storages.map{ |storage|
 
             mapped = opts[:storages].each{ |target|
               case target
@@ -88,7 +88,7 @@ module DataMapper
               end
             }
 
-            dmm_genclass mapped, fields, opts[:scope] if mapped.kind_of?(String)
+            dmm_genclass mapped, opts[:scope] if mapped.kind_of?(String)
           }.compact
         end
 
@@ -97,7 +97,7 @@ module DataMapper
           raise NotImplementError.new("#{self.class}#fields is not implemented.")
         end
 
-        def dmm_genclass storage, fields, scope
+        def dmm_genclass storage, scope
           require 'extlib'
           model = Class.new
           model.__send__ :include, DataMapper::Resource

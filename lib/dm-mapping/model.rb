@@ -51,10 +51,10 @@ module DataMapper
         mapped = targets.each{ |target|
           case target
             when Regexp;
-              break name if name =~ target
+              break name if name.to_s =~ target
 
             when Symbol, String;
-              break name if name == target.to_s
+              break name if name == target.to_sym
 
             when Class;
               break name if type == target
@@ -64,7 +64,7 @@ module DataMapper
           end
         }
 
-        property mapped.to_sym, type, attrs if mapped.kind_of?(String)
+        property mapped, type, attrs if mapped.kind_of?(Symbol)
       }.compact
     end
   end
