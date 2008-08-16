@@ -4,8 +4,10 @@ module DataMapper
     # reversed lookup for primitive type to ruby type.
     #  e.g.
     #       lookup_primitive('DATETIME')
-    #       # => { DateTime => {:auto_validation => true} }
+    #       # => [DateTime, #<DataMapper::TypeMap::TypeChain:0x830b8>]
     def lookup_primitive primitive, type_map = self
+      return nil unless type_map
+
       type_map.chains.find{ |type, chain|
         primitive.upcase == chain.primitive &&
         [Integer, Float, BigDecimal,

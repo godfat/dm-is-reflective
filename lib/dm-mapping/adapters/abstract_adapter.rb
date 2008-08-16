@@ -21,8 +21,9 @@ module DataMapper
         #        [:salt_second, String,   {:nullable => true, :size => 50}]]
         def fields storage
           dmm_query_storage(storage).map{ |field|
-            type, chain = self.class.type_map.
-              lookup_primitive(dmm_primitive(field))
+            primitive = dmm_primitive(field)
+            type, chain = self.class.type_map.lookup_primitive(primitive) ||
+                          dmm_lookup_primitive(primitive)
 
             [dmm_field_name(field).to_sym, type, dmm_attributes(field)]
           }
@@ -109,6 +110,10 @@ module DataMapper
           model.storage_names[:default] = storage
           model.__send__ :mapping, /.*/
           scope.const_set(Extlib::Inflection.classify(storage), model)
+        end
+
+        def dmm_lookup_primitive primitive
+          raise TypeError.new("#{primitive} not found for #{self.class}")
         end
       end
     end

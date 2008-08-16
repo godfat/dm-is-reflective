@@ -41,6 +41,18 @@ module DataMapper
 
             attrs
         end
+
+        def dmm_lookup_primitive primitive
+          case primitive.upcase
+            when 'TINYINT', 'SMALLINT', 'MEDIUMINT', 'BIGINT', 'YEAR'; Integer
+            when 'DOUBLE'; BigDecimal
+            when 'BOOL'; TrueClass
+            when 'CHAR', 'ENUM', 'SET', 'TINYBLOB', 'MEDIUMBLOB',
+                 'BLOB', 'LONGBLOB', 'BINARY', 'VARBINARY'; String
+            when 'TINYTEXT', 'MEDIUMTEXT', 'LONGTEXT'; DM::Text
+            else super(primitive)
+          end
+        end
       end
     end
   end
