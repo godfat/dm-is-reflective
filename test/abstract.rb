@@ -27,6 +27,10 @@ module Abstract
      ['user_id', Integer,  AttrCommon]]
   end
 
+  def super_user_fields
+    [['id',      Integer,  AttrCommonPK]]
+  end
+
   class User
     include DataMapper::Resource
     has n, :comments
@@ -35,6 +39,11 @@ module Abstract
     property :login,      String, :size => 70
     property :sig,        Text
     property :created_at, DateTime
+  end
+
+  class SuperUser
+    include DataMapper::Resource
+    property :id, Integer, :serial => true
   end
 
   class Comment
@@ -48,6 +57,8 @@ module Abstract
 
   class Model; end
 
+  Tables = ['abstract_comments', 'abstract_super_users', 'abstract_users']
+
   def create_fake_model
     [ Model.dup.__send__(:include, DataMapper::Resource),
       setup_data_mapper ]
@@ -59,6 +70,7 @@ module Abstract
     # this is significant faster than DataMapper.auto_migrate!
     User.auto_migrate!
     Comment.auto_migrate!
+    SuperUser.auto_migrate!
   end
 
   def new_scope
@@ -66,7 +78,7 @@ module Abstract
   end
 
   def test_storages
-    assert_equal ['abstract_comments', 'abstract_users'], dm.storages.sort
+    assert_equal Tables, dm.storages.sort
     assert_equal comment_fields, dm.fields('abstract_comments').sort
   end
 
@@ -90,7 +102,7 @@ module Abstract
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_comments'
 
-    assert_equal ['abstract_comments', 'abstract_users'], local_dm.storages.sort
+    assert_equal Tables, local_dm.storages.sort
     assert_equal 'abstract_comments', model.storage_name
 
     assert_equal 1, model.count
@@ -117,7 +129,8 @@ module Abstract
   def test_storages_and_fields
     assert_equal user_fields, dm.fields('abstract_users').sort
     assert_equal( {'abstract_users' => user_fields,
-                   'abstract_comments' => comment_fields},
+                   'abstract_comments' => comment_fields,
+                   'abstract_super_users' => super_user_fields},
                   dm.storages_and_fields.inject({}){ |r, i|
                     key, value = i
                     r[key] = value.sort
@@ -158,8 +171,9 @@ module Abstract
   def test_auto_genclasses
     scope = new_scope
     assert_equal ["#{scope == Object ? '' : "#{scope}::"}AbstractComment",
-                  "#{scope == Object ? '' : "#{scope}::"}AbstractUser"],
-                 dm.auto_genclasses!(scope).map(&:to_s).sort
+                  "#{scope}::AbstractSuperUser",
+                  "#{scope}::AbstractUser"],
+                 dm.auto_genclass!(:scope => scope).map(&:to_s).sort
 
     comment = scope.const_get('AbstractComment')
 
@@ -174,8 +188,9 @@ module Abstract
 
   def test_auto_genclass
     scope = new_scope
-    assert_equal "#{scope}::AbstractUser",
-                 dm.auto_genclass!('abstract_users', scope).to_s
+    assert_equal ["#{scope}::AbstractUser"],
+                 dm.auto_genclass!(:scope => scope,
+                                   :storages => 'abstract_users').map(&:to_s)
 
     user = scope.const_get('AbstractUser')
     assert_equal user_fields, user.fields.sort
@@ -185,6 +200,16 @@ module Abstract
     assert_equal now.asctime, user.first.created_at.asctime
     user.create(:login => 'godfat')
     assert_equal 'godfat', user.get(2).login
+  end
+
+  def test_auto_genclass_with_regexp
+    scope = new_scope
+    assert_equal ["#{scope}::AbstractSuperUser", "#{scope}::AbstractUser"],
+                 dm.auto_genclass!(:scope => scope,
+                                   :storages => /_users$/).map(&:to_s)
+
+    user = scope.const_get('AbstractSuperUser')
+    assert_equal SuperUser.fields.sort, user.fields.sort
   end
 
   def test_mapping_return_value

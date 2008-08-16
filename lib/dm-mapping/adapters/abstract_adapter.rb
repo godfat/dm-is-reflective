@@ -41,36 +41,55 @@ module DataMapper
           }
         end
 
-        # automaticly generate all model classes and mapping
+        # automaticly generate model class(es) and mapping
         # all fields with mapping /.*/ for you.
         #  e.g.
-        #       dm.auto_genclasses!
+        #       dm.auto_genclass!
         #       # => [DataMapper::Mapping::User,
         #       #     DataMapper::Mapping::SchemaInfo,
         #       #     DataMapper::Mapping::Session]
         #
         # you can change the scope of generated models:
         #  e.g.
-        #       dm.auto_genclasses! Object
+        #       dm.auto_genclass! :scope => Object
         #       # => [User, SchemaInfo, Session]
-        def auto_genclasses! scope = DataMapper::Mapping
-          storages_and_fields.map{ |storage, fields|
-            dmm_genclass storage, fields, scope
-          }
-        end
-
-        # automaticly generate a model class and mapping
-        # all fields with mapping /.*/ for you.
-        #  e.g.
-        #       dm.auto_genclass! 'users'
-        #       # => DataMapper::Mapping::User
         #
-        # you can change the scope of generated model:
+        # you can generate classes for tables you specified only:
         #  e.g.
-        #       dm.auto_genclass! 'users', Object
-        #       # => User
-        def auto_genclass! storage, scope = DataMapper::Mapping
-          dmm_genclass storage, fields(storage), scope
+        #       dm.auto_genclass! :scope => Object, :storages => /^phpbb_/
+        #       # => [PhpbbUser, PhpbbPost, PhpbbConfig]
+        #
+        # you can generate classes with String too:
+        #  e.g.
+        #       dm.auto_genclass! :storages => ['users', 'config'], :scope => Object
+        #       # => [User, Config]
+        #
+        # you can generate a class only:
+        #  e.g.
+        #       dm.auto_genclass! :storages => 'users'
+        #       # => [DataMapper::Mapping::User]
+        def auto_genclass! opts = {}
+          opts[:scope] ||= DataMapper::Mapping
+          opts[:storages] ||= /.*/
+          opts[:storages] = [opts[:storages]].flatten
+
+          storages_and_fields.map{ |storage, fields|
+
+            mapped = opts[:storages].each{ |target|
+              case target
+                when Regexp;
+                  break storage if storage =~ target
+
+                when Symbol, String;
+                  break storage if storage == target.to_s
+
+                else
+                  raise ArgumentError.new("invalid argument: #{target.inspect}")
+              end
+            }
+
+            dmm_genclass mapped, fields, opts[:scope] if mapped.kind_of?(String)
+          }.compact
         end
 
         private

@@ -3,8 +3,7 @@
 === dm-mapping 0.6.0,
 * mapping returns an array of properties indicating fields it mapped.
 * performance boosted by refactored mapping implementation.
-* renamed auto_genclass! to auto_genclasses!
-* added auto_genclass! to generate a single class.
+* changed the way using auto_genclass!, now accepts args like mapping!
 
 === dm-mapping 0.5.0, 2008-08-14
 * feature added
