@@ -1,5 +1,8 @@
 = dm-mapper changes history
 
+=== dm-mapping 0.6.1, 2008-08-22
+* gem 'dm-core', '>=0.9.3' instead of '=0.9.3'
+
 === dm-mapping 0.6.0, 2008-08-16
 * mapping returns an array of properties indicating fields it mapped.
 * performance boosted by refactored mapping implementation.

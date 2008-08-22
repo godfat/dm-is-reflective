@@ -1,5 +1,5 @@
 
-gem 'dm-core', '=0.9.3'
+gem 'dm-core', '>=0.9.3'
 require 'dm-core'
 
 require 'extlib/hook'

@@ -1,11 +1,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{dm-mapping}
-  s.version = "0.6.0"
+  s.version = "0.6.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lin Jen-Shin (a.k.a. godfat \347\234\237\345\270\270)"]
-  s.date = %q{2008-08-16}
+  s.date = %q{2008-08-22}
   s.description = %q{DataMapper plugin that helps you manipulate an existing database. It creates mappings between existing columns and model's properties.}
   s.email = %q{godfat (XD) godfat.org}
   s.extra_rdoc_files = ["CHANGES", "LICENSE", "NOTICE", "README", "TODO", "dm-mapping.gemspec"]
