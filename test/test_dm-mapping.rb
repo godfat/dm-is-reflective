@@ -2,9 +2,12 @@
 require 'test/unit'
 require 'test/abstract'
 
-require 'dm-core/adapters/sqlite3_adapter'
-require 'dm-core/adapters/mysql_adapter'
-require 'dm-core/adapters/postgres_adapter'
+%w[sqlite3 mysql postgres].each{ |adapter|
+  begin
+    require "dm-core/adapters/#{adapter}_adapter"
+  rescue LoadError
+  end
+}
 
 class Sqlite3Test < Test::Unit::TestCase
   include Abstract

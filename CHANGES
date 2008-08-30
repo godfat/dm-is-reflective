@@ -1,5 +1,9 @@
 = dm-mapper changes history
 
+=== dm-mapping 0.6.2, 2008-08-30
+* mapping more data types for mysql.
+* don't map TINYINT to TrueClass with mysql, skip it in type_map.
+
 === dm-mapping 0.6.1, 2008-08-22
 * gem 'dm-core', '>=0.9.3' instead of '=0.9.3'
 
