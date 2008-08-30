@@ -42,15 +42,17 @@ module DataMapper
         end
 
         def dmm_lookup_primitive primitive
-          case primitive.upcase
-            when 'TINYINT', 'SMALLINT', 'MEDIUMINT', 'BIGINT', 'YEAR'; Integer
-            when 'DOUBLE'; BigDecimal
-            when 'BOOL'; TrueClass
-            when 'CHAR', 'ENUM', 'SET', 'TINYBLOB', 'MEDIUMBLOB',
-                 'BLOB', 'LONGBLOB', 'BINARY', 'VARBINARY'; String
-            when 'TINYTEXT', 'MEDIUMTEXT', 'LONGTEXT'; DM::Text
-            else super(primitive)
-          end
+          p = primitive.upcase
+
+          return Integer    if p == 'YEAR'
+          return Integer    if p =~          /\w*INT(EGER)?( SIGNED| UNSIGNED)?( ZEROFILL)?/
+          return BigDecimal if p =~ /(DOUBLE|FLOAT|DECIMAL)( SIGNED| UNSIGNED)?( ZEROFILL)?/
+          return String     if p =~ /\w*BLOB|\w*BINARY|ENUM|SET|CHAR/
+          return DM::Text   if p =~ /\w*TEXT/
+          return TrueClass  if %w[BOOL BOOLEAN].member?(p)
+          return Time       if p == 'TIME'
+
+          super(primitive)
         end
       end
     end
