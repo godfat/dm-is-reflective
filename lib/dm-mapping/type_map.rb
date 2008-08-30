@@ -13,7 +13,9 @@ module DataMapper
         [Integer, Float, BigDecimal,
          String, TrueClass, FalseClass,
          DateTime, Date, Time,
-         DM::Text, DM::Boolean].member?(type)
+         DM::Text, DM::Boolean].member?(type) &&
+        # TINYINT size 1 shouldn't map to TrueClass
+        chain.attributes[:size] != 1
       } or lookup_primitive(primitive, type_map.parent)
     end
   end
