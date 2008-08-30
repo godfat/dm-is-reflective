@@ -1,6 +1,5 @@
 
 require 'dm-mapping/adapters/abstract_adapter'
-require 'dm-mapping/type_map'
 
 module DataMapper
   module Adapters
