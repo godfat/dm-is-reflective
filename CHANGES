@@ -1,5 +1,12 @@
 = dm-mapper changes history
 
+=== dm-mapping 0.7.0,
+* feature added
+ - added postgres support.
+* bug fixed
+ - fixed key mapping in mysql adapter. PRI and MUL are all keys.
+ - use DM::Text.size as default text size in sqlite3.
+
 === dm-mapping 0.6.2, 2008-08-30
 * mapping more data types for mysql.
 * don't map TINYINT to TrueClass with mysql, skip it in type_map.
