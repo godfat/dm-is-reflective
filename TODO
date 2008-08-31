@@ -1,5 +1,5 @@
 = dm-mapping todo list
 
 * better doc...
-* 0.7 postgresql adapter
+* 0.7.1 for more data types for postgresql adapter
 * 0.8 automatic determine model relationship

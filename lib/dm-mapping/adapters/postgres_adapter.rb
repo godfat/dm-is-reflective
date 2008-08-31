@@ -24,7 +24,7 @@ module DataMapper
           keys = query(sql, storage).to_set
 
           sql = <<-SQL.compress_lines
-            SELECT column_name, column_default, is_nullable, data_type,
+            SELECT column_name, column_default, is_nullable,
                    character_maximum_length, udt_name
             FROM "information_schema"."columns"
             WHERE table_schema = current_schema() AND table_name = ?
@@ -61,7 +61,7 @@ module DataMapper
 
           if field.character_maximum_length
             attrs[:size] = field.character_maximum_length
-          elsif field.data_type.upcase == 'TEXT'
+          elsif field.udt_name.upcase == 'TEXT'
             attrs[:size] = DM::Text.size
           end
 
