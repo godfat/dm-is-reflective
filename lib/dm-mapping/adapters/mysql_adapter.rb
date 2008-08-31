@@ -32,7 +32,7 @@ module DataMapper
 
         def dmm_attributes field, attrs = {}
             attrs[:serial] = true if field.extra == 'auto_increment'
-            attrs[:key] = true if field.column_key == 'PRI'
+            attrs[:key] = true if field.column_key != ''
             attrs[:nullable] = field.is_nullable == 'YES'
             attrs[:default] = field.column_default if field.column_default
             attrs[:size] = field.character_maximum_length if
