@@ -1,6 +1,6 @@
 = dm-mapper changes history
 
-=== dm-mapping 0.7.0,
+=== dm-mapping 0.7.0, 2008-09-01
 * feature added
  - added postgres support.
 * bug fixed

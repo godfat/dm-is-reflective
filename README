@@ -1,4 +1,4 @@
-= dm-mapping 0.6.2
+= dm-mapping 0.7.0
 by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
   godfat (XD) godfat.org
 
@@ -95,7 +95,7 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 == REQUIREMENTS:
 
 * dm-core 0.9.3 or later
-* at least one do_* adapter (currently supports sqlite3 and mysql)
+* at least one do_* adapter
 
 == INSTALL:
 
