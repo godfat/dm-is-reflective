@@ -8,6 +8,7 @@ dm-mapping.gemspec
 lib/dm-mapping.rb
 lib/dm-mapping/adapters/abstract_adapter.rb
 lib/dm-mapping/adapters/mysql_adapter.rb
+lib/dm-mapping/adapters/postgres_adapter.rb
 lib/dm-mapping/adapters/sqlite3_adapter.rb
 lib/dm-mapping/model.rb
 lib/dm-mapping/type_map.rb
