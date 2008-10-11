@@ -38,7 +38,7 @@ PROJ.url = 'http://github.com/godfat/dm-mapping'
 PROJ.description = PROJ.summary = paragraphs_of('README', 'description').join("\n\n")
 PROJ.changes = paragraphs_of('CHANGES', 0..1).join("\n\n")
 PROJ.rubyforge.name = 'ludy'
-PROJ.version = File.open('lib/dm-mapping/version.rb', 0){ |f| f.read.gsub(/.*VERSION = '(.*)'.*/m, '\1') }
+PROJ.version = File.read('lib/dm-mapping/version.rb').gsub(/.*VERSION = '(.*)'.*/m, '\1')
 
 PROJ.gem.dependencies << ['dm-core', '>=0.9.3'] << ['extlib', '>=0.9.3']
 # PROJ.gem.executables = []
@@ -53,7 +53,7 @@ PROJ.rdoc.remote_dir = 'dm-mapping'
 PROJ.rdoc.exclude += ['Rakefile', '^tasks', '^test']
 PROJ.rdoc.include << '\w+'
 PROJ.rdoc.opts << '--diagram' if !WIN32 and `which dot` =~ %r/\/dot/
-PROJ.rdoc.opts += ['--charset=utf-8', '--inline-source', 
+PROJ.rdoc.opts += ['--charset=utf-8', '--inline-source',
                    '--line-numbers', '--promiscuous']
 
 PROJ.spec.opts << '--color'
