@@ -1,6 +1,8 @@
 
-require 'test/unit'
 require 'test/abstract'
+require 'minitest/unit'
+
+MiniTest::Unit.autorun
 
 %w[sqlite3 mysql postgres].each{ |adapter|
   begin
@@ -10,17 +12,17 @@ require 'test/abstract'
 }
 
 # cost 1 second to run
-class Sqlite3Test < Test::Unit::TestCase
+class Sqlite3Test < MiniTest::Unit::TestCase
   include Abstract
 
   def setup_data_mapper
-    DataMapper.setup(:default, 'sqlite3:tmp.sqlite3')
+    DataMapper.setup(:default, 'sqlite3::memory:')
   end
 end if defined?(DataObjects::Sqlite3)
 
 
 # cost 2 seconds to run
-class MysqlTest < Test::Unit::TestCase
+class MysqlTest < MiniTest::Unit::TestCase
   include Abstract
 
   def setup_data_mapper
@@ -30,7 +32,7 @@ end if defined?(DataObjects::Mysql)
 
 
 # cost 3 seconds to run
-class PostgresTest < Test::Unit::TestCase
+class PostgresTest < MiniTest::Unit::TestCase
   include Abstract
 
   def setup_data_mapper

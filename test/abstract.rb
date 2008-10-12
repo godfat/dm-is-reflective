@@ -169,7 +169,7 @@ module Abstract
   end
 
   def test_invalid_argument
-    assert_raise(ArgumentError){
+    assert_raises(ArgumentError){
       User.send :mapping, 29
     }
   end
