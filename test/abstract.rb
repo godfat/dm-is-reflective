@@ -1,6 +1,6 @@
 
 require 'rubygems'
-require 'data_mapper'
+require 'dm-core'
 require 'dm-mapping'
 
 module Abstract
@@ -35,7 +35,7 @@ module Abstract
     include DataMapper::Resource
     has n, :comments
 
-    property :id,         Integer, :serial => true
+    property :id,         Serial
     property :login,      String, :size => 70
     property :sig,        Text
     property :created_at, DateTime
@@ -43,14 +43,14 @@ module Abstract
 
   class SuperUser
     include DataMapper::Resource
-    property :id, Integer, :serial => true
+    property :id, Serial
   end
 
   class Comment
     include DataMapper::Resource
     belongs_to :user
 
-    property :id,    Integer, :serial => true
+    property :id,    Serial
     property :title, String,  :size => 50, :default => 'default title'
     property :body,  Text
   end
@@ -111,10 +111,10 @@ module Abstract
     assert_equal Tables, local_dm.storages.sort
     assert_equal 'abstract_comments', model.storage_name
 
-    assert_equal 1, model.count
+    model.send :mapping
+    assert_equal 1, model.all.size
     assert_equal comment_fields, sort_fields(model.fields)
 
-    model.send :mapping
     assert_equal 'XD', model.first.title
     assert_equal 1, model.first.id
   end
