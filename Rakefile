@@ -12,6 +12,7 @@ PROJ.name = 'dm-mapping'
 PROJ.ruby_opts.delete '-w'
 
 PROJ.gem.dependencies << ['dm-core', '>=0.9.3'] << ['extlib', '>=0.9.3']
+PROJ.gem.development_dependencies << ['minitest', '>=1.3.0']
 # PROJ.gem.executables = ["bin/#{PROJ.name}"]
 
 task :default do

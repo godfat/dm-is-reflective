@@ -1,7 +1,6 @@
 
 require 'test/abstract'
 require 'minitest/unit'
-
 MiniTest::Unit.autorun
 
 %w[sqlite3 mysql postgres].each{ |adapter|
