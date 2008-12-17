@@ -1,5 +1,13 @@
 = dm-mapper changes history
 
+=== dm-mapping 0.7.1,
+don't open module Migration and edit it, instead, use include, more see:
+* added DataMapper::Mapping::AbstractAdapter
+* added DataMapper::Mapping::Sqlite3Adapter
+* added DataMapper::Mapping::MysqlAdapter
+* added DataMapper::Mapping::PostgresAdapter
+* each adapter was included in related adapter in DataMapper.
+
 === dm-mapping 0.7.0, 2008-09-01
 * feature added
  - added postgres support.
