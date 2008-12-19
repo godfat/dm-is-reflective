@@ -27,8 +27,22 @@ module Abstract
      [:user_id, Integer,  AttrCommon]]
   end
 
+  # there's differences between adapters
   def super_user_fields
-    [[:id,      Integer,  AttrCommonPK]]
+    case self
+      when Sqlite3Test
+        [[:bool, TrueClass, AttrCommon.merge(:default => 'UL')],
+         [:id,   Integer,   AttrCommonPK]]
+
+      when MysqlTest
+        [[:bool, Integer, AttrCommon],
+         [:id,   Integer, AttrCommonPK]]
+
+      when PostgresTest
+        [[:bool, TrueClass, AttrCommon],
+         [:id,   Integer,   AttrCommonPK]]
+
+    end
   end
 
   class User
@@ -44,6 +58,7 @@ module Abstract
   class SuperUser
     include DataMapper::Resource
     property :id, Serial
+    property :bool, Boolean
   end
 
   class Comment

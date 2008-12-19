@@ -8,6 +8,11 @@ don't open module Migration and edit it, instead, use include, more see:
 * added DataMapper::Mapping::PostgresAdapter
 * each adapter was included in related adapter in DataMapper.
 
+there's differences between adapters,
+Sqlite3 added default => 'UL' in Boolean type,
+Mysql can't tell whether it's a Boolean or Tinyint,
+and Postgres is fine. see test/abstract.rb: super_user_fields for detail.
+
 === dm-mapping 0.7.0, 2008-09-01
 * feature added
  - added postgres support.

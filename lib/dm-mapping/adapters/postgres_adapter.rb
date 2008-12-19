@@ -66,6 +66,15 @@ module DataMapper
 
         attrs
       end
+
+      def dmm_lookup_primitive primitive
+        p = primitive.upcase
+
+        return TrueClass if p == 'BOOL'
+
+        super(primitive)
+      end
+
     end
   end
 end
