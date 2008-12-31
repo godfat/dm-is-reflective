@@ -7,6 +7,7 @@ don't open module Migration and edit it, instead, use include, more see:
 * added DataMapper::Mapping::MysqlAdapter
 * added DataMapper::Mapping::PostgresAdapter
 * each adapter was included in related adapter in DataMapper.
+* Model#fields now accept repository name as argument
 
 there's differences between adapters,
 Sqlite3 added default => 'UL' in Boolean type,

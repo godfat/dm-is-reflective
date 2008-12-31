@@ -4,8 +4,8 @@ module DataMapper
     # it simply calls Migration#fields(self.storage_name)
     #  e.g.
     #       DataMapper.repository.adapter.fields storage_name
-    def fields
-      DataMapper.repository.adapter.fields storage_name
+    def fields repo = default_repository_name
+      DataMapper.repository(repo).adapter.fields(storage_name(repo))
     end
 
     protected
