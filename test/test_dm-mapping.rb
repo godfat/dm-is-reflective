@@ -1,7 +1,14 @@
 
 require 'test/abstract'
-require 'minitest/unit'
-MiniTest::Unit.autorun
+
+TestCase = begin
+             require 'minitest/unit'
+             MiniTest::Unit.autorun
+             MiniTest::Unit::TestCase
+           rescue LoadError
+             require 'test/unit'
+             Test::Unit::TestCase
+           end
 
 %w[sqlite3 mysql postgres].each{ |adapter|
   begin
@@ -11,7 +18,7 @@ MiniTest::Unit.autorun
 }
 
 # cost 1 second to run
-class Sqlite3Test < MiniTest::Unit::TestCase
+class Sqlite3Test < TestCase
   include Abstract
 
   def setup_data_mapper
@@ -21,7 +28,7 @@ end if defined?(DataObjects::Sqlite3)
 
 
 # cost 2 seconds to run
-class MysqlTest < MiniTest::Unit::TestCase
+class MysqlTest < TestCase
   include Abstract
 
   def setup_data_mapper
@@ -31,7 +38,7 @@ end if defined?(DataObjects::Mysql)
 
 
 # cost 3 seconds to run
-class PostgresTest < MiniTest::Unit::TestCase
+class PostgresTest < TestCase
   include Abstract
 
   def setup_data_mapper
