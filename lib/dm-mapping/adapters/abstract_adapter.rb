@@ -107,6 +107,7 @@ module DataMapper
       def dmm_genclass storage, scope
         model = Class.new
         model.__send__ :include, DataMapper::Resource
+        model.is(:reflexible)
         model.storage_names[:default] = storage
         model.__send__ :mapping, /.*/
         scope.const_set(Extlib::Inflection.classify(storage), model)

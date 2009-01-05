@@ -53,12 +53,16 @@ module Abstract
     property :login,      String, :size => 70
     property :sig,        Text
     property :created_at, DateTime
+
+    is :reflexible
   end
 
   class SuperUser
     include DataMapper::Resource
     property :id, Serial
     property :bool, Boolean
+
+    is :reflexible
   end
 
   class Comment
@@ -68,6 +72,8 @@ module Abstract
     property :id,    Serial
     property :title, String,  :size => 50, :default => 'default title'
     property :body,  Text
+
+    is :reflexible
   end
 
   class Model; end
@@ -81,8 +87,9 @@ module Abstract
   end
 
   def create_fake_model
-    [ Model.dup.__send__(:include, DataMapper::Resource),
-      setup_data_mapper ]
+    model = Model.dup.send(:include, DataMapper::Resource)
+    model.is :reflexible
+    [ model, setup_data_mapper ]
   end
 
   attr_reader :dm

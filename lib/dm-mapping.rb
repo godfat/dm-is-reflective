@@ -19,3 +19,5 @@ module DataMapper
 end
 
 require 'dm-mapping/model'
+
+DataMapper::Model.append_extensions DataMapper::Is::Reflexible

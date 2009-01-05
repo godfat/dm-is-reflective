@@ -1,6 +1,13 @@
 
 module DataMapper
-  module Model
+module Is
+module Reflexible
+
+  def is_reflexible
+    extend ClassMethod
+  end
+
+  module ClassMethod
     # it simply calls Migration#fields(self.storage_name)
     #  e.g.
     #       DataMapper.repository.adapter.fields storage_name
@@ -8,7 +15,6 @@ module DataMapper
       DataMapper.repository(repo).adapter.fields(storage_name(repo))
     end
 
-    protected
     # it automaticly creates mappings from storage fields to properties.
     # i.e. you don't have to specify any property if you are connecting
     # to an existing database.
@@ -65,5 +71,8 @@ module DataMapper
         property mapped, type, attrs if mapped.kind_of?(Symbol)
       }.compact
     end
-  end
-end
+  end # of ClassMethod
+
+end # of Reflexible
+end # of Is
+end # of DataMapper
