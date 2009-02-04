@@ -2,4 +2,5 @@ tmp
 pkg
 doc
 ann-*
+
 *.rbc
