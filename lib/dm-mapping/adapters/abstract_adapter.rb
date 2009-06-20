@@ -1,6 +1,4 @@
 
-require 'dm-mapping/type_map'
-
 module DataMapper
   module Mapping
     module AbstractAdapter
