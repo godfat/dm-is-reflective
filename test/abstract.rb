@@ -169,15 +169,18 @@ module Abstract
   def test_mapping_type
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_comments'
-    model.send :mapping, Integer
 
+    model.send :mapping, DataMapper::Types::Serial
+    assert_equal ['id'], model.properties.map(&:name).map(&:to_s).sort
+
+    model.send :mapping, Integer
     assert_equal ['id', 'user_id'], model.properties.map(&:name).map(&:to_s).sort
   end
 
   def test_mapping_multiple
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_users'
-    model.send :mapping, :login, Integer
+    model.send :mapping, :login, DataMapper::Types::Serial
 
     assert_equal ['id', 'login'], model.properties.map(&:name).map(&:to_s).sort
   end
