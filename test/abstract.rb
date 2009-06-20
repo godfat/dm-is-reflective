@@ -67,7 +67,7 @@ module Abstract
 
   class Comment
     include DataMapper::Resource
-    belongs_to :user
+    belongs_to :user, :nullable => true
 
     property :id,    Serial
     property :title, String,  :length => 50, :default => 'default title'
