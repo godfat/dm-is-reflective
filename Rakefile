@@ -13,7 +13,7 @@ PROJ.gem.dependencies << ['dm-core', '>=0.9.3'] << ['extlib', '>=0.9.3']
 # PROJ.gem.development_dependencies << ['minitest', '>=1.3.0']
 # PROJ.gem.executables = ["bin/#{PROJ.name}"]
 
-# PROJ.ruby_opts.delete '-w'
+PROJ.ruby_opts.delete '-w' # too many warnings in addressable, dm-core, extlib...
 
 PROJ.description = PROJ.summary = paragraphs_of('README', 'description').join("\n\n")
 PROJ.changes = paragraphs_of('CHANGES', 0..1).join("\n\n")
