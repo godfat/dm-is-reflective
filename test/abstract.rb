@@ -15,14 +15,14 @@ module Abstract
   def user_fields
     [[:created_at, DateTime, AttrCommon],
      [:id,         Integer,  AttrCommonPK],
-     [:login,      String,   {:size => 70}.merge(AttrCommon)],
+     [:login,      String,   {:length => 70}.merge(AttrCommon)],
      [:sig,        DM::Text, AttrText]]
   end
 
   def comment_fields
     [[:body,    DM::Text, AttrText],
      [:id,      Integer,  AttrCommonPK],
-     [:title,   String,   {:size => 50, :default => 'default title'}.
+     [:title,   String,   {:length => 50, :default => 'default title'}.
                             merge(AttrCommon)],
      [:user_id, Integer,  AttrCommon]]
   end
@@ -50,7 +50,7 @@ module Abstract
     has n, :comments
 
     property :id,         Serial
-    property :login,      String, :size => 70
+    property :login,      String, :length => 70
     property :sig,        Text
     property :created_at, DateTime
 
@@ -70,7 +70,7 @@ module Abstract
     belongs_to :user
 
     property :id,    Serial
-    property :title, String,  :size => 50, :default => 'default title'
+    property :title, String,  :length => 50, :default => 'default title'
     property :body,  Text
 
     is :reflexible
