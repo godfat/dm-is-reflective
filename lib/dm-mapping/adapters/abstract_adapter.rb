@@ -23,8 +23,11 @@ module DataMapper
       def fields storage
         dmm_query_storage(storage).map{ |field|
           primitive = dmm_primitive(field)
-          type, chain = self.class.type_map.lookup_primitive(primitive) ||
-                        dmm_lookup_primitive(primitive)
+
+          type = self.class.type_map.find{ |klass, attrs|
+                   attrs[:primitive] == primitive
+                 }
+          type = type ? type.first : dmm_lookup_primitive(primitive)
 
           [dmm_field_name(field).to_sym, type, dmm_attributes(field)]
         }
