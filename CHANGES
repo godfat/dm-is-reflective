@@ -1,6 +1,11 @@
 = dm-mapper changes history
 
-=== dm-mapping 0.7.1,
+=== dm-is-reflexible 0.8.0,
+* require dm-core 0.10.0 and above now
+* Serial would map to Serial not Integer now
+* no more type_map now
+
+=== dm-mapping 0.7.1, ---
 don't open module Migration and edit it, instead, use include, more see:
 * added DataMapper::Mapping::AbstractAdapter
 * added DataMapper::Mapping::Sqlite3Adapter

@@ -9,7 +9,7 @@ PROJ.email = 'godfat (XD) godfat.org'
 PROJ.url = "http://github.com/godfat/#{PROJ.name}"
 PROJ.rubyforge.name = 'ludy'
 
-PROJ.gem.dependencies << ['dm-core', '>=0.9.3'] << ['extlib', '>=0.9.3']
+PROJ.gem.dependencies << ['dm-core', '>=0.10.0'] << ['extlib', '>=0.9.13']
 # PROJ.gem.development_dependencies << ['minitest', '>=1.3.0']
 # PROJ.gem.executables = ["bin/#{PROJ.name}"]
 
