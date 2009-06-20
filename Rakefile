@@ -46,7 +46,7 @@ PROJ.readme_file = 'README'
 PROJ.rdoc.main = 'README'
 PROJ.rdoc.exclude += ['Rakefile', '^tasks', '^test']
 PROJ.rdoc.include << '\w+'
-PROJ.rdoc.opts << '--diagram' if !WIN32 and `which dot` =~ %r/\/dot/
+# PROJ.rdoc.opts << '--diagram' if !Rake::WIN32 and `which dot` =~ %r/\/dot/
 PROJ.rdoc.opts += ['--charset=utf-8', '--inline-source',
                    '--line-numbers', '--promiscuous']
 
