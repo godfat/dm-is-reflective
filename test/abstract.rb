@@ -9,8 +9,9 @@ module Abstract
   end
 
   AttrCommon = {:nullable => true}
-  AttrCommonPK = {:serial => true, :key => true, :nullable => false}
-  AttrText = {:size => 65535}.merge AttrCommon
+  AttrCommonFK = AttrCommon.merge(:key => true)
+  AttrCommonPK = AttrCommonFK.merge(:serial => true, :nullable => false)
+  AttrText = {:length => 65535}.merge(AttrCommon)
 
   def user_fields
     [[:created_at, DateTime, AttrCommon],
