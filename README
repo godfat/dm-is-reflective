@@ -4,8 +4,8 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
 == LINKS:
 
-* rdoc[http://ludy.rubyforge.org/dm-mapping]
-* github-project[http://github.com/godfat/dm-mapping]
+* rdoc[http://ludy.rubyforge.org/dm-is-reflexible]
+* github-project[http://github.com/godfat/dm-is-reflexible]
 * rubyforge-project[http://rubyforge.org/projects/ludy]
 
 == DESCRIPTION:
@@ -15,7 +15,7 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
 == SYNOPSIS:
 
- require 'dm-mapping' # this would require 'dm-core'
+ require 'dm-is-reflexible' # this would require 'dm-core'
  dm = DataMapper.setup :default, 'sqlite3:db/development.sqlite3'
 
  class User

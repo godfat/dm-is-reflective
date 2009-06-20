@@ -5,7 +5,7 @@
 * Serial would map to Serial not Integer now
 * no more type_map now
 
-=== dm-mapping 0.7.1, ---
+=== dm-mapping 0.7.1, never released as a gem
 don't open module Migration and edit it, instead, use include, more see:
 * added DataMapper::Mapping::AbstractAdapter
 * added DataMapper::Mapping::Sqlite3Adapter
