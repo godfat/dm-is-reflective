@@ -25,7 +25,8 @@ module Abstract
      [:id,      DataMapper::Types::Serial,  AttrCommonPK],
      [:title,   String,   {:length => 50, :default => 'default title'}.
                             merge(AttrCommon)],
-     [:user_id, Integer,  AttrCommon]]
+     self.class == Sqlite3Test ? [:user_id, Integer,  AttrCommon  ] :
+                                 [:user_id, Integer,  AttrCommonFK] ]
   end
 
   # there's differences between adapters
