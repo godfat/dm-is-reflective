@@ -32,15 +32,11 @@ module Abstract
   # there's differences between adapters
   def super_user_fields
     case self
-      when Sqlite3Test
-        [[:bool, DataMapper::Types::Boolean, AttrCommon],
-         [:id,   DataMapper::Types::Serial,  AttrCommonPK]]
-
-      when MysqlTest
+      when MysqlTest # Mysql couldn't tell it's boolean or tinyint
         [[:bool, Integer, AttrCommon],
          [:id,   DataMapper::Types::Serial, AttrCommonPK]]
 
-      when PostgresTest
+      else
         [[:bool, DataMapper::Types::Boolean, AttrCommon],
          [:id,   DataMapper::Types::Serial,  AttrCommonPK]]
 
