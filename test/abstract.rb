@@ -13,7 +13,7 @@ module Abstract
   AttrText = {:size => 65535}.merge AttrCommon
 
   def user_fields
-    [[:created_at, Time,     AttrCommon],
+    [[:created_at, DateTime, AttrCommon],
      [:id,         Integer,  AttrCommonPK],
      [:login,      String,   {:length => 70}.merge(AttrCommon)],
      [:sig,        DataMapper::Types::Text, AttrText]]
@@ -52,7 +52,7 @@ module Abstract
     property :id,         Serial
     property :login,      String, :length => 70
     property :sig,        Text
-    property :created_at, Time
+    property :created_at, DateTime
 
     is :reflexible
   end
