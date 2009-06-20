@@ -43,7 +43,7 @@ module DataMapper
         else
           ergo = field.type.match(/\((\d+)\)/)
           size = ergo && ergo[1].to_i
-          attrs[:size] = size if size
+          attrs[:length] = size if size
         end
 
         attrs

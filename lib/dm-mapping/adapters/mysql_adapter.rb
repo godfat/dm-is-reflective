@@ -34,7 +34,7 @@ module DataMapper
           attrs[:key] = true if field.column_key != ''
           attrs[:nullable] = field.is_nullable == 'YES'
           attrs[:default] = field.column_default if field.column_default
-          attrs[:size] = field.character_maximum_length if
+          attrs[:length] = field.character_maximum_length if
             field.character_maximum_length
 
           attrs
