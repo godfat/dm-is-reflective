@@ -70,6 +70,10 @@ module DataMapper
       def dmm_lookup_primitive primitive
         p = primitive.upcase
 
+        return Integer  if p =~ /^INT\d+$/
+        return String   if p == 'VARCHAR'
+        return DateTime if p == 'TIMESTAMP'
+        return DataMapper::Types::Text    if p == 'TEXT'
         return DataMapper::Types::Boolean if p == 'BOOL'
 
         super(primitive)
