@@ -59,7 +59,7 @@ module DataMapper
           field.column_default && !attrs[:serial]
 
         if field.character_maximum_length
-          attrs[:size] = field.character_maximum_length
+          attrs[:length] = field.character_maximum_length
         elsif field.udt_name.upcase == 'TEXT'
           attrs[:length] = DataMapper::Types::Text.size
         end
