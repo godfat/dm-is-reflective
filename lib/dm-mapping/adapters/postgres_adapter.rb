@@ -61,7 +61,7 @@ module DataMapper
         if field.character_maximum_length
           attrs[:size] = field.character_maximum_length
         elsif field.udt_name.upcase == 'TEXT'
-          attrs[:size] = DM::Text.size
+          attrs[:size] = DataMapper::Types::Text.size
         end
 
         attrs

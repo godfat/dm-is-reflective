@@ -16,11 +16,11 @@ module Abstract
     [[:created_at, DateTime, AttrCommon],
      [:id,         Integer,  AttrCommonPK],
      [:login,      String,   {:length => 70}.merge(AttrCommon)],
-     [:sig,        DM::Text, AttrText]]
+     [:sig,        DataMapper::Types::Text, AttrText]]
   end
 
   def comment_fields
-    [[:body,    DM::Text, AttrText],
+    [[:body,    DataMapper::Types::Text, AttrText],
      [:id,      Integer,  AttrCommonPK],
      [:title,   String,   {:length => 50, :default => 'default title'}.
                             merge(AttrCommon)],

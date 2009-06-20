@@ -47,9 +47,9 @@ module DataMapper
         return Integer    if p =~          /\w*INT(EGER)?( SIGNED| UNSIGNED)?( ZEROFILL)?/
         return BigDecimal if p =~ /(DOUBLE|FLOAT|DECIMAL)( SIGNED| UNSIGNED)?( ZEROFILL)?/
         return String     if p =~ /\w*BLOB|\w*BINARY|ENUM|SET|CHAR/
-        return DM::Text   if p =~ /\w*TEXT/
         return TrueClass  if %w[BOOL BOOLEAN].member?(p)
         return Time       if p == 'TIME'
+        return DataMapper::Types::Text if p =~ /\w*TEXT/
 
         super(primitive)
       end
