@@ -14,7 +14,7 @@ module DataMapper
       #       [[:created_at,  DateTime, {:nullable => true}],
       #        [:email,       String,   {:nullable => true, :size => 255,
       #                                  :default => 'nospam@nospam.tw'}],
-      #        [:id,          Integer,  {:nullable => false, :serial => true,
+      #        [:id, DataMapper::Types::Serial,  {:nullable => false, :serial => true,
       #                                  :key => true}],
       #        [:salt_first,  String,   {:nullable => true, :size => 50}],
       #        [:salt_second, String,   {:nullable => true, :size => 50}]]
@@ -23,11 +23,24 @@ module DataMapper
           primitive = dmm_primitive(field)
 
           type = self.class.type_map.find{ |klass, attrs|
+                   next false if [DataMapper::Types::Object, Time].include?(klass)
                    attrs[:primitive] == primitive
                  }
           type = type ? type.first : dmm_lookup_primitive(primitive)
 
-          [dmm_field_name(field).to_sym, type, dmm_attributes(field)]
+          attrs = dmm_attributes(field)
+
+          type = if attrs[:serial] && type == Integer
+                   DataMapper::Types::Serial
+
+                 elsif type == TrueClass
+                   DataMapper::Types::Boolean
+
+                 else
+                    type
+                 end
+
+          [dmm_field_name(field).to_sym, type, attrs]
         }
       end
 

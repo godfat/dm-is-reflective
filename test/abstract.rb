@@ -14,14 +14,14 @@ module Abstract
 
   def user_fields
     [[:created_at, DateTime, AttrCommon],
-     [:id,         Integer,  AttrCommonPK],
+     [:id,         DataMapper::Types::Serial,  AttrCommonPK],
      [:login,      String,   {:length => 70}.merge(AttrCommon)],
      [:sig,        DataMapper::Types::Text, AttrText]]
   end
 
   def comment_fields
-    [[:body,    DataMapper::Types::Text, AttrText],
-     [:id,      Integer,  AttrCommonPK],
+    [[:body,    DataMapper::Types::Text,    AttrText],
+     [:id,      DataMapper::Types::Serial,  AttrCommonPK],
      [:title,   String,   {:length => 50, :default => 'default title'}.
                             merge(AttrCommon)],
      [:user_id, Integer,  AttrCommon]]
@@ -32,15 +32,15 @@ module Abstract
     case self
       when Sqlite3Test
         [[:bool, DataMapper::Types::Boolean, AttrCommon],
-         [:id,   Integer, AttrCommonPK]]
+         [:id,   DataMapper::Types::Serial,  AttrCommonPK]]
 
       when MysqlTest
         [[:bool, Integer, AttrCommon],
-         [:id,   Integer, AttrCommonPK]]
+         [:id,   DataMapper::Types::Serial, AttrCommonPK]]
 
       when PostgresTest
         [[:bool, DataMapper::Types::Boolean, AttrCommon],
-         [:id,   Integer, AttrCommonPK]]
+         [:id,   DataMapper::Types::Serial,  AttrCommonPK]]
 
     end
   end

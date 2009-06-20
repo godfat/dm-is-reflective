@@ -68,18 +68,7 @@ module Reflexible
           end
         }
 
-        if mapped.kind_of?(Symbol)
-          if attrs[:serial]
-            property(mapped, DataMapper::Types::Serial, attrs)
-
-          elsif type == TrueClass
-            property(mapped, DataMapper::Types::Boolean, attrs)
-
-          else
-            property(mapped, type, attrs)
-
-          end
-        end
+        property(mapped, type, attrs) if mapped.kind_of?(Symbol)
       }.compact
     end
   end # of ClassMethod
