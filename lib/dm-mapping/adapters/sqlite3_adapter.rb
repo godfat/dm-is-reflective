@@ -39,7 +39,7 @@ module DataMapper
         attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
 
         if field.type.upcase == 'TEXT'
-          attrs[:size] = DataMapper::Types::Text.size
+          attrs[:length] = DataMapper::Types::Text.size
         else
           ergo = field.type.match(/\((\d+)\)/)
           size = ergo && ergo[1].to_i
