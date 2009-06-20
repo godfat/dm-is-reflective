@@ -70,7 +70,7 @@ module DataMapper
       def dmm_lookup_primitive primitive
         p = primitive.upcase
 
-        return TrueClass if p == 'BOOL'
+        return DataMapper::Types::Boolean if p == 'BOOL'
 
         super(primitive)
       end

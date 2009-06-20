@@ -31,16 +31,16 @@ module Abstract
   def super_user_fields
     case self
       when Sqlite3Test
-        [[:bool, TrueClass, AttrCommon],
-         [:id,   Integer,   AttrCommonPK]]
+        [[:bool, DataMapper::Types::Boolean, AttrCommon],
+         [:id,   Integer, AttrCommonPK]]
 
       when MysqlTest
         [[:bool, Integer, AttrCommon],
          [:id,   Integer, AttrCommonPK]]
 
       when PostgresTest
-        [[:bool, TrueClass, AttrCommon],
-         [:id,   Integer,   AttrCommonPK]]
+        [[:bool, DataMapper::Types::Boolean, AttrCommon],
+         [:id,   Integer, AttrCommonPK]]
 
     end
   end
