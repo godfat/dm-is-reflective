@@ -31,7 +31,7 @@ module Abstract
   def super_user_fields
     case self
       when Sqlite3Test
-        [[:bool, TrueClass, AttrCommon.merge(:default => 'UL')],
+        [[:bool, TrueClass, AttrCommon],
          [:id,   Integer,   AttrCommonPK]]
 
       when MysqlTest
