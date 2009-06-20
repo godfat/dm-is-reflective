@@ -14,6 +14,7 @@ TestCase = begin
   begin
     require "dm-core/adapters/#{adapter}_adapter"
   rescue LoadError
+    puts "skip #{adapter} test since it's not installed"
   end
 }
 
