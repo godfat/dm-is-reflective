@@ -8,10 +8,9 @@ module Abstract
     raise 'please provide a clean database because it is a destructive test!!'
   end
 
-  AttrCommon = {:nullable => true}
-  AttrCommonFK = AttrCommon.merge(:key => true)
-  AttrCommonPK = AttrCommonFK.merge(:serial => true, :nullable => false)
-  AttrText = {:length => 65535}.merge(AttrCommon)
+  AttrCommon   = {:nullable => true}
+  AttrCommonPK = {:serial => true, :key => true, :nullable => false}
+  AttrText     = {:length => 65535}.merge(AttrCommon)
 
   def user_fields
     [[:created_at, DateTime, AttrCommon],
@@ -25,8 +24,7 @@ module Abstract
      [:id,      DataMapper::Types::Serial,  AttrCommonPK],
      [:title,   String,   {:length => 50, :default => 'default title'}.
                             merge(AttrCommon)],
-     self.class == Sqlite3Test ? [:user_id, Integer,  AttrCommon  ] :
-                                 [:user_id, Integer,  AttrCommonFK] ]
+     [:user_id, Integer,  AttrCommon]]
   end
 
   # there's differences between adapters
