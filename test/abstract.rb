@@ -1,7 +1,7 @@
 
 require 'rubygems'
 require 'dm-core'
-require 'dm-mapping'
+require 'dm-is-reflexible'
 
 module Abstract
   def setup_data_mapper

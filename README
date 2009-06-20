@@ -1,5 +1,5 @@
-= dm-mapping 0.7.1
-by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
+= dm-is-reflexible 0.8.0
+by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
   godfat (XD) godfat.org
 
 == LINKS:
@@ -20,6 +20,8 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
  class User
    include DataMapper::Resource
+   is :reflexible
+
    # mapping all, returns an array of properties indicating fields it mapped
    mapping /.*/  # e.g. => [#<Property:#<Class:0x18f89b8>:id>,
                  #          #<Property:#<Class:0x18f89b8>:title>,
@@ -72,9 +74,9 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
  # there's no guarantee of the order in returned array
  dm.auto_genclass!
- # => [DataMapper::Mapping::User,
-       DataMapper::Mapping::SchemaInfo,
-       DataMapper::Mapping::Session]
+ # => [DataMapper::Is::Reflexible::User,
+       DataMapper::Is::Reflexible::SchemaInfo,
+       DataMapper::Is::Reflexible::Session]
 
  # you can change the scope of generated models:
  dm.auto_genclass! :scope => Object
@@ -90,22 +92,22 @@ by Lin Jen-Shin (a.k.a. godfat-真常[http://godfat.org])
 
  # you can generate a class only:
  dm.auto_genclass! :storages => 'users'
- # => [DataMapper::Mapping::User]
+ # => [DataMapper::Is::Reflexible::User]
 
 == REQUIREMENTS:
 
-* dm-core 0.9.3 or later
+* dm-core 0.10.0 or later
 * at least one do_* adapter
 
 == INSTALL:
 
-> sudo gem install dm-mapping
+> sudo gem install dm-is-reflexible
 
 == LICENSE:
 
   Apache License 2.0
 
-  Copyright (c) 2008, Lin Jen-Shin (a.k.a. godfat 真常)
+  Copyright (c) 2008, Lin Jen-Shin (aka godfat 真常)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.

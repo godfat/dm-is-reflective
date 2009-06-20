@@ -1,6 +1,6 @@
 
 module DataMapper
-  module Mapping
+  module Is::Reflexible
     module AbstractAdapter
       # returns all tables' name in the repository.
       #  e.g.
@@ -66,9 +66,9 @@ module DataMapper
       # all fields with mapping /.*/ for you.
       #  e.g.
       #       dm.auto_genclass!
-      #       # => [DataMapper::Mapping::User,
-      #       #     DataMapper::Mapping::SchemaInfo,
-      #       #     DataMapper::Mapping::Session]
+      #       # => [DataMapper::Is::Reflexible::User,
+      #       #     DataMapper::Is::Reflexible::SchemaInfo,
+      #       #     DataMapper::Is::Reflexible::Session]
       #
       # you can change the scope of generated models:
       #  e.g.
@@ -88,9 +88,9 @@ module DataMapper
       # you can generate a class only:
       #  e.g.
       #       dm.auto_genclass! :storages => 'users'
-      #       # => [DataMapper::Mapping::User]
+      #       # => [DataMapper::Is::Reflexible::User]
       def auto_genclass! opts = {}
-        opts[:scope] ||= DataMapper::Mapping
+        opts[:scope] ||= DataMapper::Is::Reflexible
         opts[:storages] ||= /.*/
         opts[:storages] = [opts[:storages]].flatten
 
@@ -136,6 +136,6 @@ end
 
 module DataMapper
   module Adapters
-    AbstractAdapter.send(:include, Mapping::AbstractAdapter)
+    AbstractAdapter.send(:include, Is::Reflexible::AbstractAdapter)
   end
 end

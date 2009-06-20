@@ -1,8 +1,8 @@
 
-require 'dm-mapping/adapters/abstract_adapter'
+require 'dm-is-reflexible/is/adapters/abstract'
 
 module DataMapper
-  module Mapping
+  module Is::Reflexible
     module Sqlite3Adapter
       def storages
 # activerecord-2.1.0/lib/active_record/connection_adapters/sqlite_adapter.rb: 177
@@ -54,6 +54,6 @@ end
 
 module DataMapper
   module Adapters
-    Sqlite3Adapter.send(:include, Mapping::Sqlite3Adapter)
+    Sqlite3Adapter.send(:include, Is::Reflexible::Sqlite3Adapter)
   end
 end

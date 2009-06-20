@@ -3,8 +3,8 @@
 require 'bones'
 Bones.setup
 
-PROJ.name = 'dm-mapping'
-PROJ.authors = 'Lin Jen-Shin (a.k.a. godfat 真常)'
+PROJ.name = 'dm-is-reflexible'
+PROJ.authors = 'Lin Jen-Shin (aka godfat 真常)'
 PROJ.email = 'godfat (XD) godfat.org'
 PROJ.url = "http://github.com/godfat/#{PROJ.name}"
 PROJ.rubyforge.name = 'ludy'
