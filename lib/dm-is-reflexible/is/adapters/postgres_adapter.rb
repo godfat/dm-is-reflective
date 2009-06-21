@@ -1,5 +1,5 @@
 
-require 'dm-is-reflexible/is/adapters/abstract'
+require 'dm-is-reflexible/is/adapters/abstract_adapter'
 
 module DataMapper
   module Is::Reflexible
