@@ -121,7 +121,7 @@ module Abstract
     return now
   end
 
-  def test_mapping_all
+  def test_reflect_all
     test_create_comment # for fixtures
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_comments'
@@ -129,7 +129,7 @@ module Abstract
     assert_equal Tables, local_dm.storages.sort
     assert_equal 'abstract_comments', model.storage_name
 
-    model.send :mapping
+    model.send :reflect
     assert_equal 1, model.all.size
     assert_equal comment_fields, sort_fields(model.fields)
 
@@ -137,10 +137,10 @@ module Abstract
     assert_equal 1, model.first.id
   end
 
-  def test_mapping_and_create
+  def test_reflect_and_create
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_comments'
-    model.send :mapping
+    model.send :reflect
 
     model.create(:title => 'orz')
     assert_equal 'orz', model.first.title
@@ -162,36 +162,36 @@ module Abstract
                   } )
   end
 
-  def test_mapping_type
+  def test_reflect_type
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_comments'
 
-    model.send :mapping, DataMapper::Types::Serial
+    model.send :reflect, DataMapper::Types::Serial
     assert_equal ['id'], model.properties.map(&:name).map(&:to_s).sort
 
-    model.send :mapping, Integer
+    model.send :reflect, Integer
     assert_equal ['id', 'user_id'], model.properties.map(&:name).map(&:to_s).sort
   end
 
-  def test_mapping_multiple
+  def test_reflect_multiple
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_users'
-    model.send :mapping, :login, DataMapper::Types::Serial
+    model.send :reflect, :login, DataMapper::Types::Serial
 
     assert_equal ['id', 'login'], model.properties.map(&:name).map(&:to_s).sort
   end
 
-  def test_mapping_regexp
+  def test_reflect_regexp
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_comments'
-    model.send :mapping, /id$/
+    model.send :reflect, /id$/
 
     assert_equal ['id', 'user_id'], model.properties.map(&:name).map(&:to_s).sort
   end
 
   def test_invalid_argument
     assert_raises(ArgumentError){
-      User.send :mapping, 29
+      User.send :reflect, 29
     }
   end
 
@@ -209,8 +209,8 @@ module Abstract
     test_create_comment
 
     assert_equal 'XD', comment.first.title
-    comment.create(:title => 'orz', :body => 'dm-mapping')
-    assert_equal 'dm-mapping', comment.get(2).body
+    comment.create(:title => 'orz', :body => 'dm-reflect')
+    assert_equal 'dm-reflect', comment.get(2).body
   end
 
   def test_auto_genclass
@@ -239,10 +239,10 @@ module Abstract
     assert_equal sort_fields(SuperUser.fields), sort_fields(user.fields)
   end
 
-  def test_mapping_return_value
+  def test_reflect_return_value
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_comments'
-    mapped = model.send :mapping, /.*/
+    mapped = model.send :reflect, /.*/
 
     assert_equal model.properties.map(&:object_id).sort, mapped.map(&:object_id).sort
   end

@@ -63,8 +63,8 @@ module DataMapper
         }
       end
 
-      # automaticly generate model class(es) and mapping
-      # all fields with mapping /.*/ for you.
+      # automaticly generate model class(es) and reflect
+      # all fields with reflect /.*/ for you.
       #  e.g.
       #       dm.auto_genclass!
       #       # => [DataMapper::Is::Reflective::User,
@@ -125,7 +125,7 @@ module DataMapper
         model.__send__(:include, DataMapper::Resource)
         model.is(:reflective)
         model.storage_names[:default] = storage
-        model.__send__(:mapping, /.*/)
+        model.__send__(:reflect, /.*/)
         scope.const_set(Extlib::Inflection.classify(storage), model)
       end
 

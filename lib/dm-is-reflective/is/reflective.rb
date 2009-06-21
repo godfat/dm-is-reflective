@@ -15,7 +15,7 @@ module Reflective
       DataMapper.repository(repo).adapter.fields(storage_name(repo))
     end
 
-    # it automaticly creates mappings from storage fields to properties.
+    # it automaticly creates reflection from storage fields to properties.
     # i.e. you don't have to specify any property if you are connecting
     # to an existing database.
     # you can pass it Regexp to map any field it matched, or just
@@ -25,34 +25,34 @@ module Reflective
     #  e.g.
     #       class User
     #         include DataMapper::Resource
-    #         # mapping all
-    #         mapping /.*/  # e.g. => [#<Property:#<Class:0x18f89b8>:id>,
+    #         # reflect all
+    #         reflect /.*/  # e.g. => [#<Property:#<Class:0x18f89b8>:id>,
     #                       #          #<Property:#<Class:0x18f89b8>:title>,
     #                       #          #<Property:#<Class:0x18f89b8>:body>,
     #                       #          #<Property:#<Class:0x18f89b8>:user_id>]
     #
-    #         # mapping all (with no argument at all)
-    #         mapping
+    #         # reflect all (with no argument at all)
+    #         reflect
     #
-    #         # mapping for field name ended with _at, and started with salt_
-    #         mapping /_at$/, /^salt_/
+    #         # reflect for field name ended with _at, and started with salt_
+    #         reflect /_at$/, /^salt_/
     #
-    #         # mapping id and email
-    #         mapping :id, :email
+    #         # reflect id and email
+    #         reflect :id, :email
     #
-    #         # mapping all fields with type String, and id
-    #         mapping String, :id
+    #         # reflect all fields with type String, and id
+    #         reflect String, :id
     #
-    #         # mapping login, and all fields with type Integer
-    #         mapping :login, Integer
+    #         # reflect login, and all fields with type Integer
+    #         reflect :login, Integer
     #       end
-    def mapping *targets
+    def reflect *targets
       targets << /.*/ if targets.empty?
 
       fields.map{ |field|
         name, type, attrs = field
 
-        mapped = targets.each{ |target|
+        reflected = targets.each{ |target|
           case target
             when Regexp;
               break name if name.to_s =~ target
@@ -68,7 +68,7 @@ module Reflective
           end
         }
 
-        property(mapped, type, attrs) if mapped.kind_of?(Symbol)
+        property(reflected, type, attrs) if reflected.kind_of?(Symbol)
       }.compact
     end
   end # of ClassMethod
