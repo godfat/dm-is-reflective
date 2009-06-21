@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{dm-is-reflexible}
+  s.name = %q{dm-is-reflective}
   s.version = "0.8.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -10,9 +10,9 @@ Gem::Specification.new do |s|
   s.description = %q{ DataMapper plugin that helps you manipulate an existing database.
  It creates mappings between existing columns and model's properties.}
   s.email = %q{godfat (XD) godfat.org}
-  s.extra_rdoc_files = ["CHANGES", "LICENSE", "NOTICE", "README", "TODO", "dm-is-reflexible.gemspec"]
-  s.files = ["CHANGES", "LICENSE", "NOTICE", "README", "Rakefile", "TODO", "dm-is-reflexible.gemspec", "lib/dm-is-reflexible.rb", "lib/dm-is-reflexible/is/adapters/abstract.rb", "lib/dm-is-reflexible/is/adapters/mysql_adapter.rb", "lib/dm-is-reflexible/is/adapters/postgres_adapter.rb", "lib/dm-is-reflexible/is/adapters/sqlite3_adapter.rb", "lib/dm-is-reflexible/is/reflexible.rb", "lib/dm-is-reflexible/is/version.rb", "lib/dm-is-reflexible/version.rb", "test/abstract.rb", "test/test_dm-is-reflexible.rb"]
-  s.homepage = %q{http://github.com/godfat/dm-is-reflexible}
+  s.extra_rdoc_files = ["CHANGES", "LICENSE", "NOTICE", "README", "TODO"]
+  s.files = ["CHANGES", "LICENSE", "NOTICE", "README", "Rakefile", "TODO", "lib/dm-is-reflective.rb", "lib/dm-is-reflective/is/adapters/abstract_adapter.rb", "lib/dm-is-reflective/is/adapters/mysql_adapter.rb", "lib/dm-is-reflective/is/adapters/postgres_adapter.rb", "lib/dm-is-reflective/is/adapters/sqlite3_adapter.rb", "lib/dm-is-reflective/is/reflective.rb", "lib/dm-is-reflective/is/version.rb", "lib/dm-is-reflective/version.rb", "test/abstract.rb", "test/test_dm-is-reflexible.rb"]
+  s.homepage = %q{http://github.com/godfat/dm-is-reflective}
   s.rdoc_options = ["--charset=utf-8", "--inline-source", "--line-numbers", "--promiscuous", "--main", "README"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{ludy}

@@ -1,9 +1,9 @@
 
 module DataMapper
 module Is
-module Reflexible
+module Reflective
 
-  def is_reflexible
+  def is_reflective
     extend ClassMethod
   end
 
@@ -73,6 +73,6 @@ module Reflexible
     end
   end # of ClassMethod
 
-end # of Reflexible
+end # of Reflective
 end # of Is
 end # of DataMapper

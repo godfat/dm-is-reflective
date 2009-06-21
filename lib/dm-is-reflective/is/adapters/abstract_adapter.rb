@@ -1,6 +1,6 @@
 
 module DataMapper
-  module Is::Reflexible
+  module Is::Reflective
     module AbstractAdapter
       # returns all tables' name in the repository.
       #  e.g.
@@ -66,9 +66,9 @@ module DataMapper
       # all fields with mapping /.*/ for you.
       #  e.g.
       #       dm.auto_genclass!
-      #       # => [DataMapper::Is::Reflexible::User,
-      #       #     DataMapper::Is::Reflexible::SchemaInfo,
-      #       #     DataMapper::Is::Reflexible::Session]
+      #       # => [DataMapper::Is::Reflective::User,
+      #       #     DataMapper::Is::Reflective::SchemaInfo,
+      #       #     DataMapper::Is::Reflective::Session]
       #
       # you can change the scope of generated models:
       #  e.g.
@@ -88,9 +88,9 @@ module DataMapper
       # you can generate a class only:
       #  e.g.
       #       dm.auto_genclass! :storages => 'users'
-      #       # => [DataMapper::Is::Reflexible::User]
+      #       # => [DataMapper::Is::Reflective::User]
       def auto_genclass! opts = {}
-        opts[:scope] ||= DataMapper::Is::Reflexible
+        opts[:scope] ||= DataMapper::Is::Reflective
         opts[:storages] ||= /.*/
         opts[:storages] = [opts[:storages]].flatten
 
@@ -121,7 +121,7 @@ module DataMapper
       def dmm_genclass storage, scope
         model = Class.new
         model.__send__ :include, DataMapper::Resource
-        model.is(:reflexible)
+        model.is(:reflective)
         model.storage_names[:default] = storage
         model.__send__ :mapping, /.*/
         scope.const_set(Extlib::Inflection.classify(storage), model)
@@ -136,6 +136,6 @@ end
 
 module DataMapper
   module Adapters
-    AbstractAdapter.send(:include, Is::Reflexible::AbstractAdapter)
+    AbstractAdapter.send(:include, Is::Reflective::AbstractAdapter)
   end
 end

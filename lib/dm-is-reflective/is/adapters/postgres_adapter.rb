@@ -1,8 +1,8 @@
 
-require 'dm-is-reflexible/is/adapters/abstract_adapter'
+require 'dm-is-reflective/is/adapters/abstract_adapter'
 
 module DataMapper
-  module Is::Reflexible
+  module Is::Reflective
     module PostgresAdapter
       def storages
         sql = <<-SQL.compress_lines
@@ -85,6 +85,6 @@ end
 
 module DataMapper
   module Adapters
-    PostgresAdapter.send(:include, Is::Reflexible::PostgresAdapter)
+    PostgresAdapter.send(:include, Is::Reflective::PostgresAdapter)
   end
 end

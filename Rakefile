@@ -3,7 +3,7 @@
 require 'bones'
 Bones.setup
 
-PROJ.name = 'dm-is-reflexible'
+PROJ.name = 'dm-is-reflective'
 PROJ.authors = 'Lin Jen-Shin (aka godfat 真常)'
 PROJ.email = 'godfat (XD) godfat.org'
 PROJ.url = "http://github.com/godfat/#{PROJ.name}"

@@ -9,10 +9,10 @@ module DataMapper
   include Extlib::Hook
   after_class_method :setup do
     adapter_name = repository.adapter.class.to_s.split('::').last
-    require "dm-is-reflexible/is/adapters/#{Extlib::Inflection.underscore(adapter_name)}"
+    require "dm-is-reflective/is/adapters/#{Extlib::Inflection.underscore(adapter_name)}"
   end
 
 end
 
-require 'dm-is-reflexible/is/reflexible'
-DataMapper::Model.append_extensions DataMapper::Is::Reflexible
+require 'dm-is-reflective/is/reflective'
+DataMapper::Model.append_extensions DataMapper::Is::Reflective

@@ -1,6 +1,6 @@
 = notice and thanks
 
-* dm-is-reflexible is a plugin of DataMapper
+* dm-is-reflective is a plugin of DataMapper
     > sudo gem install dm-core
     http://datamapper.org
 

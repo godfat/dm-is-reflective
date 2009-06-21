@@ -1,7 +1,7 @@
 
 require 'rubygems'
 require 'dm-core'
-require 'dm-is-reflexible'
+require 'dm-is-reflective'
 
 module Abstract
   def setup_data_mapper
@@ -50,7 +50,7 @@ module Abstract
     property :sig,        Text
     property :created_at, DateTime
 
-    is :reflexible
+    is :reflective
   end
 
   class SuperUser
@@ -58,7 +58,7 @@ module Abstract
     property :id, Serial
     property :bool, Boolean
 
-    is :reflexible
+    is :reflective
   end
 
   class Comment
@@ -69,7 +69,7 @@ module Abstract
     property :title, String,  :length => 50, :default => 'default title'
     property :body,  Text
 
-    is :reflexible
+    is :reflective
   end
 
   class Model; end
@@ -84,7 +84,7 @@ module Abstract
 
   def create_fake_model
     model = Model.dup.send(:include, DataMapper::Resource)
-    model.is :reflexible
+    model.is :reflective
     [ model, setup_data_mapper ]
   end
 

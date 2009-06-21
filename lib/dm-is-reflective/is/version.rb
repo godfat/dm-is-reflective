@@ -1,6 +1,6 @@
 module DataMapper
   module Is
-    module Reflexible
+    module Reflective
       VERSION = '0.8.0'
     end
   end

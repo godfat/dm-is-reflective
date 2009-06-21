@@ -1,8 +1,8 @@
 
-require 'dm-is-reflexible/is/adapters/abstract_adapter'
+require 'dm-is-reflective/is/adapters/abstract_adapter'
 
 module DataMapper
-  module Is::Reflexible
+  module Is::Reflective
     module MysqlAdapter
       def storages
         query 'SHOW TABLES'
@@ -63,6 +63,6 @@ end
 
 module DataMapper
   module Adapters
-    MysqlAdapter.send(:include, Is::Reflexible::MysqlAdapter)
+    MysqlAdapter.send(:include, Is::Reflective::MysqlAdapter)
   end
 end

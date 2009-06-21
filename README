@@ -1,11 +1,11 @@
-= dm-is-reflexible 0.8.0
+= dm-is-reflective 0.8.0
 by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
   godfat (XD) godfat.org
 
 == LINKS:
 
-* rdoc[http://ludy.rubyforge.org/dm-is-reflexible]
-* github-project[http://github.com/godfat/dm-is-reflexible]
+* rdoc[http://ludy.rubyforge.org/dm-is-reflective]
+* github-project[http://github.com/godfat/dm-is-reflective]
 * rubyforge-project[http://rubyforge.org/projects/ludy]
 
 == DESCRIPTION:
@@ -15,12 +15,12 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
 == SYNOPSIS:
 
- require 'dm-is-reflexible' # this would require 'dm-core'
+ require 'dm-is-reflective' # this would require 'dm-core'
  dm = DataMapper.setup :default, 'sqlite3:db/development.sqlite3'
 
  class User
    include DataMapper::Resource
-   is :reflexible
+   is :reflective
 
    # mapping all, returns an array of properties indicating fields it mapped
    mapping /.*/  # e.g. => [#<Property:#<Class:0x18f89b8>:id>,
@@ -74,9 +74,9 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
  # there's no guarantee of the order in returned array
  dm.auto_genclass!
- # => [DataMapper::Is::Reflexible::User,
-       DataMapper::Is::Reflexible::SchemaInfo,
-       DataMapper::Is::Reflexible::Session]
+ # => [DataMapper::Is::Reflective::User,
+       DataMapper::Is::Reflective::SchemaInfo,
+       DataMapper::Is::Reflective::Session]
 
  # you can change the scope of generated models:
  dm.auto_genclass! :scope => Object
@@ -92,7 +92,7 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
  # you can generate a class only:
  dm.auto_genclass! :storages => 'users'
- # => [DataMapper::Is::Reflexible::User]
+ # => [DataMapper::Is::Reflective::User]
 
 == REQUIREMENTS:
 
@@ -101,7 +101,7 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
 == INSTALL:
 
-> sudo gem install dm-is-reflexible
+> sudo gem install dm-is-reflective
 
 == LICENSE:
 
