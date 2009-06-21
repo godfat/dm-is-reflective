@@ -6,7 +6,8 @@ module DataMapper
       #  e.g.
       #       ['comments', 'users']
       def storages
-        raise NotImplementedError
+        reflective_auto_load_adapter_extension
+        storages # call the overrided method
       end
 
       # returns all fields, with format [[name, type, attrs]]
@@ -19,16 +20,16 @@ module DataMapper
       #        [:salt_first,  String,   {:nullable => true, :size => 50}],
       #        [:salt_second, String,   {:nullable => true, :size => 50}]]
       def fields storage
-        dmm_query_storage(storage).map{ |field|
-          primitive = dmm_primitive(field)
+        reflective_query_storage(storage).map{ |field|
+          primitive = reflective_primitive(field)
 
           type = self.class.type_map.find{ |klass, attrs|
                    next false if [DataMapper::Types::Object, Time].include?(klass)
                    attrs[:primitive] == primitive
                  }
-          type = type ? type.first : dmm_lookup_primitive(primitive)
+          type = type ? type.first : reflective_lookup_primitive(primitive)
 
-          attrs = dmm_attributes(field)
+          attrs = reflective_attributes(field)
 
           type = if attrs[:serial] && type == Integer
                    DataMapper::Types::Serial
@@ -40,7 +41,7 @@ module DataMapper
                     type
                  end
 
-          [dmm_field_name(field).to_sym, type, attrs]
+          [reflective_field_name(field).to_sym, type, attrs]
         }
       end
 
@@ -109,33 +110,35 @@ module DataMapper
             end
           }
 
-          dmm_genclass mapped, opts[:scope] if mapped.kind_of?(String)
+          reflective_genclass(mapped, opts[:scope]) if mapped.kind_of?(String)
         }.compact
       end
 
       private
-      def dmm_query_storage
-        raise NotImplementError.new("#{self.class}#fields is not implemented.")
+      def reflective_query_storage storage
+        reflective_auto_load_adapter_extension
+        reflective_query_storage(storage) # call the overrided method
       end
 
-      def dmm_genclass storage, scope
+      def reflective_genclass storage, scope
         model = Class.new
-        model.__send__ :include, DataMapper::Resource
+        model.__send__(:include, DataMapper::Resource)
         model.is(:reflective)
         model.storage_names[:default] = storage
-        model.__send__ :mapping, /.*/
+        model.__send__(:mapping, /.*/)
         scope.const_set(Extlib::Inflection.classify(storage), model)
       end
 
-      def dmm_lookup_primitive primitive
+      def reflective_lookup_primitive primitive
         raise TypeError.new("#{primitive} not found for #{self.class}")
       end
-    end
-  end
-end
 
-module DataMapper
-  module Adapters
-    AbstractAdapter.send(:include, Is::Reflective::AbstractAdapter)
+      def reflective_auto_load_adapter_extension
+        require "dm-is-reflective/is/adapters/#{options['scheme']}_adapter"
+        class_name = "#{Extlib::Inflection.camelize(options['scheme'])}Adapter"
+        Adapters.const_get(class_name).__send__(:include,
+          Is::Reflective.const_get(class_name))
+      end
+    end
   end
 end

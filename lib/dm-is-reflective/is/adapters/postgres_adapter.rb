@@ -14,7 +14,7 @@ module DataMapper
       end
 
       private
-      def dmm_query_storage storage
+      def reflective_query_storage storage
         sql = <<-SQL.compress_lines
           SELECT column_name FROM "information_schema"."key_column_usage"
           WHERE table_schema = current_schema() AND table_name = ?
@@ -39,15 +39,15 @@ module DataMapper
         }
       end
 
-      def dmm_field_name field
+      def reflective_field_name field
         field.column_name
       end
 
-      def dmm_primitive field
+      def reflective_primitive field
         field.udt_name
       end
 
-      def dmm_attributes field, attrs = {}
+      def reflective_attributes field, attrs = {}
         # strip data type
         field.column_default.gsub!(/(.*?)::[\w\s]*/, '\1') if field.column_default
 
@@ -67,7 +67,7 @@ module DataMapper
         attrs
       end
 
-      def dmm_lookup_primitive primitive
+      def reflective_lookup_primitive primitive
         p = primitive.upcase
 
         return Integer  if p =~ /^INT\d+$/
@@ -80,11 +80,5 @@ module DataMapper
       end
 
     end
-  end
-end
-
-module DataMapper
-  module Adapters
-    PostgresAdapter.send(:include, Is::Reflective::PostgresAdapter)
   end
 end

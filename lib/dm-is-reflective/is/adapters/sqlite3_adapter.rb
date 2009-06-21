@@ -15,20 +15,20 @@ module DataMapper
       end
 
       private
-      # alias_method :dmm_query_storages, :query_table
-      def dmm_query_storage *args, &block
+      # alias_method :reflective_query_storages, :query_table
+      def reflective_query_storage *args, &block
         query_table(*args, &block)
       end
 
-      def dmm_field_name field
+      def reflective_field_name field
         field.name
       end
 
-      def dmm_primitive field
+      def reflective_primitive field
         field.type.gsub(/\(\d+\)/, '')
       end
 
-      def dmm_attributes field, attrs = {}
+      def reflective_attributes field, attrs = {}
         if field.pk != 0
           attrs[:key] = true
           attrs[:serial] = true if supports_serial?
@@ -47,11 +47,5 @@ module DataMapper
         attrs
       end
     end
-  end
-end
-
-module DataMapper
-  module Adapters
-    Sqlite3Adapter.send(:include, Is::Reflective::Sqlite3Adapter)
   end
 end
