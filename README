@@ -51,26 +51,26 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
  # there's no guarantee of the order in fields array
  User.fields
  # => [[:created_at,  DateTime, {:nullable => true}],
-       [:email,       String,   {:nullable => true, :size => 255,
+       [:email,       String,   {:nullable => true, :length => 255,
                                  :default => 'nospam@nospam.tw'}],
-       [:id,          Integer,  {:nullable => false, :serial => true,
+       [:id,          Serial,   {:nullable => false, :serial => true,
                                  :key => true}],
-       [:salt_first,  String,   {:nullable => true, :size => 50}],
-       [:salt_second, String,   {:nullable => true, :size => 50}]]
+       [:salt_first,  String,   {:nullable => true, :length => 50}],
+       [:salt_second, String,   {:nullable => true, :length => 50}]]
 
  dm.fields('users').sort_by{ |field| field.first.to_s } ==
         User.fields.sort_by{ |field| field.first.to_s }
  # => true
 
  dm.storages_and_fields
- # => {'users' => [[:id,          Integer,  {:nullable => false,
+ # => {'users' => [[:id,          Serial,   {:nullable => false,
                                              :serial => true,
                                              :key => true}],
                    [:email,       String,   {:nullable => true,
                                              :default => 'nospam@nospam.tw'}],
                    [:created_at,  DateTime, {:nullable => true}],
-                   [:salt_first,  String,   {:nullable => true, :size => 50}],
-                   [:salt_second, String,   {:nullable => true, :size => 50}]]}
+                   [:salt_first,  String,   {:nullable => true, :length => 50}],
+                   [:salt_second, String,   {:nullable => true, :length => 50}]]}
 
  # there's no guarantee of the order in returned array
  dm.auto_genclass!

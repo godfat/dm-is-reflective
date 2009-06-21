@@ -4,6 +4,7 @@
 * require dm-core 0.10.0 and above now
 * Serial would map to Serial not Integer now
 * no more type_map now
+* no more Extlib::Hook to load adapter
 
 === dm-mapping 0.7.1, never released as a gem
 don't open module Migration and edit it, instead, use include, more see:
