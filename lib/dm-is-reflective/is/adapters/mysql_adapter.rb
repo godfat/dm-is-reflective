@@ -31,9 +31,9 @@ module DataMapper
 
       def reflective_attributes field, attrs = {}
           attrs[:serial] = true if field.extra      == 'auto_increment'
-          attrs[:key] = true    if field.column_key == 'PRI'
-          attrs[:nullable] = field.is_nullable == 'YES'
+          attrs[:key]    = true if field.column_key == 'PRI'
 
+          attrs[:nullable] = field.is_nullable == 'YES'
           attrs[:default]  = field.column_default           if
             field.column_default
 
