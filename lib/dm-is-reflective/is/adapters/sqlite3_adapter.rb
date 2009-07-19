@@ -46,6 +46,16 @@ module DataMapper
 
         attrs
       end
+
+      def reflective_lookup_primitive primitive
+        p = primitive.upcase
+
+        return Integer  if p =~ 'INTEGER'
+        return Float    if p == 'REAL' || p == 'NUMERIC'
+        return DataMapper::Types::Text if p == 'TEXT'
+
+        super(primitive)
+      end
     end
   end
 end
