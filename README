@@ -101,7 +101,7 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
 == INSTALL:
 
-> sudo gem install dm-is-reflective
+> gem install dm-is-reflective
 
 == LICENSE:
 
