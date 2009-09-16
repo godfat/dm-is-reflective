@@ -1,6 +1,6 @@
 = dm-mapper changes history
 
-=== dm-is-reflective 0.8.0,
+=== dm-is-reflective 0.8.0, 2009-09-16
 * require dm-core 0.10.0 and above now
 * Serial would map to Serial not Integer now
 * no more type_map now
