@@ -51,7 +51,8 @@ module DataMapper
         return BigDecimal if p =~ /(DOUBLE|FLOAT|DECIMAL)( SIGNED| UNSIGNED)?( ZEROFILL)?/
         return String     if p =~ /\w*BLOB|\w*BINARY|ENUM|SET|CHAR/
         return Time       if p == 'TIME'
-        return DateTime   if p == 'DATETIME'
+        return Date       if p == 'DATE'
+        return DateTime   if %w[DATETIME TIMESTAMP].member?(p)
         return DataMapper::Types::Boolean if %w[BOOL BOOLEAN].member?(p)
         return DataMapper::Types::Text    if p =~ /\w*TEXT/
 
