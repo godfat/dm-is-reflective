@@ -1,5 +1,6 @@
 = dm-is-reflective todo list
 
+* use extlib to type check args, sorry that i want to sleep right now
 * deal with require order problem
 * extract some types to data_objects_adapter
 
