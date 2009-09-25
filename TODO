@@ -1,5 +1,8 @@
 = dm-is-reflective todo list
 
+* deal with require order problem
+* extract some types to data_objects_adapter
+
 * test Model#fields with different repo
 
 * better doc...
