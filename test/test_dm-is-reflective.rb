@@ -33,7 +33,7 @@ class MysqlTest < TestCase
   include Abstract
 
   def setup_data_mapper
-    DataMapper.setup(:default, 'mysql://dm-mapping:godfat@localhost/dm-mapping')
+    DataMapper.setup(:default, 'mysql://dm_is_reflective:godfat@localhost/dm_is_reflective')
   end
 end if defined?(DataObjects::Mysql)
 
@@ -43,6 +43,6 @@ class PostgresTest < TestCase
   include Abstract
 
   def setup_data_mapper
-    DataMapper.setup(:default, 'postgres://dm-mapping:godfat@localhost/dm-mapping')
+    DataMapper.setup(:default, 'postgres://dm_is_reflective:godfat@localhost/dm_is_reflective')
   end
 end if defined?(DataObjects::Postgres)
