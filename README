@@ -23,25 +23,25 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
    is :reflective
 
    # mapping all, returns an array of properties indicating fields it mapped
-   mapping /.*/  # e.g. => [#<Property:#<Class:0x18f89b8>:id>,
+   reflect /.*/  # e.g. => [#<Property:#<Class:0x18f89b8>:id>,
                  #          #<Property:#<Class:0x18f89b8>:title>,
                  #          #<Property:#<Class:0x18f89b8>:body>,
                  #          #<Property:#<Class:0x18f89b8>:user_id>]
 
    # mapping all (with no argument at all)
-   mapping
+   reflect
 
    # mapping for field name ended with _at, and started with salt_
-   mapping /_at$/, /^salt_/
+   reflect /_at$/, /^salt_/
 
    # mapping id and email
-   mapping :id, :email
+   reflect :id, :email
 
    # mapping all fields with type String, and id
-   mapping String, :id
+   reflect String, :id
 
    # mapping login, and all fields with type Integer
-   mapping :login, Integer
+   reflect :login, Integer
  end
 
  # there's no guarantee of the order in storages array
