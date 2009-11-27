@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+gem 'bones', '<3'
 require 'bones'
 Bones.setup
 
