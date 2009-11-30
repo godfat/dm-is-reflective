@@ -1,42 +1,35 @@
 # encoding: utf-8
 
-gem 'bones', '<3'
-require 'bones'
-Bones.setup
+begin
+  require 'bones'
+rescue LoadError
+  abort '### Please install the "bones" gem ###'
+end
 
-PROJ.name = 'dm-is-reflective'
-PROJ.authors = 'Lin Jen-Shin (aka godfat 真常)'
-PROJ.email = 'godfat (XD) godfat.org'
-PROJ.url = "http://github.com/godfat/#{PROJ.name}"
-PROJ.rubyforge.name = 'ludy'
+ensure_in_path 'lib'
+proj = 'dm-is-reflective'
 
-PROJ.gem.dependencies << ['dm-core', '>=0.10.0'] << ['extlib', '>=0.9.13']
-# PROJ.gem.development_dependencies << ['minitest', '>=1.3.0']
-# PROJ.gem.executables = ["bin/#{PROJ.name}"]
+Bones{
+  require "#{proj}/version"
+  version DataMapper::Is::Reflective::VERSION
 
-PROJ.ruby_opts.delete '-w' # too many warnings in addressable, dm-core, extlib...
+  ruby_opts [''] # silence warning, too many in addressable and/or dm-core
 
-PROJ.description = PROJ.summary = paragraphs_of('README', 'description').join("\n\n")
-PROJ.changes = paragraphs_of('CHANGES', 0..1).join("\n\n")
-PROJ.version = File.read("lib/#{PROJ.name}/version.rb").gsub(/.*VERSION = '(.*)'.*/m, '\1')
+  depend_on 'dm-core',                           :version => '>=0.10.0'
+  depend_on 'do_postgres', :development => true, :version => '>=0.10.0'
+  depend_on 'do_sqlite3',  :development => true, :version => '>=0.10.0'
+  depend_on 'do_mysql',    :development => true, :version => '>=0.10.0'
 
-PROJ.exclude += ['^tmp', 'tmp$', '^pkg', '^\.gitignore$',
-                 '^ann-', '\.sqlite3$', '\.db$']
+  name    proj
+  url     "http://github.com/godfat/#{proj}"
+  authors 'Lin Jen-Shin (aka godfat 真常)'
+  email   'godfat (XD) godfat.org'
 
-PROJ.rdoc.remote_dir = PROJ.name
-
-PROJ.readme_file = 'README'
-PROJ.rdoc.main = 'README'
-PROJ.rdoc.exclude += ['Rakefile', '^tasks', '^test']
-PROJ.rdoc.include << '\w+'
-# PROJ.rdoc.opts << '--diagram' if !Rake::WIN32 and `which dot` =~ %r/\/dot/
-PROJ.rdoc.opts += ['--charset=utf-8', '--inline-source',
-                   '--line-numbers', '--promiscuous']
-
-PROJ.spec.opts << '--color'
-
-PROJ.ann.file = "ann-#{PROJ.name}-#{PROJ.version}"
-PROJ.ann.paragraphs.concat %w[LINKS SYNOPSIS REQUIREMENTS INSTALL LICENSE]
+  history_file   'CHANGES'
+   readme_file   'README'
+   ignore_file   '.gitignore'
+  rdoc.include   ['\w+']
+}
 
 CLEAN.include Dir['**/*.rbc']
 
