@@ -8,9 +8,9 @@ end
 
 ensure_in_path 'lib'
 proj = 'dm-is-reflective'
+require "#{proj}/version"
 
 Bones{
-  require "#{proj}/version"
   version DataMapper::Is::Reflective::VERSION
 
   ruby_opts [''] # silence warning, too many in addressable and/or dm-core
