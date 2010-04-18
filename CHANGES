@@ -1,4 +1,4 @@
-= dm-mapper changes history
+= dm-is-reflective changes history
 
 === dm-is-reflective 0.8.0, 2009-09-16
 * require dm-core 0.10.0 and above now
