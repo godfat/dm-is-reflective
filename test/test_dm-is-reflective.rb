@@ -19,7 +19,7 @@ TestCase = begin
 }
 
 # cost 1 second to run
-class Sqlite3Test < TestCase
+class SqliteTest < TestCase
   include Abstract
 
   def setup_data_mapper
