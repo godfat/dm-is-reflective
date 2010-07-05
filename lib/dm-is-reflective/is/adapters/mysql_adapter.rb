@@ -18,7 +18,7 @@ module DataMapper
           WHERE `table_schema` = ? AND `table_name` = ?
         SQL
 
-        select(sql, db_name, storage)
+        select(sql, options[:path].sub('/', ''), storage)
       end
 
       def reflective_field_name field
@@ -33,7 +33,7 @@ module DataMapper
           attrs[:serial] = true if field.extra      == 'auto_increment'
           attrs[:key]    = true if field.column_key == 'PRI'
 
-          attrs[:nullable] = field.is_nullable == 'YES'
+          attrs[:required] = field.is_nullable != 'YES'
           attrs[:default]  = field.column_default           if
             field.column_default
 
@@ -53,8 +53,8 @@ module DataMapper
         return Time       if p == 'TIME'
         return Date       if p == 'DATE'
         return DateTime   if %w[DATETIME TIMESTAMP].member?(p)
-        return DataMapper::Types::Boolean if %w[BOOL BOOLEAN].member?(p)
-        return DataMapper::Types::Text    if p =~ /\w*TEXT/
+        return DataMapper::Property::Boolean if %w[BOOL BOOLEAN].member?(p)
+        return DataMapper::Property::Text    if p =~ /\w*TEXT/
 
         super(primitive)
       end

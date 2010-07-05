@@ -53,7 +53,7 @@ module DataMapper
 
         attrs[:serial] = true if field.column_default =~ /nextval\('\w+'\)/
         attrs[:key] = true if field.key?
-        attrs[:nullable] = field.is_nullable == 'YES'
+        attrs[:required] = field.is_nullable != 'YES'
         # strip string quotation
         attrs[:default] = field.column_default.gsub(/^'(.*?)'$/, '\1') if
           field.column_default && !attrs[:serial]
@@ -61,7 +61,7 @@ module DataMapper
         if field.character_maximum_length
           attrs[:length] = field.character_maximum_length
         elsif field.udt_name.upcase == 'TEXT'
-          attrs[:length] = DataMapper::Types::Text.length
+          attrs[:length] = DataMapper::Property::Text.length
         end
 
         attrs
@@ -73,8 +73,8 @@ module DataMapper
         return Integer  if p =~ /^INT\d+$/
         return String   if p == 'VARCHAR'
         return DateTime if p == 'TIMESTAMP'
-        return DataMapper::Types::Text    if p == 'TEXT'
-        return DataMapper::Types::Boolean if p == 'BOOL'
+        return DataMapper::Property::Text    if p == 'TEXT'
+        return DataMapper::Property::Boolean if p == 'BOOL'
 
         super(primitive)
       end
