@@ -14,10 +14,12 @@ Bones{
   version DataMapper::Is::Reflective::VERSION
 
   ruby_opts [''] # silence warning, too many in addressable and/or dm-core
-  depend_on 'dm-core',                           :version => '>=0.10.0'
-  depend_on 'do_postgres', :development => true, :version => '>=0.10.0'
-  depend_on 'do_sqlite3',  :development => true, :version => '>=0.10.0'
-  depend_on 'do_mysql',    :development => true, :version => '>=0.10.0'
+  depend_on 'dm-core', :version => '>=1.0.0'
+
+  %w[dm0-migrations dm-sqlite-adapter
+     dm-mysql-adapter dm-postgres-adapter].each{ |lib|
+       depend_on lib, :development => true, :version => '>=1.0.0'
+     }
 
   name    proj
   url     "http://github.com/godfat/#{proj}"
