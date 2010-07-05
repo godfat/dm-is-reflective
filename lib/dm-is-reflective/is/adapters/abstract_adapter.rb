@@ -12,13 +12,13 @@ module DataMapper
 
       # returns all fields, with format [[name, type, attrs]]
       #  e.g.
-      #       [[:created_at,  DateTime, {:nullable => true}],
-      #        [:email,       String,   {:nullable => true, :size => 255,
+      #       [[:created_at,  DateTime, {:required => false}],
+      #        [:email,       String,   {:required => false, :size => 255,
       #                                  :default => 'nospam@nospam.tw'}],
-      #        [:id, DataMapper::Types::Serial,  {:nullable => false, :serial => true,
+      #        [:id, DataMapper::Property::Serial,  {:required => true, :serial => true,
       #                                  :key => true}],
-      #        [:salt_first,  String,   {:nullable => true, :size => 50}],
-      #        [:salt_second, String,   {:nullable => true, :size => 50}]]
+      #        [:salt_first,  String,   {:required => false, :size => 50}],
+      #        [:salt_second, String,   {:required => false, :size => 50}]]
       def fields storage
         reflective_query_storage(storage).map{ |field|
           primitive = reflective_primitive(field)
@@ -47,15 +47,15 @@ module DataMapper
 
       # returns a hash with storage names in keys and
       # corresponded fields in values. e.g.
-      #   {'users' => [[:id,          Integer,  {:nullable => false,
+      #   {'users' => [[:id,          Integer,  {:required => true,
       #                                          :serial => true,
       #                                          :key => true}],
-      #                [:email,       String,   {:nullable => true,
+      #                [:email,       String,   {:required => false,
       #                                          :default => 'nospam@nospam.tw'}],
-      #                [:created_at,  DateTime, {:nullable => true}],
-      #                [:salt_first,  String,   {:nullable => true, :size => 50}],
-      #                [:salt_second, String,   {:nullable => true, :size => 50}]]}
-      # see Migration#storages and Migration#fields for detail
+      #                [:created_at,  DateTime, {:required => false}],
+      #                [:salt_first,  String,   {:required => false, :size => 50}],
+      #                [:salt_second, String,   {:required => false, :size => 50}]]}
+      # see AbstractAdapter#storages and AbstractAdapter#fields for detail
       def storages_and_fields
         storages.inject({}){ |result, storage|
           result[storage] = fields(storage)

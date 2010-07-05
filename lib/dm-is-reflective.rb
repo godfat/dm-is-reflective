@@ -1,5 +1,5 @@
 
-gem 'dm-core', '>=0.10.0'
+gem 'dm-core', '>=1.0.0'
 require 'dm-core'
 
 require 'dm-is-reflective/is/reflective'

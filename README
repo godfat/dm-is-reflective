@@ -4,9 +4,9 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
 == LINKS:
 
-* rdoc[http://ludy.rubyforge.org/dm-is-reflective]
-* github-project[http://github.com/godfat/dm-is-reflective]
-* rubyforge-project[http://rubyforge.org/projects/ludy]
+* {github}[http://github.com/godfat/dm-is-reflective]
+* {rubygems}[http://rubygems.org/gems/dm-is-reflective]
+* {rdoc}[http://rdoc.info/projects/godfat/dm-is-reflective]
 
 == DESCRIPTION:
 
@@ -50,27 +50,27 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
  # there's no guarantee of the order in fields array
  User.fields
- # => [[:created_at,  DateTime, {:nullable => true}],
-       [:email,       String,   {:nullable => true, :length => 255,
+ # => [[:created_at,  DateTime, {:required => false}],
+       [:email,       String,   {:required => false, :length => 255,
                                  :default => 'nospam@nospam.tw'}],
-       [:id,          Serial,   {:nullable => false, :serial => true,
+       [:id,          Serial,   {:required => true, :serial => true,
                                  :key => true}],
-       [:salt_first,  String,   {:nullable => true, :length => 50}],
-       [:salt_second, String,   {:nullable => true, :length => 50}]]
+       [:salt_first,  String,   {:required => false, :length => 50}],
+       [:salt_second, String,   {:required => false, :length => 50}]]
 
  dm.fields('users').sort_by{ |field| field.first.to_s } ==
         User.fields.sort_by{ |field| field.first.to_s }
  # => true
 
  dm.storages_and_fields
- # => {'users' => [[:id,          Serial,   {:nullable => false,
+ # => {'users' => [[:id,          Serial,   {:required => true,
                                              :serial => true,
                                              :key => true}],
-                   [:email,       String,   {:nullable => true,
+                   [:email,       String,   {:required => false,
                                              :default => 'nospam@nospam.tw'}],
-                   [:created_at,  DateTime, {:nullable => true}],
-                   [:salt_first,  String,   {:nullable => true, :length => 50}],
-                   [:salt_second, String,   {:nullable => true, :length => 50}]]}
+                   [:created_at,  DateTime, {:required => false}],
+                   [:salt_first,  String,   {:required => false, :length => 50}],
+                   [:salt_second, String,   {:required => false, :length => 50}]]}
 
  # there's no guarantee of the order in returned array
  dm.auto_genclass!
@@ -96,8 +96,8 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
 == REQUIREMENTS:
 
-* dm-core 0.10.0 or later
-* at least one do_* adapter
+* dm-core 1.0.0 or later
+* at least one dm-*-adapter
 
 == INSTALL:
 
@@ -107,7 +107,7 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
   Apache License 2.0
 
-  Copyright (c) 2008-2009, Lin Jen-Shin (aka godfat 真常)
+  Copyright (c) 2008-2010, Lin Jen-Shin (aka godfat 真常)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.

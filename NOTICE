@@ -1,15 +1,11 @@
 = notice and thanks
 
 * dm-is-reflective is a plugin of DataMapper
-    > sudo gem install dm-core
+    > gem install dm-core
     http://datamapper.org
 
 * this project skeleton is built through Mr Bones
     http://codeforpeople.rubyforge.org/bones/
-
-* thanks to Rails team with ActiveRecord, it's inspiring.
-  and some SQL snippets are borrowed from it.
-    http://rubyonrails.org
 
 * Ruby the great language
     http://www.ruby-lang.org
@@ -19,12 +15,6 @@
 
 * Rake the great task automation
     http://rake.rubyforge.org
-
-* Facets the great ruby library collection
-    http://facets.rubyforge.org/
-
-* Rubyforge for distributing ruby gems
-    http://rubyforge.org
 
 * Github for hosting git
     http://github.com

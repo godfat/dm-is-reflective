@@ -16,7 +16,7 @@ Bones{
   ruby_opts [''] # silence warning, too many in addressable and/or dm-core
   depend_on 'dm-core', :version => '>=1.0.0'
 
-  %w[dm0-migrations dm-sqlite-adapter
+  %w[dm-migrations    dm-sqlite-adapter
      dm-mysql-adapter dm-postgres-adapter].each{ |lib|
        depend_on lib, :development => true, :version => '>=1.0.0'
      }
