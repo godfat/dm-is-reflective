@@ -14,7 +14,8 @@ Bones{
   version DataMapper::Is::Reflective::VERSION
 
   ruby_opts [''] # silence warning, too many in addressable and/or dm-core
-  depend_on 'dm-core', :version => '>=1.0.0'
+  depend_on 'dm-core'      , :version => '>=1.0.0'
+  depend_on 'dm-do-adapter', :version => '>=1.0.0'
 
   %w[dm-migrations    dm-sqlite-adapter
      dm-mysql-adapter dm-postgres-adapter].each{ |lib|
