@@ -3,7 +3,7 @@ require 'dm-is-reflective/is/adapters/abstract_adapter'
 
 module DataMapper
   module Is::Reflective
-    module Sqlite3Adapter
+    module SqliteAdapter
       def storages
         sql = <<-SQL.compress_lines
           SELECT name
@@ -11,7 +11,7 @@ module DataMapper
           WHERE type = 'table' AND NOT name = 'sqlite_sequence'
         SQL
 
-        query sql
+        select(sql)
       end
 
       private
