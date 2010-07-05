@@ -23,9 +23,9 @@ class Sqlite3Test < TestCase
   include Abstract
 
   def setup_data_mapper
-    DataMapper.setup(:default, 'sqlite3::memory:')
+    DataMapper.setup(:default, 'sqlite::memory:')
   end
-end if defined?(DataObjects::Sqlite3)
+end if defined?(DataMapper::Adapters::SqliteAdapter)
 
 
 # cost 2 seconds to run
@@ -35,7 +35,7 @@ class MysqlTest < TestCase
   def setup_data_mapper
     DataMapper.setup(:default, 'mysql://dm_is_reflective:godfat@localhost/dm_is_reflective')
   end
-end if defined?(DataObjects::Mysql)
+end if defined?(DataMapper::Adapters::MysqlAdapter)
 
 
 # cost 3 seconds to run
@@ -45,4 +45,4 @@ class PostgresTest < TestCase
   def setup_data_mapper
     DataMapper.setup(:default, 'postgres://dm_is_reflective:godfat@localhost/dm_is_reflective')
   end
-end if defined?(DataObjects::Postgres)
+end if defined?(DataMapper::Adapters::PostgresAdapter)
