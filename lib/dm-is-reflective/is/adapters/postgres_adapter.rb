@@ -20,7 +20,7 @@ module DataMapper
           WHERE table_schema = current_schema() AND table_name = ?
         SQL
 
-        keys = query(sql, storage).to_set
+        keys = select(sql, storage).to_set
 
         sql = <<-SQL.compress_lines
           SELECT column_name, column_default, is_nullable,
