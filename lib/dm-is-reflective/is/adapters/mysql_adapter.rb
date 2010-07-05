@@ -5,7 +5,7 @@ module DataMapper
   module Is::Reflective
     module MysqlAdapter
       def storages
-        query 'SHOW TABLES'
+        select('SHOW TABLES')
       end
 
       private
@@ -18,7 +18,7 @@ module DataMapper
           WHERE `table_schema` = ? AND `table_name` = ?
         SQL
 
-        query(sql, db_name, storage)
+        select(sql, db_name, storage)
       end
 
       def reflective_field_name field

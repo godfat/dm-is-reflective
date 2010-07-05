@@ -10,7 +10,7 @@ module DataMapper
           WHERE table_schema = current_schema()
         SQL
 
-        query(sql)
+        select(sql)
       end
 
       private
@@ -29,7 +29,7 @@ module DataMapper
           WHERE table_schema = current_schema() AND table_name = ?
         SQL
 
-        query(sql, storage).map{ |struct|
+        select(sql, storage).map{ |struct|
           struct.instance_eval <<-END_EVAL
             def key?
               #{keys.member?(struct.column_name)}
