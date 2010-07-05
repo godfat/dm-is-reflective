@@ -15,9 +15,8 @@ module DataMapper
       end
 
       private
-      # alias_method :reflective_query_storages, :query_table
-      def reflective_query_storage *args, &block
-        query_table(*args, &block)
+      def reflective_query_storage storage
+        select('PRAGMA table_info(?)', storage)
       end
 
       def reflective_field_name field
