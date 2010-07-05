@@ -1,7 +1,7 @@
 
 module DataMapper
   module Is::Reflective
-    module AbstractAdapter
+    module DataObjectsAdapter
       # returns all tables' name in the repository.
       #  e.g.
       #       ['comments', 'users']

@@ -1,6 +1,4 @@
 
-require 'dm-is-reflective/is/adapters/abstract_adapter'
-
 module DataMapper
   module Is::Reflective
     module MysqlAdapter
