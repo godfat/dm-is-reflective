@@ -7,8 +7,8 @@ module Abstract
     raise 'please provide a clean database because it is a destructive test!!'
   end
 
-  AttrCommon   = {:nullable => true}
-  AttrCommonPK = {:serial => true, :key => true, :nullable => false}
+  AttrCommon   = {:required => false}
+  AttrCommonPK = {:serial => true, :key => true, :required => true}
   AttrText     = {:length => 65535}.merge(AttrCommon)
 
   def user_fields
@@ -62,7 +62,7 @@ module Abstract
 
   class Comment
     include DataMapper::Resource
-    belongs_to :user, :nullable => true
+    belongs_to :user, :required => false
 
     property :id,    Serial
     property :title, String,  :length => 50, :default => 'default title'
