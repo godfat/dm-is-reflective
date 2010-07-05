@@ -24,7 +24,7 @@ module DataMapper
           primitive = reflective_primitive(field)
 
           type = self.class.type_map.find{ |klass, attrs|
-                   next false if [DataMapper::Types::Object, Time].include?(klass)
+                   next false if [Object, Time].include?(klass)
                    attrs[:primitive] == primitive
                  }
           type = type ? type.first : reflective_lookup_primitive(primitive)
@@ -32,10 +32,10 @@ module DataMapper
           attrs = reflective_attributes(field)
 
           type = if attrs[:serial] && type == Integer
-                   DataMapper::Types::Serial
+                   DataMapper::Property::Serial
 
                  elsif type == TrueClass
-                   DataMapper::Types::Boolean
+                   DataMapper::Property::Boolean
 
                  else
                     type

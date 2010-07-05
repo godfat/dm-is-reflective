@@ -14,14 +14,14 @@ module Abstract
 
   def user_fields
     [[:created_at, DateTime, AttrCommon],
-     [:id,         DataMapper::Types::Serial,  AttrCommonPK],
+     [:id,         DataMapper::Property::Serial,  AttrCommonPK],
      [:login,      String,   {:length => 70}.merge(AttrCommon)],
-     [:sig,        DataMapper::Types::Text, AttrText]]
+     [:sig,        DataMapper::Property::Text, AttrText]]
   end
 
   def comment_fields
-    [[:body,    DataMapper::Types::Text,    AttrText],
-     [:id,      DataMapper::Types::Serial,  AttrCommonPK],
+    [[:body,    DataMapper::Property::Text,    AttrText],
+     [:id,      DataMapper::Property::Serial,  AttrCommonPK],
      [:title,   String,   {:length => 50, :default => 'default title'}.
                             merge(AttrCommon)],
      [:user_id, Integer,  AttrCommon]]
@@ -32,11 +32,11 @@ module Abstract
     case self
       when MysqlTest # Mysql couldn't tell it's boolean or tinyint
         [[:bool, Integer, AttrCommon],
-         [:id,   DataMapper::Types::Serial, AttrCommonPK]]
+         [:id,   DataMapper::Property::Serial, AttrCommonPK]]
 
       else
-        [[:bool, DataMapper::Types::Boolean, AttrCommon],
-         [:id,   DataMapper::Types::Serial,  AttrCommonPK]]
+        [[:bool, DataMapper::Property::Boolean, AttrCommon],
+         [:id,   DataMapper::Property::Serial,  AttrCommonPK]]
 
     end
   end
@@ -166,7 +166,7 @@ module Abstract
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_comments'
 
-    model.send :reflect, DataMapper::Types::Serial
+    model.send :reflect, DataMapper::Property::Serial
     assert_equal ['id'], model.properties.map(&:name).map(&:to_s).sort
 
     model.send :reflect, Integer
@@ -176,7 +176,7 @@ module Abstract
   def test_reflect_multiple
     model, local_dm = create_fake_model
     model.storage_names[:default] = 'abstract_users'
-    model.send :reflect, :login, DataMapper::Types::Serial
+    model.send :reflect, :login, DataMapper::Property::Serial
 
     assert_equal ['id', 'login'], model.properties.map(&:name).map(&:to_s).sort
   end

@@ -36,7 +36,7 @@ module DataMapper
         attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
 
         if field.type.upcase == 'TEXT'
-          attrs[:length] = DataMapper::Types::Text.length
+          attrs[:length] = DataMapper::Property::Text.length
         else
           ergo = field.type.match(/\((\d+)\)/)
           size = ergo && ergo[1].to_i
@@ -49,9 +49,9 @@ module DataMapper
       def reflective_lookup_primitive primitive
         p = primitive.upcase
 
-        return Integer  if p =~ 'INTEGER'
+        return Integer  if p == 'INTEGER'
         return Float    if p == 'REAL' || p == 'NUMERIC'
-        return DataMapper::Types::Text if p == 'TEXT'
+        return DataMapper::Property::Text if p == 'TEXT'
 
         super(primitive)
       end
