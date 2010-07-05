@@ -32,7 +32,7 @@ module DataMapper
           attrs[:key] = true
           attrs[:serial] = true if supports_serial?
         end
-        attrs[:nullable] = field.notnull != 1
+        attrs[:required] = field.notnull == 1
         attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
 
         if field.type.upcase == 'TEXT'
