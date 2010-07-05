@@ -10,9 +10,9 @@ TestCase = begin
              Test::Unit::TestCase
            end
 
-%w[sqlite3 mysql postgres].each{ |adapter|
+%w[sqlite mysql postgres].each{ |adapter|
   begin
-    require "dm-core/adapters/#{adapter}_adapter"
+    require "dm-#{adapter}-adapter"
   rescue LoadError
     puts "skip #{adapter} test since it's not installed"
   end
