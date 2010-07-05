@@ -2,6 +2,7 @@
 
 === dm-is-reflective 0.9.0, 2010-07-05
 * adapted to dm-core 1.0.0
+* reanmed AbstractAdapter to DataObjectsAdapter
 
 === dm-is-reflective 0.8.0, 2009-09-16
 * require dm-core 0.10.0 and above now
