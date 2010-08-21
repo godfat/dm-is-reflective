@@ -1,5 +1,9 @@
 
-require 'test/abstract'
+if respond_to?(:require_relative, true)
+  require_relative 'abstract'
+else
+  require File.dirname(__FILE__) + '/abstract'
+end
 
 TestCase = begin
              require 'minitest/unit'
