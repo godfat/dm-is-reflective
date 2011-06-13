@@ -2,14 +2,16 @@
 module DataMapper
   module Is::Reflective
     module SqliteAdapter
+      include DataMapper::Ext
+
       def storages
-        sql = <<-SQL.compress_lines
+        sql = <<-SQL
           SELECT name
           FROM sqlite_master
           WHERE type = 'table' AND NOT name = 'sqlite_sequence'
         SQL
 
-        select(sql)
+        select(String.compress_lines(sql))
       end
 
       private

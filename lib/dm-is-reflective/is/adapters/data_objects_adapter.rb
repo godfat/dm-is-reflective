@@ -126,7 +126,7 @@ module DataMapper
         model.is(:reflective)
         model.storage_names[:default] = storage
         model.__send__(:reflect, /.*/)
-        scope.const_set(Extlib::Inflection.classify(storage), model)
+        scope.const_set(DataMapper::Inflector.classify(storage), model)
       end
 
       def reflective_lookup_primitive primitive
@@ -135,7 +135,7 @@ module DataMapper
 
       def reflective_auto_load_adapter_extension
         require "dm-is-reflective/is/adapters/#{options['scheme']}_adapter"
-        class_name = "#{Extlib::Inflection.camelize(options['scheme'])}Adapter"
+        class_name = "#{DataMapper::Inflector.camelize(options['scheme'])}Adapter"
         Adapters.const_get(class_name).__send__(:include,
           Is::Reflective.const_get(class_name))
       end

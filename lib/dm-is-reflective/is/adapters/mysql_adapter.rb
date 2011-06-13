@@ -2,6 +2,8 @@
 module DataMapper
   module Is::Reflective
     module MysqlAdapter
+      include DataMapper::Ext
+
       def storages
         select('SHOW TABLES')
       end
@@ -9,14 +11,15 @@ module DataMapper
       private
       # construct needed table metadata
       def reflective_query_storage storage
-        sql = <<-SQL.compress_lines
+        sql = <<-SQL
           SELECT column_name, column_default, is_nullable, data_type,
                  character_maximum_length, column_key, extra
           FROM `information_schema`.`columns`
           WHERE `table_schema` = ? AND `table_name` = ?
         SQL
 
-        select(sql, options[:path].sub('/', ''), storage)
+        select(String.compress_lines(sql),
+          options[:path].sub('/', ''), storage)
       end
 
       def reflective_field_name field

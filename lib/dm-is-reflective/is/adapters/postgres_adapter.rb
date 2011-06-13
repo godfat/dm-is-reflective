@@ -2,32 +2,34 @@
 module DataMapper
   module Is::Reflective
     module PostgresAdapter
+      include DataMapper::Ext
+
       def storages
-        sql = <<-SQL.compress_lines
+        sql = <<-SQL
           SELECT table_name FROM "information_schema"."tables"
           WHERE table_schema = current_schema()
         SQL
 
-        select(sql)
+        select(String.compress_lines(sql))
       end
 
       private
       def reflective_query_storage storage
-        sql = <<-SQL.compress_lines
+        sql = <<-SQL
           SELECT column_name FROM "information_schema"."key_column_usage"
           WHERE table_schema = current_schema() AND table_name = ?
         SQL
 
-        keys = select(sql, storage).to_set
+        keys = select(String.compress_lines(sql), storage).to_set
 
-        sql = <<-SQL.compress_lines
+        sql = <<-SQL
           SELECT column_name, column_default, is_nullable,
                  character_maximum_length, udt_name
           FROM "information_schema"."columns"
           WHERE table_schema = current_schema() AND table_name = ?
         SQL
 
-        select(sql, storage).map{ |struct|
+        select(String.compress_lines(sql), storage).map{ |struct|
           struct.instance_eval <<-END_EVAL
             def key?
               #{keys.member?(struct.column_name)}
