@@ -2,7 +2,7 @@
 module DataMapper
   module Is::Reflective
     module MysqlAdapter
-      include DataMapper::Ext
+      include DataMapper
 
       def storages
         select('SHOW TABLES')
@@ -18,7 +18,7 @@ module DataMapper
           WHERE `table_schema` = ? AND `table_name` = ?
         SQL
 
-        select(String.compress_lines(sql),
+        select(Ext::String.compress_lines(sql),
           options[:path].sub('/', ''), storage)
       end
 
@@ -54,8 +54,8 @@ module DataMapper
         return Time       if p == 'TIME'
         return Date       if p == 'DATE'
         return DateTime   if %w[DATETIME TIMESTAMP].member?(p)
-        return DataMapper::Property::Boolean if %w[BOOL BOOLEAN].member?(p)
-        return DataMapper::Property::Text    if p =~ /\w*TEXT/
+        return Property::Boolean if %w[BOOL BOOLEAN].member?(p)
+        return Property::Text    if p =~ /\w*TEXT/
 
         super(primitive)
       end

@@ -2,6 +2,8 @@
 module DataMapper
   module Is::Reflective
     module DataObjectsAdapter
+      include DataMapper
+
       # returns all tables' name in the repository.
       #  e.g.
       #       ['comments', 'users']
@@ -32,10 +34,10 @@ module DataMapper
           attrs = reflective_attributes(field)
 
           type = if attrs[:serial] && type == Integer
-                   DataMapper::Property::Serial
+                   Property::Serial
 
                  elsif type == TrueClass
-                   DataMapper::Property::Boolean
+                   Property::Boolean
 
                  else
                     type
@@ -91,7 +93,7 @@ module DataMapper
       #       dm.auto_genclass! :storages => 'users'
       #       # => [DataMapper::Is::Reflective::User]
       def auto_genclass! opts = {}
-        opts[:scope] ||= DataMapper::Is::Reflective
+        opts[:scope] ||= Is::Reflective
         opts[:storages] ||= /.*/
         opts[:storages] = [opts[:storages]].flatten
 
@@ -122,11 +124,11 @@ module DataMapper
 
       def reflective_genclass storage, scope
         model = Class.new
-        model.__send__(:include, DataMapper::Resource)
+        model.__send__(:include, Resource)
         model.is(:reflective)
         model.storage_names[:default] = storage
         model.__send__(:reflect, /.*/)
-        scope.const_set(DataMapper::Inflector.classify(storage), model)
+        scope.const_set(Inflector.classify(storage), model)
       end
 
       def reflective_lookup_primitive primitive
@@ -135,7 +137,7 @@ module DataMapper
 
       def reflective_auto_load_adapter_extension
         require "dm-is-reflective/is/adapters/#{options['scheme']}_adapter"
-        class_name = "#{DataMapper::Inflector.camelize(options['scheme'])}Adapter"
+        class_name = "#{Inflector.camelize(options['scheme'])}Adapter"
         Adapters.const_get(class_name).__send__(:include,
           Is::Reflective.const_get(class_name))
       end

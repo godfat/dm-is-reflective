@@ -2,7 +2,7 @@
 module DataMapper
   module Is::Reflective
     module SqliteAdapter
-      include DataMapper::Ext
+      include DataMapper
 
       def storages
         sql = <<-SQL
@@ -11,7 +11,7 @@ module DataMapper
           WHERE type = 'table' AND NOT name = 'sqlite_sequence'
         SQL
 
-        select(String.compress_lines(sql))
+        select(Ext::String.compress_lines(sql))
       end
 
       private
@@ -36,7 +36,7 @@ module DataMapper
         attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
 
         if field.type.upcase == 'TEXT'
-          attrs[:length] = DataMapper::Property::Text.length
+          attrs[:length] = Property::Text.length
         else
           ergo = field.type.match(/\((\d+)\)/)
           size = ergo && ergo[1].to_i
@@ -51,7 +51,7 @@ module DataMapper
 
         return Integer  if p == 'INTEGER'
         return Float    if p == 'REAL' || p == 'NUMERIC'
-        return DataMapper::Property::Text if p == 'TEXT'
+        return Property::Text if p == 'TEXT'
 
         super(primitive)
       end
