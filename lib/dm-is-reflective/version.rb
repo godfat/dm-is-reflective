@@ -1,3 +1,4 @@
+
 module DataMapper
   module Is
     module Reflective
