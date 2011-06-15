@@ -29,6 +29,7 @@ module Abstract
 
   # there's differences between adapters
   def super_user_fields
+    Object.const_set(:MysqlTest, Class.new) unless defined?(MysqlTest) # dummy
     case self
       when MysqlTest # Mysql couldn't tell it's boolean or tinyint
         [[:bool, Integer, AttrCommon],
