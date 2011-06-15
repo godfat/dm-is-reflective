@@ -142,8 +142,11 @@ module DataMapper
       end
 
       def reflective_auto_load_adapter_extension
-        require "dm-is-reflective/is/adapters/#{options['scheme']}_adapter"
-        class_name = "#{Inflector.camelize(options['scheme'])}Adapter"
+        # TODO: can we fix this adapter name in dm-sqlite-adapter?
+        adapter = options[:adapter].sub(/\Asqlite3\Z/, 'sqlite')
+
+        require "dm-is-reflective/is/adapters/#{adapter}_adapter"
+        class_name = "#{Inflector.camelize(adapter)}Adapter"
         Adapters.const_get(class_name).__send__(:include,
           Is::Reflective.const_get(class_name))
       end
