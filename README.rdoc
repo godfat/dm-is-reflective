@@ -1,5 +1,5 @@
-= dm-is-reflective 0.9.0
-by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
+= dm-is-reflective
+by Lin Jen-Shin (godfat[http://godfat.org])
   godfat (XD) godfat.org
 
 == LINKS:
@@ -96,8 +96,9 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
 == REQUIREMENTS:
 
-* dm-core 1.0.0 or later
-* at least one dm-*-adapter
+* dm-core 1.1.0 or later
+* at least one dm-*-adapter which is using dm-do-adapter.
+  (relational database, namely sqlite, postgres, and mysql at the moment)
 
 == INSTALL:
 
@@ -107,7 +108,7 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
 
   Apache License 2.0
 
-  Copyright (c) 2008-2010, Lin Jen-Shin (aka godfat 真常)
+  Copyright (c) 2008-2011, Lin Jen-Shin (godfat)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
