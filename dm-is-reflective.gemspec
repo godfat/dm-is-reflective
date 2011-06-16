@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   %q{.gitignore},
   %q{.gitmodules},
   %q{CHANGES},
+  %q{CONTRIBUTORS},
   %q{Gemfile},
   %q{LICENSE},
   %q{NOTICE},
@@ -37,8 +38,7 @@ Gem::Specification.new do |s|
   %q{task/gemgem.rb},
   %q{test/abstract.rb},
   %q{test/setup_db.sh},
-  %q{test/test_dm-is-reflective.rb},
-  %q{CONTRIBUTORS}]
+  %q{test/test_dm-is-reflective.rb}]
   s.homepage = %q{https://github.com/godfat/dm-is-reflective}
   s.rdoc_options = [
   %q{--main},
