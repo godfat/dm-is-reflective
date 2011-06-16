@@ -1,5 +1,8 @@
 = dm-is-reflective changes history
 
+=== dm-is-reflective 1.0.0, 2011-06-16
+* updated against dm-core 1.1.0
+
 === dm-is-reflective 0.9.0, 2010-07-05
 * adapted to dm-core 1.0.0
 * reanmed AbstractAdapter to DataObjectsAdapter
