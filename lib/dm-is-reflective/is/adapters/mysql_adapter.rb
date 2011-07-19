@@ -34,7 +34,7 @@ module DataMapper
           attrs[:serial] = true if field.extra      == 'auto_increment'
           attrs[:key]    = true if field.column_key == 'PRI'
 
-          attrs[:required] = field.is_nullable != 'YES'
+          attrs[:allow_nil] = field.is_nullable == 'YES'
           attrs[:default]  = field.column_default           if
             field.column_default
 

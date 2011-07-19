@@ -8,8 +8,8 @@ module Abstract
     raise 'please provide a clean database because it is a destructive test!!'
   end
 
-  AttrCommon   = {:required => false}
-  AttrCommonPK = {:serial => true, :key => true, :required => true}
+  AttrCommon   = {:allow_nil => true}
+  AttrCommonPK = {:serial => true, :key => true, :allow_nil => false}
   AttrText     = {:length => 65535}.merge(AttrCommon)
 
   def user_fields
@@ -22,8 +22,8 @@ module Abstract
   def comment_fields
     [[:body,    DataMapper::Property::Text,    AttrText],
      [:id,      DataMapper::Property::Serial,  AttrCommonPK],
-     [:title,   String,   {:length => 50, :default => 'default title'}.
-                            merge(AttrCommon)],
+     [:title,   String,   {:length => 50, :default => 'default title',
+                           :allow_nil => false}],
      [:user_id, Integer,  AttrCommon]]
   end
 
@@ -67,7 +67,8 @@ module Abstract
     belongs_to :user, :required => false
 
     property :id,    Serial
-    property :title, String,  :length => 50, :default => 'default title'
+    property :title, String,  :length => 50, :default => 'default title',
+                              :allow_nil => false
     property :body,  Text
 
     is :reflective
@@ -194,6 +195,10 @@ module Abstract
     assert_raises(ArgumentError){
       User.send :reflect, 29
     }
+  end
+
+  def test_allow_empty_string
+    assert Comment.new(:title => '').save
   end
 
   def test_auto_genclasses

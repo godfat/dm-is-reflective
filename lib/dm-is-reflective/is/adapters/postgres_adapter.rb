@@ -53,7 +53,7 @@ module DataMapper
 
         attrs[:serial] = true if field.column_default =~ /nextval\('\w+'\)/
         attrs[:key] = true if field.key?
-        attrs[:required] = field.is_nullable != 'YES'
+        attrs[:allow_nil] = field.is_nullable == 'YES'
         # strip string quotation
         attrs[:default] = field.column_default.gsub(/^'(.*?)'$/, '\1') if
           field.column_default && !attrs[:serial]
