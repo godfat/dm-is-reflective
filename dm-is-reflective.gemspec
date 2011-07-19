@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{dm-is-reflective}
-  s.version = "1.0.0"
+  s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Lin Jen-Shin (godfat)}]
-  s.date = %q{2011-06-16}
+  s.date = %q{2011-07-19}
   s.description = %q{DataMapper plugin that helps you manipulate an existing database. It creates mappings between existing columns and model's properties.}
   s.email = [%q{godfat (XD) godfat.org}]
   s.extra_rdoc_files = [

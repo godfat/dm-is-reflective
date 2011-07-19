@@ -1,5 +1,10 @@
 = dm-is-reflective changes history
 
+=== dm-is-reflective 1.0.1, ?
+* allow_nil is more close to db's semantics, not required. Thanks miaout17.
+  `:allow_nil` allows empty value, but `:required` does not. So here we
+  always use `:allow_nil` to match db's semantics.
+
 === dm-is-reflective 1.0.0, 2011-06-16
 * updated against dm-core 1.1.0
 
