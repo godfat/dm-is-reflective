@@ -14,7 +14,7 @@ TestCase = begin
              Test::Unit::TestCase
            end
 
-%w[sqlite mysql postgres].each{ |adapter|
+%w[sqlite postgres mysql].each{ |adapter|
   begin
     require "dm-#{adapter}-adapter"
   rescue LoadError
