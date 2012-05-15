@@ -101,9 +101,9 @@ It creates mappings between existing columns and model's properties.
 
 ## REQUIREMENTS:
 
-* dm-core 1.1.0 or later
-* at least one dm-*-adapter which is using dm-do-adapter.
-  (relational database, namely sqlite, postgres, and mysql at the moment)
+* dm-core
+* dm-do-adapter
+* choose one: dm-sqlite-adapter, dm-postgres-adapter, dm-mysql-adapter
 
 ## INSTALL:
 
