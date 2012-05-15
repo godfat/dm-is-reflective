@@ -45,19 +45,19 @@ module DataMapper
       end
 
       def reflective_lookup_primitive primitive
-        p = primitive.upcase
-
-        return Integer    if p == 'YEAR'
-        return Integer    if p =~          /\w*INT(EGER)?( SIGNED| UNSIGNED)?( ZEROFILL)?/
-        return BigDecimal if p =~ /(DOUBLE|FLOAT|DECIMAL)( SIGNED| UNSIGNED)?( ZEROFILL)?/
-        return String     if p =~ /\w*BLOB|\w*BINARY|ENUM|SET|CHAR/
-        return Time       if p == 'TIME'
-        return Date       if p == 'DATE'
-        return DateTime   if %w[DATETIME TIMESTAMP].member?(p)
-        return Property::Boolean if %w[BOOL BOOLEAN].member?(p)
-        return Property::Text    if p =~ /\w*TEXT/
-
-        super(primitive)
+        case primitive.upcase
+        when 'YEAR'                           ; Integer
+        when /\w*INT(EGER)?( SIGNED| UNSIGNED)?( ZEROFILL)?/
+                                              ; Integer
+        when /(DOUBLE|FLOAT|DECIMAL)( SIGNED| UNSIGNED)?( ZEROFILL)?/
+                                              ; BigDecimal
+        when /\w*BLOB|\w*BINARY|ENUM|SET|CHAR/; String
+        when 'TIME'                           ; Time
+        when 'DATE'                           ; Date
+        when 'DATETIME', 'TIMESTAMP'          ; DateTime
+        when 'BOOL', 'BOOLEAN'                ; Property::Boolean
+        when /\w*TEXT/                        ; Property::Text
+        end || super(primitive)
       end
     end
   end

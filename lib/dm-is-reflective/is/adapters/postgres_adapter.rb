@@ -68,17 +68,14 @@ module DataMapper
       end
 
       def reflective_lookup_primitive primitive
-        p = primitive.upcase
-
-        return Integer  if p =~ /^INT\d+$/
-        return String   if p == 'VARCHAR'
-        return DateTime if p == 'TIMESTAMP'
-        return Property::Text    if p == 'TEXT'
-        return Property::Boolean if p == 'BOOL'
-
-        super(primitive)
+        case primitive.upcase
+        when /^INT\d+$/         ; Integer
+        when 'VARCHAR'          ; String
+        when 'TIMESTAMP'        ; DateTime
+        when 'TEXT'             ; Property::Text
+        when 'BOOL'             ; Property::Boolean
+        end || super(primitive)
       end
-
     end
   end
 end

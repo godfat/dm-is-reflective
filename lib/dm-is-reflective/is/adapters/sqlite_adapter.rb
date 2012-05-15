@@ -47,13 +47,11 @@ module DataMapper
       end
 
       def reflective_lookup_primitive primitive
-        p = primitive.upcase
-
-        return Integer  if p == 'INTEGER'
-        return Float    if p == 'REAL' || p == 'NUMERIC'
-        return Property::Text if p == 'TEXT'
-
-        super(primitive)
+        case primitive.upcase
+        when 'INTEGER'        ; Integer
+        when 'REAL', 'NUMERIC'; Float
+        when 'TEXT'           ; Property::Text
+        end || super(primitive)
       end
     end
   end
