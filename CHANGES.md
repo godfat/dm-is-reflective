@@ -1,6 +1,6 @@
 # CHANGES
 
-## dm-is-reflective 1.0.1, ?
+## dm-is-reflective 1.0.1, 2012-05-16
 
 * allow_nil is more close to db's semantics, not required. Thanks miaout17.
   `:allow_nil` allows empty value, but `:required` does not. So here we
