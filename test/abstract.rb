@@ -4,6 +4,11 @@ require 'dm-migrations'
 require 'dm-is-reflective'
 
 module Abstract
+  def self.next_id
+    @id ||= 0
+    @id += 1
+  end
+
   def setup_data_mapper
     raise 'please provide a clean database because it is a destructive test!!'
   end
@@ -74,8 +79,6 @@ module Abstract
     is :reflective
   end
 
-  class Model; end
-
   Tables = ['abstract_comments', 'abstract_super_users', 'abstract_users']
 
   def sort_fields fields
@@ -85,9 +88,15 @@ module Abstract
   end
 
   def create_fake_model
-    model = Model.dup.send(:include, DataMapper::Resource)
-    model.is :reflective
-    [ model, setup_data_mapper ]
+    model = Class.new
+    model.module_eval do
+      include DataMapper::Resource
+      property :id, DataMapper::Property::Serial
+      is :reflective
+    end
+    Abstract.const_set("Model#{Abstract.next_id}", model)
+    model.finalize
+    [model, setup_data_mapper]
   end
 
   attr_reader :dm

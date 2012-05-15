@@ -49,7 +49,7 @@ module Reflective
     def reflect *targets
       targets << /.*/ if targets.empty?
 
-      fields.map{ |field|
+      result = fields.map{ |field|
         name, type, attrs = field
 
         reflected = targets.each{ |target|
@@ -70,6 +70,9 @@ module Reflective
 
         property(reflected, type, attrs) if reflected.kind_of?(Symbol)
       }.compact
+
+      finalize
+      result
     end
   end # of ClassMethod
 

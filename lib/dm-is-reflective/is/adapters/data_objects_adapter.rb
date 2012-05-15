@@ -133,8 +133,9 @@ module DataMapper
         model.__send__(:include, Resource)
         model.is(:reflective)
         model.storage_names[:default] = storage
-        model.__send__(:reflect, /.*/)
         scope.const_set(Inflector.classify(storage), model)
+        model.__send__(:reflect, /.*/)
+        model
       end
 
       def reflective_lookup_primitive primitive
