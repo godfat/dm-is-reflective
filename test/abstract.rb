@@ -95,7 +95,6 @@ module Abstract
       is :reflective
     end
     Abstract.const_set("Model#{Abstract.next_id}", model)
-    model.finalize
     [model, setup_data_mapper]
   end
 
