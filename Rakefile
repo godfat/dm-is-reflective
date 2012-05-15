@@ -11,7 +11,6 @@ task 'gem:spec' do
     require     'dm-is-reflective/version'
     s.name    = 'dm-is-reflective'
     s.version = DataMapper::Is::Reflective::VERSION
-    # s.executables = [s.name]
 
     %w[dm-core dm-do-adapter].each{ |g| s.add_runtime_dependency(g) }
     %w[dm-migrations
