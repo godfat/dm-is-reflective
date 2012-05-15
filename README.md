@@ -109,6 +109,10 @@ It creates mappings between existing columns and model's properties.
 
     gem install dm-is-reflective
 
+## CONTRIBUTORS:
+
+* Lin Jen-Shin (@godfat)
+
 ## LICENSE:
 
 Apache License 2.0
