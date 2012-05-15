@@ -70,7 +70,7 @@ module DataMapper
       def reflective_lookup_primitive primitive
         case primitive.upcase
         when /^INT\d+$/         ; Integer
-        when 'VARCHAR'          ; String
+        when 'VARCHAR', 'BPCHAR'; String
         when 'TIMESTAMP'        ; DateTime
         when 'TEXT'             ; Property::Text
         when 'BOOL'             ; Property::Boolean
