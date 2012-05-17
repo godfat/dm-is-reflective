@@ -1,6 +1,5 @@
 
 require 'dm-core'
-require 'dm-migrations'
 require 'dm-is-reflective'
 
 module Abstract

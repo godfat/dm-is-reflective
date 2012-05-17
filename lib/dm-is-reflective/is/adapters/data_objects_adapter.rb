@@ -23,33 +23,14 @@ module DataMapper
       #        [:salt_second, String,   {:required => false, :size => 50}]]
       def fields storage
         reflective_query_storage(storage).map{ |field|
-          primitive = reflective_primitive(field)
-
-          type = self.class.type_map.sort{ |(k1, v1), (k2, v2)|
-                   # search from the most derived class
-                   if    k1 < k2 || k2 == Class then -1
-                   elsif k1 > k2 || k1 == Class then  1
-                   else                               0
-                   end
-                 }.find{ |(klass, attrs)|
-                   next false if [Object, Class, Time].include?(klass)
-                   attrs[:primitive] == primitive
-                 }
-          type = type ? type.first : reflective_lookup_primitive(primitive)
-
-          attrs = reflective_attributes(field)
-
-          type = if attrs[:serial] && type == Integer
+          attr = reflective_attributes(field)
+          type = reflective_lookup_primitive(reflective_primitive(field))
+          pick = if attr[:serial] && type == Integer
                    Property::Serial
-
-                 elsif type == TrueClass
-                   Property::Boolean
-
                  else
-                    type
+                   type
                  end
-
-          [reflective_field_name(field).to_sym, type, attrs]
+          [reflective_field_name(field).to_sym, pick, attr]
         }
       end
 
