@@ -118,14 +118,12 @@ module Abstract
 
   def test_create_comment
     Comment.create(:title => 'XD')
-    assert_equal 1, Comment.first.id
     assert_equal 'XD', Comment.first.title
   end
 
   def test_create_user
     now = Time.now
     User.create(:created_at => now)
-    assert_equal 1, User.first.id
     assert_equal now.asctime, User.first.created_at.asctime
 
     return now
@@ -144,7 +142,6 @@ module Abstract
     assert_equal comment_fields, sort_fields(model.fields)
 
     assert_equal 'XD', model.first.title
-    assert_equal 1, model.first.id
   end
 
   def test_reflect_and_create
@@ -154,10 +151,9 @@ module Abstract
 
     model.create(:title => 'orz')
     assert_equal 'orz', model.first.title
-    assert_equal 1, model.first.id
 
     model.create
-    assert_equal 'default title', model.get(2).title
+    assert_equal 'default title', model.last.title
   end
 
   def test_storages_and_fields
@@ -224,7 +220,7 @@ module Abstract
 
     assert_equal 'XD', comment.first.title
     comment.create(:title => 'orz', :body => 'dm-reflect')
-    assert_equal 'dm-reflect', comment.get(2).body
+    assert_equal 'dm-reflect', comment.last.body
   end
 
   def test_auto_genclass
@@ -240,7 +236,7 @@ module Abstract
 
     assert_equal now.asctime, user.first.created_at.asctime
     user.create(:login => 'godfat')
-    assert_equal 'godfat', user.get(2).login
+    assert_equal 'godfat', user.last.login
   end
 
   def test_auto_genclass_with_regexp
@@ -260,5 +256,4 @@ module Abstract
 
     assert_equal model.properties.map(&:object_id).sort, mapped.map(&:object_id).sort
   end
-
 end
