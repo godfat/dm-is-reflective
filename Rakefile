@@ -21,3 +21,16 @@ task 'gem:spec' do
 
   Gemgem.write
 end
+
+desc 'reset database'
+task 'reset' do
+  require 'dm-migrations'
+  require './test/abstract'
+  require './test/test_dm-is-reflective'
+  include Abstract
+  [:SqliteTest, :PostgresTest, :MysqlTest].each do |db|
+    next unless Object.const_defined?(db)
+    Object.const_get(db).setup_data_mapper
+    [User, Comment, SuperUser].each(&:auto_migrate!)
+  end
+end

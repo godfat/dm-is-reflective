@@ -97,10 +97,10 @@ module Abstract
   attr_reader :dm
   def setup
     @dm = self.class.setup_data_mapper
-    # this is significant faster than DataMapper.auto_migrate!
-    User.auto_migrate!
-    Comment.auto_migrate!
-    SuperUser.auto_migrate!
+    User.destroy
+    Comment.destroy
+    SuperUser.destroy
+    DataMapper.finalize
   end
 
   def new_scope
