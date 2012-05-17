@@ -22,15 +22,14 @@ TestCase = begin
 class SqliteTest < TestCase
   include Abstract
 
-  def setup_data_mapper
+  def self.setup_data_mapper
     DataMapper.setup(:default, 'sqlite::memory:')
-
   end
 end if defined?(DataMapper::Adapters::SqliteAdapter)
 
 class SqliteHashSetupTest < TestCase
   include Abstract
-  def setup_data_mapper
+  def self.setup_data_mapper
     DataMapper.setup(:default, :adapter => 'sqlite', :database => ':memory:')
   end
 end if defined?(DataMapper::Adapters::SqliteAdapter)
@@ -39,7 +38,7 @@ end if defined?(DataMapper::Adapters::SqliteAdapter)
 class PostgresTest < TestCase
   include Abstract
 
-  def setup_data_mapper
+  def self.setup_data_mapper
     DataMapper.setup(:default, 'postgres://dm_is_reflective:godfat@localhost/dm_is_reflective')
   end
 end if defined?(DataMapper::Adapters::PostgresAdapter)
@@ -48,7 +47,7 @@ end if defined?(DataMapper::Adapters::PostgresAdapter)
 class MysqlTest < TestCase
   include Abstract
 
-  def setup_data_mapper
+  def self.setup_data_mapper
     DataMapper.setup(:default, 'mysql://dm_is_reflective:godfat@localhost/dm_is_reflective')
   end
 end if defined?(DataMapper::Adapters::MysqlAdapter)

@@ -9,10 +9,6 @@ module Abstract
     @id += 1
   end
 
-  def setup_data_mapper
-    raise 'please provide a clean database because it is a destructive test!!'
-  end
-
   AttrCommon   = {:allow_nil => true}
   AttrCommonPK = {:serial => true, :key => true, :allow_nil => false}
   AttrText     = {:length => 65535}.merge(AttrCommon)
@@ -95,12 +91,12 @@ module Abstract
       is :reflective
     end
     Abstract.const_set("Model#{Abstract.next_id}", model)
-    [model, setup_data_mapper]
+    [model, self.class.setup_data_mapper]
   end
 
   attr_reader :dm
   def setup
-    @dm = setup_data_mapper
+    @dm = self.class.setup_data_mapper
     # this is significant faster than DataMapper.auto_migrate!
     User.auto_migrate!
     Comment.auto_migrate!
