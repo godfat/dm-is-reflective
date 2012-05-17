@@ -13,6 +13,24 @@ by Lin Jen-Shin ([godfat](http://godfat.org))
 DataMapper plugin that helps you manipulate an existing database.
 It creates mappings between existing columns and model's properties.
 
+## REQUIREMENTS:
+
+* dm-core
+* dm-do-adapter
+* choose one: dm-sqlite-adapter, dm-postgres-adapter, dm-mysql-adapter
+
+## INSTALLATION:
+
+``` shell
+    gem install dm-is-reflective
+```
+
+``` ruby
+    gem 'dm-is-reflective',
+      :git => 'git://github.com/godfat/dm-is-reflective.git',
+      :submodules => true
+```
+
 ## SYNOPSIS:
 
 ``` ruby
@@ -98,16 +116,6 @@ It creates mappings between existing columns and model's properties.
     dm.auto_genclass! :storages => 'users'
     # => [DataMapper::Is::Reflective::User]
 ```
-
-## REQUIREMENTS:
-
-* dm-core
-* dm-do-adapter
-* choose one: dm-sqlite-adapter, dm-postgres-adapter, dm-mysql-adapter
-
-## INSTALL:
-
-    gem install dm-is-reflective
 
 ## CONTRIBUTORS:
 
