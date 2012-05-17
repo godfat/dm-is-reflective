@@ -1,13 +1,8 @@
 # TODO
 
-* use extlib to type check args, sorry that i want to sleep right now
-* deal with require order problem
-* extract some types to data_objects_adapter
+* make sure reflective_lookup_primitive has everything as
+  type_map from dm-migrations
 
-* test Model#fields with different repo
-
-* better doc...
-* 0.7.1 for more data types for postgresql adapter
-* 0.9 automatic determine model relationship
+* fix `rake auto_migrate`
 
 * use bacon instead of minitest
