@@ -71,7 +71,7 @@ module Reflective
         property(reflected, type, attrs) if reflected.kind_of?(Symbol)
       }.compact
 
-      finalize
+      finalize if respond_to?(:finalize)
       result
     end
   end # of ClassMethod
