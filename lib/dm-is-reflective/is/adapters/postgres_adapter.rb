@@ -71,7 +71,7 @@ module DataMapper
         case primitive.upcase
         when /^INT\d+$/         ; Integer
         when 'VARCHAR', 'BPCHAR'; String
-        when 'TIMESTAMP'        ; DateTime
+        when 'TIMESTAMP', 'DATE'; DateTime
         when 'TEXT'             ; Property::Text
         when 'BOOL'             ; Property::Boolean
         end || super(primitive)
