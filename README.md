@@ -16,7 +16,6 @@ It creates mappings between existing columns and model's properties.
 ## REQUIREMENTS:
 
 * dm-core
-* dm-do-adapter
 * choose one: dm-sqlite-adapter, dm-postgres-adapter, dm-mysql-adapter
 
 ## INSTALLATION:
@@ -119,13 +118,14 @@ It creates mappings between existing columns and model's properties.
 
 ## CONTRIBUTORS:
 
+* Andrew Kreps (@onewheelskyward)
 * Lin Jen-Shin (@godfat)
 
 ## LICENSE:
 
 Apache License 2.0
 
-Copyright (c) 2008-2012, Lin Jen-Shin (godfat)
+Copyright (c) 2008-2013, Lin Jen-Shin (godfat)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

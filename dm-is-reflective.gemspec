@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = "dm-is-reflective"
-  s.version = "1.0.1"
+  s.version = "1.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lin Jen-Shin (godfat)"]
-  s.date = "2012-05-16"
+  s.date = "2013-01-11"
   s.description = "DataMapper plugin that helps you manipulate an existing database.\nIt creates mappings between existing columns and model's properties."
   s.email = ["godfat (XD) godfat.org"]
   s.files = [
@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   "test/test_dm-is-reflective.rb"]
   s.homepage = "https://github.com/godfat/dm-is-reflective"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.23"
   s.summary = "DataMapper plugin that helps you manipulate an existing database."
   s.test_files = ["test/test_dm-is-reflective.rb"]
 
