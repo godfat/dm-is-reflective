@@ -97,8 +97,7 @@ module Abstract
   attr_reader :dm
   def setup
     @dm = self.class.setup_data_mapper
-    DataMapper.finalize
-    DataMapper.auto_migrate!
+    [User, Comment, SuperUser].each(&:auto_migrate!)
   end
 
   def new_scope
