@@ -1,5 +1,6 @@
 
 require 'dm-core'
+require 'dm-migrations'
 require 'dm-is-reflective'
 
 module Abstract
@@ -96,10 +97,8 @@ module Abstract
   attr_reader :dm
   def setup
     @dm = self.class.setup_data_mapper
-    User.destroy
-    Comment.destroy
-    SuperUser.destroy
     DataMapper.finalize
+    DataMapper.auto_migrate!
   end
 
   def new_scope
