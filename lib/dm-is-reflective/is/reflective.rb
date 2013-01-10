@@ -15,7 +15,7 @@ module Reflective
       DataMapper.repository(repo).adapter.fields(storage_name(repo))
     end
 
-    # it automaticly creates reflection from storage fields to properties.
+    # it automatically creates reflection from storage fields to properties.
     # i.e. you don't have to specify any property if you are connecting
     # to an existing database.
     # you can pass it Regexp to map any field it matched, or just
