@@ -50,6 +50,9 @@ module DataMapper
         case primitive.upcase
         when 'INTEGER'        ; Integer
         when 'REAL', 'NUMERIC'; Float
+        when 'VARCHAR'        ; String
+        when 'TIMESTAMP'      ; DateTime
+        when 'BOOLEAN'        ; Property::Boolean
         when 'TEXT'           ; Property::Text
         end || super(primitive)
       end
