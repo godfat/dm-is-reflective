@@ -75,7 +75,7 @@ module DataMapper
         when 'TIMESTAMP', 'DATE'; DateTime
         when 'TEXT'             ; Property::Text
         when 'BOOL'             ; Property::Boolean
-        when 'NUMERIC'          ; Decimal
+        when 'NUMERIC'          ; DataMapper::Property::Decimal
         end || super(primitive)
       end
     end
