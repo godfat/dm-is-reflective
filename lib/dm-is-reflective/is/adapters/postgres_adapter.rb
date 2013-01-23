@@ -47,7 +47,8 @@ module DataMapper
 
       def reflective_attributes field, attrs = {}
         # strip data type
-        field.column_default.gsub!(/(.*?)::[\w\s]*/, '\1') if field.column_default
+        field.column_default.gsub!(/(.*?)::[\w\s]*/, '\1') if
+          field.column_default
 
         attrs[:serial] = true if field.column_default =~ /nextval\('\w+'\)/
         attrs[:key] = true if field.key?
