@@ -28,11 +28,11 @@ module DataMapper
         SQL
 
         select(Ext::String.compress_lines(sql), storage).map{ |struct|
-          struct.instance_eval <<-END_EVAL
+          struct.instance_eval <<-RUBY
             def key?
               #{keys.member?(struct.column_name)}
             end
-          END_EVAL
+          RUBY
           struct
         }
       end
