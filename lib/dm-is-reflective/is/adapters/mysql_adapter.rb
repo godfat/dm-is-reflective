@@ -2,8 +2,6 @@
 module DataMapper
   module Is::Reflective
     module MysqlAdapter
-      include DataMapper
-
       def storages
         select('SHOW TABLES')
       end

@@ -2,8 +2,6 @@
 module DataMapper
   module Is::Reflective
     module SqliteAdapter
-      include DataMapper
-
       def storages
         sql = <<-SQL
           SELECT name

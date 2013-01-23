@@ -2,8 +2,6 @@
 module DataMapper
   module Is::Reflective
     module PostgresAdapter
-      include DataMapper
-
       def storages
         sql = <<-SQL
           SELECT table_name FROM "information_schema"."tables"
@@ -75,7 +73,7 @@ module DataMapper
         when 'TIMESTAMP', 'DATE'; DateTime
         when 'TEXT'             ; Property::Text
         when 'BOOL'             ; Property::Boolean
-        when 'NUMERIC'          ; DataMapper::Property::Decimal
+        when 'NUMERIC'          ; Property::Decimal
         end || super(primitive)
       end
     end
