@@ -48,7 +48,7 @@ module DataMapper
         when /\w*INT(EGER)?( SIGNED| UNSIGNED)?( ZEROFILL)?/
                                               ; Integer
         when /(DOUBLE|FLOAT|DECIMAL)( SIGNED| UNSIGNED)?( ZEROFILL)?/
-                                              ; BigDecimal
+                                              ; Property::Decimal
         when /\w*BLOB|\w*BINARY|ENUM|SET|CHAR/; String
         when 'TIME'                           ; Time
         when 'DATE'                           ; Date
