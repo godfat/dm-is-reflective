@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lin Jen-Shin (godfat)"]
-  s.date = "2013-01-11"
+  s.date = "2013-05-11"
   s.description = "DataMapper plugin that helps you manipulate an existing database.\nIt creates mappings between existing columns and model's properties."
   s.email = ["godfat (XD) godfat.org"]
   s.files = [
@@ -32,13 +32,14 @@ Gem::Specification.new do |s|
   "test/setup_db.sh",
   "test/test_dm-is-reflective.rb"]
   s.homepage = "https://github.com/godfat/dm-is-reflective"
+  s.licenses = ["Apache License 2.0"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.23"
+  s.rubygems_version = "2.0.3"
   s.summary = "DataMapper plugin that helps you manipulate an existing database."
   s.test_files = ["test/test_dm-is-reflective.rb"]
 
   if s.respond_to? :specification_version then
-    s.specification_version = 3
+    s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<dm-core>, [">= 0"])
