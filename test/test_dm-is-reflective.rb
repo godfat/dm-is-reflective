@@ -38,8 +38,16 @@ end if defined?(DataMapper::Adapters::SqliteAdapter)
 class PostgresTest < TestCase
   include Abstract
 
-  def self.setup_data_mapper
-    DataMapper.setup(:default, 'postgres://dm_is_reflective:godfat@localhost/dm_is_reflective')
+  if ENV['TRAVIS']
+    def self.setup_data_mapper
+      DataMapper.setup(:default,
+        'postgres://postgres@localhost/myapp_test')
+    end
+  else
+    def self.setup_data_mapper
+      DataMapper.setup(:default,
+        'postgres://dm_is_reflective:godfat@localhost/dm_is_reflective')
+    end
   end
 end if defined?(DataMapper::Adapters::PostgresAdapter)
 
@@ -47,7 +55,15 @@ end if defined?(DataMapper::Adapters::PostgresAdapter)
 class MysqlTest < TestCase
   include Abstract
 
-  def self.setup_data_mapper
-    DataMapper.setup(:default, 'mysql://dm_is_reflective:godfat@localhost/dm_is_reflective')
+  if ENV['TRAVIS']
+    def self.setup_data_mapper
+     DataMapper.setup(:default,
+       'mysql://root@localhost/myapp_test')
+    end
+  else
+    def self.setup_data_mapper
+     DataMapper.setup(:default,
+       'mysql://dm_is_reflective:godfat@localhost/dm_is_reflective')
+    end
   end
 end if defined?(DataMapper::Adapters::MysqlAdapter)

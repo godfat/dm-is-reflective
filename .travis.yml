@@ -1,0 +1,15 @@
+before_install:
+  - 'git submodule update --init'
+  - mysql -e 'create database myapp_test;'
+  - psql -c 'create database myapp_test;' -U postgres
+
+script: 'ruby -r bundler/setup -S rake test'
+
+env:
+  - 'RBXOPT=-X19'
+
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - rbx-head
+  - jruby-head
