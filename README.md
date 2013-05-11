@@ -1,4 +1,4 @@
-# dm-is-reflective
+# dm-is-reflective [![Build Status](https://secure.travis-ci.org/godfat/dm-is-reflective.png?branch=master)](http://travis-ci.org/godfat/dm-is-reflective)
 
 by Lin Jen-Shin ([godfat](http://godfat.org))
 
