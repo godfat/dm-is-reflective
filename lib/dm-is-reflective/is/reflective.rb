@@ -74,6 +74,19 @@ module Reflective
       finalize if respond_to?(:finalize)
       result
     end
+
+    def to_source scope=nil
+<<-RUBY
+class #{scope}::#{name} < #{superclass}
+  include DataMapper::Resource
+  #{
+    properties.map do |prop|
+      "property :#{prop.name}, #{prop.class.name}, #{prop.options}"
+    end.join("\n")
+  }
+end
+RUBY
+    end
   end # of ClassMethod
 
 end # of Reflective
