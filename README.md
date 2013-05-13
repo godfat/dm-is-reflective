@@ -34,7 +34,7 @@ gem 'dm-is-reflective',
 
 ``` ruby
 require 'dm-is-reflective' # this would require 'dm-core'
-dm = DataMapper.setup :default, 'sqlite:db/dev.sqlite3'
+dm = DataMapper.setup :default, 'sqlite::memory:'
 
 class User
   include DataMapper::Resource
@@ -114,6 +114,9 @@ dm.auto_genclass! :storages => ['users', 'config'], :scope => Object
 # you can generate a class only:
 dm.auto_genclass! :storages => 'users'
 # => [DataMapper::Is::Reflective::User]
+
+# you can also generate the source from models:
+puts User.to_source
 ```
 
 ## CONTRIBUTORS:
