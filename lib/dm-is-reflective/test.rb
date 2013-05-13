@@ -215,7 +215,7 @@ shared :reflective do
   should 'auto_genclasses' do
     scope = new_scope
     @dm.auto_genclass!(:scope => scope).map(&:to_s).sort.should.eq \
-      ["#{scope == Object ? '' : "#{scope}::"}AbstractComment",
+      ["#{scope}::AbstractComment",
        "#{scope}::AbstractSuperUser",
        "#{scope}::AbstractUser"]
 

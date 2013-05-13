@@ -1,7 +1,6 @@
 
-module DataMapper
-module Is
-module Reflective
+module DmIsReflective
+  include DataMapper
 
   def is_reflective
     extend ClassMethod
@@ -88,7 +87,4 @@ end
 RUBY
     end
   end # of ClassMethod
-
-end # of Reflective
-end # of Is
-end # of DataMapper
+end # of DmIsReflective
