@@ -28,7 +28,7 @@ module DmIsReflective::SqliteAdapter
   def reflective_attributes field, attrs = {}
     if field.pk != 0
       attrs[:key] = true
-      attrs[:serial] = true if supports_serial?
+      attrs[:serial] = true
     end
     attrs[:allow_nil] = field.notnull == 0
     attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
