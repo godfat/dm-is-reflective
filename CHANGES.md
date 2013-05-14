@@ -1,5 +1,13 @@
 # CHANGES
 
+## dm-is-reflective 1.2.0, 2013-05-14
+
+* We got a bunch of internal renaming.
+* Added DataMapper::Resource#to_source.
+* Added an executable which generates sources for you.
+* Fixed MySQL issues with setting up with a hash rather than URI.
+* Fixed SQLite issues without loading dm-migrations.
+
 ## dm-is-reflective 1.1.0, 2013-01-11
 
 * The need for dm-migrations is now removed.
