@@ -1,5 +1,7 @@
 
 module DmIsReflective
+  autoload :VERSION, 'dm-is-reflective/version'
+
   include DataMapper
 
   def is_reflective
