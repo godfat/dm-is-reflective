@@ -32,6 +32,20 @@ gem 'dm-is-reflective',
 
 ## SYNOPSIS:
 
+### Generating sources from a DATABASE_URI
+
+We also have an executable to generate sources for you.
+
+```
+Usage: dm-is-reflective DATABASE_URI
+  -s, --scope SCOPE       SCOPE where the models should go (default: Object)
+  -o, --output DIRECTORY  DIRECTORY where the output goes (default: dm-is-reflective)
+  -h, --help              Print this message
+  -v, --version           Print the version
+```
+
+### API
+
 ``` ruby
 require 'dm-is-reflective' # this would require 'dm-core'
 dm = DataMapper.setup :default, 'sqlite::memory:'
