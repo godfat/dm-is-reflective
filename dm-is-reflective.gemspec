@@ -2,13 +2,14 @@
 
 Gem::Specification.new do |s|
   s.name = "dm-is-reflective"
-  s.version = "1.1.0"
+  s.version = "1.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lin Jen-Shin (godfat)"]
-  s.date = "2013-05-13"
+  s.date = "2013-05-14"
   s.description = "DataMapper plugin that helps you manipulate an existing database.\nIt creates mappings between existing columns and model's properties."
   s.email = ["godfat (XD) godfat.org"]
+  s.executables = ["dm-is-reflective"]
   s.files = [
   ".gitignore",
   ".gitmodules",
@@ -19,7 +20,7 @@ Gem::Specification.new do |s|
   "README.md",
   "Rakefile",
   "TODO.md",
-  "aaa/dm-is-reflective",
+  "bin/dm-is-reflective",
   "dm-is-reflective.gemspec",
   "lib/dm-is-reflective.rb",
   "lib/dm-is-reflective/adapters/data_objects_adapter.rb",
@@ -27,6 +28,7 @@ Gem::Specification.new do |s|
   "lib/dm-is-reflective/adapters/postgres_adapter.rb",
   "lib/dm-is-reflective/adapters/sqlite_adapter.rb",
   "lib/dm-is-reflective/reflective.rb",
+  "lib/dm-is-reflective/runner.rb",
   "lib/dm-is-reflective/test.rb",
   "lib/dm-is-reflective/version.rb",
   "task/.gitignore",

@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'dm-is-reflective/runner'
+DmIsReflective::Runner.run
