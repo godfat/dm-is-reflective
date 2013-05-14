@@ -78,7 +78,7 @@ module DmIsReflective::DataObjectsAdapter
   #       dm.auto_genclass! :storages => 'users'
   #       # => [DataMapper::Is::Reflective::User]
   def auto_genclass! opts = {}
-    opts[:scope] ||= Is::Reflective
+    opts[:scope] ||= DmIsReflective
     opts[:storages] ||= /.*/
     opts[:storages] = [opts[:storages]].flatten
 
