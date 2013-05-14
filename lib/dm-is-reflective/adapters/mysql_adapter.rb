@@ -16,8 +16,11 @@ module DmIsReflective::MysqlAdapter
       WHERE `table_schema` = ? AND `table_name` = ?
     SQL
 
-    select(Ext::String.compress_lines(sql),
-      options[:path].sub('/', ''), storage)
+    # TODO: can we fix this shit in dm-mysql-adapter?
+    path = options[:path]     || options['path'] ||
+           options[:database] || options['database']
+
+    select(Ext::String.compress_lines(sql), path.sub('/', ''), storage)
   end
 
   def reflective_field_name field

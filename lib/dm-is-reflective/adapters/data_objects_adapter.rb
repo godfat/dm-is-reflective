@@ -123,8 +123,10 @@ module DmIsReflective::DataObjectsAdapter
   end
 
   def reflective_auto_load_adapter_extension
+    # TODO: can we fix this shit in dm-mysql-adapter?
+    name = options[:adapter] || options['adapter']
     # TODO: can we fix this adapter name in dm-sqlite-adapter?
-    adapter = options[:adapter].sub(/\Asqlite3\Z/, 'sqlite')
+    adapter = name.sub(/\Asqlite3\Z/, 'sqlite')
 
     require "dm-is-reflective/adapters/#{adapter}_adapter"
     class_name = "#{Inflector.camelize(adapter)}Adapter"
