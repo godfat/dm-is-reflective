@@ -69,7 +69,8 @@ module DmIsReflective
           end
         }
 
-        property(reflected, type, attrs) if reflected.kind_of?(Symbol)
+        reflect_property(reflected, type, attrs) if
+          reflected.kind_of?(Symbol)
       }.compact
 
       if key.empty? && k = properties.find{ |p| p.unique_index }
@@ -78,6 +79,15 @@ module DmIsReflective
 
       finalize if respond_to?(:finalize)
       result
+    end
+
+    def reflect_property reflected, type, attrs
+      property reflected, type, attrs
+    rescue ArgumentError => e
+      if e.message =~ /cannot be used as a property name/
+        reflect_property "#{reflected}_", type,
+          {:field => reflected.to_s}.merge(attrs)
+      end
     end
 
     def to_source scope=nil
