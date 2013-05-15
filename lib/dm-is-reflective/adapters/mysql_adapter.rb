@@ -10,17 +10,21 @@ module DmIsReflective::MysqlAdapter
   # construct needed table metadata
   def reflective_query_storage storage
     sql = <<-SQL
-      SELECT column_name, column_default, is_nullable, data_type,
-             character_maximum_length, column_key, extra
-      FROM `information_schema`.`columns`
-      WHERE `table_schema` = ? AND `table_name` = ?
+      SELECT c.column_name, c.column_key, c.column_default, c.is_nullable,
+             c.data_type, c.character_maximum_length, c.extra, c.table_name,
+             s.index_name
+      FROM      `information_schema`.`columns` c
+      LEFT JOIN `information_schema`.`statistics` s
+      ON       c.column_name = s.column_name
+      WHERE    c.table_schema = ? AND c.table_name = ?
+      GROUP BY c.column_name;
     SQL
 
     # TODO: can we fix this shit in dm-mysql-adapter?
-    path = options[:path]     || options['path'] ||
-           options[:database] || options['database']
+    path = (options[:path]     || options['path'] ||
+            options[:database] || options['database']).sub('/', '')
 
-    select(Ext::String.compress_lines(sql), path.sub('/', ''), storage)
+    select(Ext::String.compress_lines(sql), path, storage)
   end
 
   def reflective_field_name field
@@ -33,7 +37,16 @@ module DmIsReflective::MysqlAdapter
 
   def reflective_attributes field, attrs = {}
     attrs[:serial] = true if field.extra      == 'auto_increment'
-    attrs[:key]    = true if field.column_key == 'PRI'
+
+    case field.column_key
+    when 'PRI'
+      attrs[:key] = true
+      attrs[:unique_index] = :"#{field.table_name}_pkey"
+    when 'UNI'
+      attrs[:unique_index] = :"#{field.index_name}"
+    when 'MUL'
+      attrs[:index]        = :"#{field.index_name}"
+    end
 
     attrs[:allow_nil] = field.is_nullable == 'YES'
     attrs[:default]  = field.column_default           if

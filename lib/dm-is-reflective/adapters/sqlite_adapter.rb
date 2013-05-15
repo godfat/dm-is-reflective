@@ -57,9 +57,9 @@ module DmIsReflective::SqliteAdapter
 
     if field.index_name
       if field.uniqueness
-        attrs[:unique_index] = field.index_name.to_sym
+        attrs[:unique_index] = :"#{field.index_name}"
       else
-        attrs[:index]        = field.index_name.to_sym
+        attrs[:index]        = :"#{field.index_name}"
       end
     end
 

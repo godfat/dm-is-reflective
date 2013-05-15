@@ -70,9 +70,9 @@ module DmIsReflective::PostgresAdapter
 
     if index_name
       if uniqueness
-        attrs[:unique_index] = index_name.to_sym
+        attrs[:unique_index] = :"#{index_name}"
       else
-        attrs[:index]        = index_name.to_sym
+        attrs[:index]        = :"#{index_name}"
       end
     end
 

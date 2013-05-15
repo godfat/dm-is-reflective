@@ -66,10 +66,10 @@ shared :reflective do
   def comment_fields
     @comment_fields ||= begin
       index_name = case DataMapper.repository.adapter.class.name
-                   when 'DataMapper::Adapters::SqliteAdapter'
-                     :index
-                   else
+                   when 'DataMapper::Adapters::PostgresAdapter'
                      :unique_index
+                   else
+                     :index
                    end
       [[:body   , DataMapper::Property::Text  , AttrText],
        [:id     , DataMapper::Property::Serial,
@@ -83,12 +83,18 @@ shared :reflective do
     end
   end
 
-  # there's differences between adapters
   def super_user_fields
-    @super_user_fields ||=
-    [[:bool, DataMapper::Property::Boolean, AttrCommon],
-     [:id,   DataMapper::Property::Serial,
-      {:unique_index => :abstract_super_users_pkey}.merge(AttrCommonPK)]]
+    @super_user_fields ||= begin
+      type = case DataMapper.repository.adapter.class.name
+             when 'DataMapper::Adapters::MysqlAdapter'
+               Integer
+             else
+               DataMapper::Property::Boolean
+             end
+      [[:bool, type, AttrCommon],
+       [:id  , DataMapper::Property::Serial,
+        {:unique_index => :abstract_super_users_pkey}.merge(AttrCommonPK)]]
+    end
   end
 
   before do
