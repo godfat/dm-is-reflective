@@ -13,22 +13,20 @@ module DmIsReflective::PostgresAdapter
 
   private
   def reflective_query_storage storage
-    sql = <<-SQL
+    sql_key = <<-SQL
       SELECT column_name FROM "information_schema"."key_column_usage"
       WHERE table_schema = current_schema() AND table_name = ?
     SQL
 
-    keys = select(Ext::String.compress_lines(sql), storage)
-
     sql = <<-SQL
       SELECT column_name, column_default, is_nullable,
              character_maximum_length, udt_name,
-             '#{keys.first}' AS key
+             (#{sql_key}) AS key
       FROM "information_schema"."columns"
       WHERE table_schema = current_schema() AND table_name = ?
     SQL
 
-    select(Ext::String.compress_lines(sql), storage)
+    select(Ext::String.compress_lines(sql), storage, storage)
   end
 
   def reflective_field_name field
