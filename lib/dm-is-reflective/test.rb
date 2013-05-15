@@ -54,7 +54,42 @@ end
 include Abstract
 
 shared :reflective do
+  def user_fields
+    @user_fields ||=
+    [[:created_at, DateTime, AttrCommon],
+     [:id,         DataMapper::Property::Serial,
+        {:unique_index => :abstract_users_pkey}.merge(AttrCommonPK)],
+     [:login,      String,   {:length => 70}.merge(AttrCommon)],
+     [:sig,        DataMapper::Property::Text, AttrText]]
+  end
 
+  def comment_fields
+    @comment_fields ||= begin
+      index_name = case DataMapper.repository.adapter.class.name
+                   when 'DataMapper::Adapters::SqliteAdapter'
+                     :index
+                   else
+                     :unique_index
+                   end
+      [[:body   , DataMapper::Property::Text  , AttrText],
+       [:id     , DataMapper::Property::Serial,
+          {:unique_index => :abstract_comments_pkey}.merge(AttrCommonPK)],
+
+       [:title  , String                      ,
+          {:length => 50, :default => 'default title', :allow_nil => false}],
+
+       [:user_id, Integer                     ,
+          {index_name => :index_abstract_comments_user}.merge(AttrCommon)]]
+    end
+  end
+
+  # there's differences between adapters
+  def super_user_fields
+    @super_user_fields ||=
+    [[:bool, DataMapper::Property::Boolean, AttrCommon],
+     [:id,   DataMapper::Property::Serial,
+      {:unique_index => :abstract_super_users_pkey}.merge(AttrCommonPK)]]
+  end
 
   before do
     @dm = setup_data_mapper

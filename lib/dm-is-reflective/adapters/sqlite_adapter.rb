@@ -13,7 +13,27 @@ module DmIsReflective::SqliteAdapter
 
   private
   def reflective_query_storage storage
-    select('PRAGMA table_info(?)', storage)
+    sql = <<-SQL
+      SELECT name, sql FROM sqlite_master
+      WHERE type = 'index' AND tbl_name = ?
+    SQL
+    indices = select(sql, storage)
+
+    select('PRAGMA table_info(?)', storage).map{ |field|
+      index_name = indices.find{ |idx|
+        idx.sql =~ /ON "#{storage}" \("#{field.name}"\)/ }
+
+      field.instance_eval <<-RUBY
+        def index_name
+          #{"'#{index_name.name}'" if index_name}
+        end
+
+        def table_name
+          '#{storage}'
+        end
+      RUBY
+      field
+    }
   end
 
   def reflective_field_name field
@@ -26,9 +46,13 @@ module DmIsReflective::SqliteAdapter
 
   def reflective_attributes field, attrs = {}
     if field.pk != 0
-      attrs[:key] = true
-      attrs[:serial] = true
+      attrs[:key]          = true
+      attrs[:serial]       = true
+      attrs[:unique_index] = :"#{field.table_name}_pkey"
     end
+
+    attrs[:index] = field.index_name.to_sym if field.index_name
+
     attrs[:allow_nil] = field.notnull == 0
     attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
 
