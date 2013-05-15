@@ -20,12 +20,16 @@ module DmIsReflective::SqliteAdapter
     indices = select(sql, storage)
 
     select('PRAGMA table_info(?)', storage).map{ |field|
-      index_name = indices.find{ |idx|
+      index = indices.find{ |idx|
         idx.sql =~ /ON "#{storage}" \("#{field.name}"\)/ }
 
       field.instance_eval <<-RUBY
         def index_name
-          #{"'#{index_name.name}'" if index_name}
+          #{"'#{index.name}'" if index}
+        end
+
+        def uniqueness
+          #{!!(index.sql =~ /UNIQUE INDEX/) if index}
         end
 
         def table_name
@@ -51,7 +55,13 @@ module DmIsReflective::SqliteAdapter
       attrs[:unique_index] = :"#{field.table_name}_pkey"
     end
 
-    attrs[:index] = field.index_name.to_sym if field.index_name
+    if field.index_name
+      if field.uniqueness
+        attrs[:unique_index] = field.index_name.to_sym
+      else
+        attrs[:index]        = field.index_name.to_sym
+      end
+    end
 
     attrs[:allow_nil] = field.notnull == 0
     attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
