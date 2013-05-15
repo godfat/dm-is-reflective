@@ -32,17 +32,17 @@ module DmIsReflective::MysqlAdapter
   end
 
   def reflective_attributes field, attrs = {}
-      attrs[:serial] = true if field.extra      == 'auto_increment'
-      attrs[:key]    = true if field.column_key == 'PRI'
+    attrs[:serial] = true if field.extra      == 'auto_increment'
+    attrs[:key]    = true if field.column_key == 'PRI'
 
-      attrs[:allow_nil] = field.is_nullable == 'YES'
-      attrs[:default]  = field.column_default           if
-        field.column_default
+    attrs[:allow_nil] = field.is_nullable == 'YES'
+    attrs[:default]  = field.column_default           if
+      field.column_default
 
-      attrs[:length]   = field.character_maximum_length if
-        field.character_maximum_length
+    attrs[:length]   = field.character_maximum_length if
+      field.character_maximum_length
 
-      attrs
+    attrs
   end
 
   def reflective_lookup_primitive primitive
