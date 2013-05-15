@@ -4,8 +4,7 @@ module DmIsReflective::SqliteAdapter
 
   def storages
     sql = <<-SQL
-      SELECT name
-      FROM sqlite_master
+      SELECT name FROM sqlite_master
       WHERE type = 'table' AND NOT name = 'sqlite_sequence'
     SQL
 
