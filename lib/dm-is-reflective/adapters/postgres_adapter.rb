@@ -18,16 +18,33 @@ module DmIsReflective::PostgresAdapter
       WHERE table_schema = current_schema() AND table_name = ?
     SQL
 
+    sql_index = <<-SQL
+      SELECT
+            (i.relname, ix.indisunique)
+      FROM
+            pg_class t, pg_class i, pg_index ix, pg_attribute a
+      WHERE
+            t.oid      = ix.indrelid
+        AND i.oid      = ix.indexrelid
+        AND a.attrelid = t.oid
+        AND a.attnum   = ANY(ix.indkey)
+        AND a.attname  = column_name
+        AND t.relkind  = 'r'
+        AND t.relname  = ?
+    SQL
+
     sql = <<-SQL
       SELECT column_name, column_default, is_nullable,
              character_maximum_length, udt_name,
-             (#{sql_key}) AS key
+             (#{sql_key}) AS key, (#{sql_index}) AS indexname_uniqueness
       FROM "information_schema"."columns"
       WHERE table_schema = current_schema() AND table_name = ?
     SQL
 
-    select(Ext::String.compress_lines(sql), storage, storage)
+    select(Ext::String.compress_lines(sql), storage, storage, storage)
   end
+
+
 
   def reflective_field_name field
     field.column_name
@@ -39,11 +56,26 @@ module DmIsReflective::PostgresAdapter
 
   def reflective_attributes field, attrs = {}
     # strip data type
-    field.column_default.gsub!(/(.*?)::[\w\s]*/, '\1') if
-      field.column_default
+    if field.column_default
+      field.column_default.gsub!(/(.*?)::[\w\s]*/, '\1')
+    end
+
+    # find out index and unique index
+    if field.indexname_uniqueness
+      index_name, uniqueness = field.indexname_uniqueness[1..-2].split(',')
+    end
 
     attrs[:serial] = true if field.column_default =~ /nextval\('\w+'\)/
-    attrs[:key] = true if field.key == field.column_name
+    attrs[:key]    = true if field.column_name == field.key
+
+    if index_name
+      if uniqueness
+        attrs[:unique_index] = index_name.to_sym
+      else
+        attrs[:index]        = index_name.to_sym
+      end
+    end
+
     attrs[:allow_nil] = field.is_nullable == 'YES'
     # strip string quotation
     attrs[:default] = field.column_default.gsub(/^'(.*?)'$/, '\1') if

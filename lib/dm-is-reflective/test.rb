@@ -54,36 +54,7 @@ end
 include Abstract
 
 shared :reflective do
-  def user_fields
-    [[:created_at, DateTime, AttrCommon],
-     [:id,         DataMapper::Property::Serial,  AttrCommonPK],
-     [:login,      String,   {:length => 70}.merge(AttrCommon)],
-     [:sig,        DataMapper::Property::Text, AttrText]]
-  end
 
-  def comment_fields
-    [[:body,    DataMapper::Property::Text,    AttrText],
-     [:id,      DataMapper::Property::Serial,  AttrCommonPK],
-     [:title,   String,   {:length => 50, :default => 'default title',
-                           :allow_nil => false}],
-     [:user_id, Integer,  AttrCommon]]
-  end
-
-  # there's differences between adapters
-  def super_user_fields
-    mysql = defined?(DataMapper::Adapters::MysqlAdapter) &&
-                     DataMapper::Adapters::MysqlAdapter
-    case DataMapper.repository.adapter
-    when mysql
-      # Mysql couldn't tell it's boolean or tinyint
-      [[:bool, Integer, AttrCommon],
-       [:id,   DataMapper::Property::Serial, AttrCommonPK]]
-
-    else
-      [[:bool, DataMapper::Property::Boolean, AttrCommon],
-       [:id,   DataMapper::Property::Serial,  AttrCommonPK]]
-    end
-  end
 
   before do
     @dm = setup_data_mapper
