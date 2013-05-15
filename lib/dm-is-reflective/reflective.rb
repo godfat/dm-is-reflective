@@ -72,6 +72,10 @@ module DmIsReflective
         property(reflected, type, attrs) if reflected.kind_of?(Symbol)
       }.compact
 
+      if key.empty? && k = properties.find{ |p| p.unique_index }
+        property k.name, k.primitive, :key => true
+      end
+
       finalize if respond_to?(:finalize)
       result
     end
