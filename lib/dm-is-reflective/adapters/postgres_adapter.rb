@@ -18,23 +18,17 @@ module DmIsReflective::PostgresAdapter
       WHERE table_schema = current_schema() AND table_name = ?
     SQL
 
-    keys = select(Ext::String.compress_lines(sql), storage).to_set
+    keys = select(Ext::String.compress_lines(sql), storage)
 
     sql = <<-SQL
       SELECT column_name, column_default, is_nullable,
-             character_maximum_length, udt_name
+             character_maximum_length, udt_name,
+             '#{keys.first}' AS key
       FROM "information_schema"."columns"
       WHERE table_schema = current_schema() AND table_name = ?
     SQL
 
-    select(Ext::String.compress_lines(sql), storage).map{ |struct|
-      struct.instance_eval <<-RUBY
-        def key?
-          #{keys.member?(struct.column_name)}
-        end
-      RUBY
-      struct
-    }
+    select(Ext::String.compress_lines(sql), storage)
   end
 
   def reflective_field_name field
@@ -51,7 +45,7 @@ module DmIsReflective::PostgresAdapter
       field.column_default
 
     attrs[:serial] = true if field.column_default =~ /nextval\('\w+'\)/
-    attrs[:key] = true if field.key?
+    attrs[:key] = true if field.key == field.column_name
     attrs[:allow_nil] = field.is_nullable == 'YES'
     # strip string quotation
     attrs[:default] = field.column_default.gsub(/^'(.*?)'$/, '\1') if
