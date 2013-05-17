@@ -13,14 +13,9 @@ module DmIsReflective::PostgresAdapter
 
   private
   def reflective_query_storage storage
-    sql_key = <<-SQL
-      SELECT column_name FROM "information_schema"."key_column_usage"
-      WHERE table_schema = current_schema() AND table_name = ?
-    SQL
-
-    sql_index = <<-SQL
+    sql_indices = <<-SQL
       SELECT
-            (i.relname, ix.indisunique)
+            a.attname, i.relname, ix.indisprimary, ix.indisunique
       FROM
             pg_class t, pg_class i, pg_index ix, pg_attribute a
       WHERE
@@ -28,23 +23,49 @@ module DmIsReflective::PostgresAdapter
         AND i.oid      = ix.indexrelid
         AND a.attrelid = t.oid
         AND a.attnum   = ANY(ix.indkey)
-        AND a.attname  = column_name
         AND t.relkind  = 'r'
         AND t.relname  = ?
     SQL
 
-    sql = <<-SQL
+    sql_columns = <<-SQL
       SELECT column_name, column_default, is_nullable,
-             character_maximum_length, udt_name,
-             (#{sql_key}) AS key, (#{sql_index}) AS indexname_uniqueness
+             character_maximum_length, udt_name
       FROM "information_schema"."columns"
       WHERE table_schema = current_schema() AND table_name = ?
     SQL
 
-    select(Ext::String.compress_lines(sql), storage, storage, storage)
+    indices =
+    select(Ext::String.compress_lines(sql_indices), storage).
+      group_by(&:attname)
+
+    select(Ext::String.compress_lines(sql_columns), storage).map do |column|
+      idx = indices[column.column_name]
+
+      if idx
+        is_key = !!idx.find{ |i| i.indisprimary }
+        idx_uni, idx_com = idx.partition{ |i| i.indisunique }.map{ |i|
+          if i.empty?
+            nil
+          elsif i.size == 1
+            i.first.relname.to_sym
+          else
+            i.map{ |ii| ii.relname.to_sym }
+          end
+        }
+      else
+        is_key = false
+        idx_uni, idx_com = nil
+      end
+
+      column.instance_eval <<-RUBY
+        def key?        ; #{is_key}         ; end
+        def index       ; #{idx_com.inspect}; end
+        def unique_index; #{idx_uni.inspect}; end
+      RUBY
+
+      column
+    end
   end
-
-
 
   def reflective_field_name field
     field.column_name
@@ -60,21 +81,11 @@ module DmIsReflective::PostgresAdapter
       field.column_default.gsub!(/(.*?)::[\w\s]*/, '\1')
     end
 
-    # find out index and unique index
-    if field.indexname_uniqueness
-      index_name, uniqueness = field.indexname_uniqueness[1..-2].split(',')
-    end
-
     attrs[:serial] = true if field.column_default =~ /nextval\('\w+'\)/
-    attrs[:key]    = true if field.column_name == field.key
+    attrs[:key]    = true if field.key?
 
-    if index_name
-      if uniqueness
-        attrs[:unique_index] = :"#{index_name}"
-      else
-        attrs[:index]        = :"#{index_name}"
-      end
-    end
+    attrs[:unique_index] = field.unique_index if field.unique_index
+    attrs[       :index] = field.       index if field.       index
 
     attrs[:allow_nil] = field.is_nullable == 'YES'
     # strip string quotation

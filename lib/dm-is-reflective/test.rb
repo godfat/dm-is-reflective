@@ -65,12 +65,6 @@ shared :reflective do
 
   def comment_fields
     @comment_fields ||= begin
-      index_name = case DataMapper.repository.adapter.class.name
-                   when 'DataMapper::Adapters::PostgresAdapter'
-                     :unique_index
-                   else
-                     :index
-                   end
       [[:body   , DataMapper::Property::Text  , AttrText],
        [:id     , DataMapper::Property::Serial,
           {:unique_index => :abstract_comments_pkey}.merge(AttrCommonPK)],
@@ -79,7 +73,7 @@ shared :reflective do
           {:length => 50, :default => 'default title', :allow_nil => false}],
 
        [:user_id, Integer                     ,
-          {index_name => :index_abstract_comments_user}.merge(AttrCommon)]]
+          {:index => :index_abstract_comments_user}.merge(AttrCommon)]]
     end
   end
 
