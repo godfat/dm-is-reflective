@@ -55,17 +55,17 @@ module DmIsReflective
 
         reflected = targets.each{ |target|
           case target
-            when Regexp;
-              break name if name.to_s =~ target
+          when Regexp;
+            break name if name.to_s =~ target
 
-            when Symbol, String;
-              break name if name == target.to_sym
+          when Symbol, String;
+            break name if name == target.to_sym
 
-            when Class;
-              break name if type == target
+          when Class;
+            break name if type == target
 
-            else
-              raise ArgumentError.new("invalid argument: #{target.inspect}")
+          else
+            raise ArgumentError.new("invalid argument: #{target.inspect}")
           end
         }
 
