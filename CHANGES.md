@@ -1,5 +1,14 @@
 # CHANGES
 
+## dm-is-reflective 1.3.0, 2013-05-20
+
+* Warn instead of raising a TypeError if a datatype cannot be found.
+  We fallback to use String.
+* Now it works for multiple composite keys.
+* If there's no key defined, it would pick the first unique index as the key.
+* If a field name is conflicted, it would try to resolve it by appending a
+  underscore to the field name.
+
 ## dm-is-reflective 1.2.0, 2013-05-14
 
 * We got a bunch of internal renaming.
