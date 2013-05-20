@@ -13,11 +13,11 @@ module DmIsReflective::SqliteAdapter
 
   private
   def reflective_query_storage storage
-    sql = <<-SQL
+    sql_indices = <<-SQL
       SELECT name, sql FROM sqlite_master
       WHERE type = 'index' AND tbl_name = ?
     SQL
-    indices = select(sql, storage).inject({}){ |r, field|
+    indices = select(sql_indices, storage).inject({}){ |r, field|
       columns    =   field.sql[/\(.+\)/].scan(/\w+/)
       uniqueness = !!field.sql[/CREATE UNIQUE INDEX/]
 
