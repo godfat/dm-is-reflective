@@ -7,6 +7,32 @@ require 'dm-migrations'
 require 'dm-is-reflective'
 
 module Abstract
+  class Cat
+    include DataMapper::Resource
+    property :id, Serial
+
+    belongs_to :user
+    belongs_to :super_user
+
+    property :user_id      , Integer,
+      :unique_index => [:usu, :u]
+    property :super_user_id, Integer,
+      :unique_index => [:usu],
+             :index => [:su]
+  end
+
+  class Comment
+    include DataMapper::Resource
+    belongs_to :user, :required => false
+
+    property :id,    Serial
+    property :title, String,  :length => 50, :default => 'default title',
+                              :allow_nil => false
+    property :body,  Text
+
+    is :reflective
+  end
+
   class User
     include DataMapper::Resource
     has n, :comments
@@ -27,19 +53,8 @@ module Abstract
     is :reflective
   end
 
-  class Comment
-    include DataMapper::Resource
-    belongs_to :user, :required => false
-
-    property :id,    Serial
-    property :title, String,  :length => 50, :default => 'default title',
-                              :allow_nil => false
-    property :body,  Text
-
-    is :reflective
-  end
-
-  Tables = ['abstract_comments', 'abstract_super_users', 'abstract_users']
+  Tables = %w[abstract_cats        abstract_comments
+              abstract_super_users abstract_users]
 
   AttrCommon   = {:allow_nil => true}
   AttrCommonPK = {:serial => true, :key => true, :allow_nil => false}
@@ -54,13 +69,16 @@ end
 include Abstract
 
 shared :reflective do
-  def user_fields
-    @user_fields ||=
-    [[:created_at, DateTime, AttrCommon],
-     [:id,         DataMapper::Property::Serial,
-        {:unique_index => :abstract_users_pkey}.merge(AttrCommonPK)],
-     [:login,      String,   {:length => 70}.merge(AttrCommon)],
-     [:sig,        DataMapper::Property::Text, AttrText]]
+  def cat_fields
+    @cat_fields ||=
+    [[:id,         DataMapper::Property::Serial,
+        {:unique_index => :abstract_cats_pkey}.merge(AttrCommonPK)],
+     [:super_user_id, Integer,
+        {:unique_index =>  :unique_abstract_cats_usu,
+                :index =>  :index_abstract_cats_su }.merge(AttrCommon)],
+     [:user_id      , Integer,
+        {:unique_index => [:unique_abstract_cats_usu,
+                           :unique_abstract_cats_u]}.merge(AttrCommon)]]
   end
 
   def comment_fields
@@ -75,6 +93,15 @@ shared :reflective do
        [:user_id, Integer                     ,
           {:index => :index_abstract_comments_user}.merge(AttrCommon)]]
     end
+  end
+
+  def user_fields
+    @user_fields ||=
+    [[:created_at, DateTime, AttrCommon],
+     [:id,         DataMapper::Property::Serial,
+        {:unique_index => :abstract_users_pkey}.merge(AttrCommonPK)],
+     [:login,      String,   {:length => 70}.merge(AttrCommon)],
+     [:sig,        DataMapper::Property::Text, AttrText]]
   end
 
   def super_user_fields
@@ -93,7 +120,7 @@ shared :reflective do
 
   before do
     @dm = setup_data_mapper
-    [User, Comment, SuperUser].each(&:auto_migrate!)
+    [Cat, Comment, User, SuperUser].each(&:auto_migrate!)
   end
 
   def sort_fields fields
@@ -173,8 +200,9 @@ shared :reflective do
       key, value = i
       r[key] = value.sort_by{ |v| v.first.to_s }
       r
-    }.should.eq('abstract_users'       => user_fields      ,
-                'abstract_comments'    => comment_fields   ,
+    }.should.eq('abstract_cats'        =>        cat_fields,
+                'abstract_comments'    =>    comment_fields,
+                'abstract_users'       =>       user_fields,
                 'abstract_super_users' => super_user_fields)
   end
 
@@ -221,7 +249,8 @@ shared :reflective do
   should 'auto_genclasses' do
     scope = new_scope
     @dm.auto_genclass!(:scope => scope).map(&:to_s).sort.should.eq \
-      ["#{scope}::AbstractComment",
+      ["#{scope}::AbstractCat"      ,
+       "#{scope}::AbstractComment"  ,
        "#{scope}::AbstractSuperUser",
        "#{scope}::AbstractUser"]
 
