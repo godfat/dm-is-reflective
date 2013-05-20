@@ -39,9 +39,7 @@ module DmIsReflective::PostgresAdapter
       group_by(&:attname)
 
     select(Ext::String.compress_lines(sql_columns), storage).map do |column|
-      idx = indices[column.column_name]
-
-      if idx
+      if idx = indices[column.column_name]
         is_key = !!idx.find{ |i| i.indisprimary }
         idx_uni, idx_com = idx.partition{ |i| i.indisunique }.map{ |i|
           if i.empty?
