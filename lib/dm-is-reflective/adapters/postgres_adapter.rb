@@ -14,24 +14,21 @@ module DmIsReflective::PostgresAdapter
   private
   def reflective_query_storage storage
     sql_indices = <<-SQL
-      SELECT
-            a.attname, i.relname, ix.indisprimary, ix.indisunique
-      FROM
-            pg_class t, pg_class i, pg_index ix, pg_attribute a
-      WHERE
-            t.oid      = ix.indrelid
-        AND i.oid      = ix.indexrelid
-        AND a.attrelid = t.oid
-        AND a.attnum   = ANY(ix.indkey)
-        AND t.relkind  = 'r'
-        AND t.relname  = ?
+      SELECT a.attname, i.relname, ix.indisprimary, ix.indisunique
+      FROM   pg_class t, pg_class i, pg_index ix, pg_attribute a
+      WHERE  t.oid      = ix.indrelid
+        AND  i.oid      = ix.indexrelid
+        AND  a.attrelid = t.oid
+        AND  a.attnum   = ANY(ix.indkey)
+        AND  t.relkind  = 'r'
+        AND  t.relname  = ?
     SQL
 
     sql_columns = <<-SQL
       SELECT column_name, column_default, is_nullable,
              character_maximum_length, udt_name
-      FROM "information_schema"."columns"
-      WHERE table_schema = current_schema() AND table_name = ?
+      FROM   "information_schema"."columns"
+      WHERE  table_schema = current_schema() AND table_name = ?
     SQL
 
     indices =
