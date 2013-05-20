@@ -17,6 +17,7 @@ module DmIsReflective::SqliteAdapter
       SELECT name, sql FROM sqlite_master
       WHERE type = 'index' AND tbl_name = ?
     SQL
+
     indices = select(sql_indices, storage).inject({}){ |r, field|
       columns    =   field.sql[/\(.+\)/].scan(/\w+/)
       uniqueness = !!field.sql[/CREATE UNIQUE INDEX/]
