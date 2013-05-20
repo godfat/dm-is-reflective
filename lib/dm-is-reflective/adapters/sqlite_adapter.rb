@@ -17,25 +17,41 @@ module DmIsReflective::SqliteAdapter
       SELECT name, sql FROM sqlite_master
       WHERE type = 'index' AND tbl_name = ?
     SQL
-    indices = select(sql, storage)
+    indices = select(sql, storage).inject({}){ |r, field|
+      columns    =   field.sql[/\(.+\)/].scan(/\w+/)
+      uniqueness = !!field.sql[/CREATE UNIQUE INDEX/]
+
+      columns.each{ |c|
+        type = if uniqueness then :unique_index else :index end
+        r[c] ||= {:unique_index => [], :index => []}
+        r[c][type] << field.name
+      }
+
+      r
+    }
 
     select('PRAGMA table_info(?)', storage).map{ |field|
-      index = indices.find{ |idx|
-        idx.sql =~ /ON "#{storage}" \("#{field.name}"\)/ }
+      if idx = indices[field.name]
+        idx_uni, idx_com = [:unique_index, :index].map{ |type|
+          i = idx[type]
+          if i.empty?
+            nil
+          elsif i.size == 1
+            i.first.to_sym
+          else
+            i.map(&:to_sym)
+          end
+        }
+      else
+        idx_uni, idx_com = nil
+      end
 
       field.instance_eval <<-RUBY
-        def index_name
-          #{"'#{index.name}'" if index}
-        end
-
-        def uniqueness
-          #{!!(index.sql =~ /UNIQUE INDEX/) if index}
-        end
-
-        def table_name
-          '#{storage}'
-        end
+        def table_name  ; '#{storage}'      ; end
+        def index       ; #{idx_com.inspect}; end
+        def unique_index; #{idx_uni.inspect}; end
       RUBY
+
       field
     }
   end
@@ -55,13 +71,8 @@ module DmIsReflective::SqliteAdapter
       attrs[:unique_index] = :"#{field.table_name}_pkey"
     end
 
-    if field.index_name
-      if field.uniqueness
-        attrs[:unique_index] = :"#{field.index_name}"
-      else
-        attrs[:index]        = :"#{field.index_name}"
-      end
-    end
+    attrs[:unique_index]   = field.unique_index if field.unique_index
+    attrs[       :index]   = field.       index if field.       index
 
     attrs[:allow_nil] = field.notnull == 0
     attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
