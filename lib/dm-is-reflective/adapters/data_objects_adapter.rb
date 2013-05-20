@@ -118,7 +118,8 @@ module DmIsReflective::DataObjectsAdapter
   end
 
   def reflective_lookup_primitive primitive
-    raise TypeError.new("#{primitive} not found for #{self.class}")
+    warn "#{primitive} not found for #{self.class}: #{caller.inspect}"
+    String # falling back to the universal interface
   end
 
   def reflective_auto_load_adapter_extension
