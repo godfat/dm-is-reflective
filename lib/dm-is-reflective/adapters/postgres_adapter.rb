@@ -57,8 +57,8 @@ module DmIsReflective::PostgresAdapter
 
       column.instance_eval <<-RUBY
         def key?        ; #{is_key}         ; end
-        def index       ; #{idx_com.inspect}; end
         def unique_index; #{idx_uni.inspect}; end
+        def index       ; #{idx_com.inspect}; end
       RUBY
 
       column
