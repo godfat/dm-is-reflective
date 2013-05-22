@@ -80,6 +80,9 @@ end
 dm.storages
 # => ['users']
 
+# show all indices
+dm.indices('users') # [:id, {:unique_index => :users_pkey}]
+
 # there's no guarantee of the order in fields array
 User.fields
 # => [[:created_at,  DateTime, {:required => false}],
