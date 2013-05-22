@@ -52,9 +52,9 @@ module DmIsReflective::PostgresAdapter
 
     idxs = indices(storage)
 
-    select(Ext::String.compress_lines(sql), storage).map do |field|
-      field.define_singleton_method(:indices){ idxs }
-      field
+    select(Ext::String.compress_lines(sql), storage).map do |f|
+      f.define_singleton_method(:indices){ idxs[f.column_name.to_sym] }
+      f
     end
   end
 
@@ -72,8 +72,7 @@ module DmIsReflective::PostgresAdapter
       field.column_default.gsub!(/(.*?)::[\w\s]*/, '\1')
     end
 
-    idx = field.indices[field.column_name.to_sym]
-    attrs.merge!(idx) if idx
+    attrs.merge!(field.indices) if field.indices
 
     attrs[:serial] = true if field.column_default =~ /nextval\('\w+'\)/
     attrs[:allow_nil] = field.is_nullable == 'YES'
