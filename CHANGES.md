@@ -1,5 +1,9 @@
 # CHANGES
 
+## dm-is-reflective 1.3.1, 2013-05-22
+
+* Introduce `indices` method which would return all indices in the storage.
+
 ## dm-is-reflective 1.3.0, 2013-05-20
 
 * Warn instead of raising a TypeError if a datatype cannot be found.
