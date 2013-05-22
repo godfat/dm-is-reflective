@@ -52,9 +52,9 @@ module DmIsReflective::PostgresAdapter
 
     idxs = indices(storage)
 
-    select(Ext::String.compress_lines(sql), storage).map do |column|
-      column.define_singleton_method(:indices){ idxs }
-      column
+    select(Ext::String.compress_lines(sql), storage).map do |field|
+      field.define_singleton_method(:indices){ idxs }
+      field
     end
   end
 
