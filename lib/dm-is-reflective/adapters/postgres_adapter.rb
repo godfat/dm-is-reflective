@@ -11,9 +11,8 @@ module DmIsReflective::PostgresAdapter
     select(Ext::String.compress_lines(sql))
   end
 
-  private
-  def reflective_query_storage storage
-    sql_indices = <<-SQL
+  def indices storage
+    sql = <<-SQL
       SELECT a.attname, i.relname, ix.indisprimary, ix.indisunique
       FROM   pg_class t, pg_class i, pg_index ix, pg_attribute a
       WHERE  t.oid      = ix.indrelid
@@ -24,21 +23,10 @@ module DmIsReflective::PostgresAdapter
         AND  t.relname  = ?
     SQL
 
-    sql_columns = <<-SQL
-      SELECT column_name, column_default, is_nullable,
-             character_maximum_length, udt_name
-      FROM   "information_schema"."columns"
-      WHERE  table_schema = current_schema() AND table_name = ?
-    SQL
-
-    indices =
-    select(Ext::String.compress_lines(sql_indices), storage).
-      group_by(&:attname)
-
-    select(Ext::String.compress_lines(sql_columns), storage).map do |column|
-      if idx = indices[column.column_name]
-        is_key = !!idx.find{ |i| i.indisprimary }
-        idx_uni, idx_com = idx.partition{ |i| i.indisunique }.map{ |i|
+    select(Ext::String.compress_lines(sql), storage).group_by(&:attname).
+      inject({}) do |r, (column, idxs)|
+        key = !!idxs.find(&:indisprimary)
+        idx_uni, idx_com = idxs.partition(&:indisunique).map{ |i|
           if i.empty?
             nil
           elsif i.size == 1
@@ -47,17 +35,25 @@ module DmIsReflective::PostgresAdapter
             i.map{ |ii| ii.relname.to_sym }
           end
         }
-      else
-        is_key = false
-        idx_uni, idx_com = nil
+
+        r[column.to_sym] = reflective_indices_hash(key, idx_uni, idx_com)
+        r
       end
+  end
 
-      column.instance_eval <<-RUBY
-        def key?        ; #{is_key}         ; end
-        def unique_index; #{idx_uni.inspect}; end
-        def index       ; #{idx_com.inspect}; end
-      RUBY
+  private
+  def reflective_query_storage storage
+    sql = <<-SQL
+      SELECT column_name, column_default, is_nullable,
+             character_maximum_length, udt_name
+      FROM   "information_schema"."columns"
+      WHERE  table_schema = current_schema() AND table_name = ?
+    SQL
 
+    idxs = indices(storage)
+
+    select(Ext::String.compress_lines(sql), storage).map do |column|
+      column.define_singleton_method(:indices){ idxs }
       column
     end
   end
@@ -70,18 +66,16 @@ module DmIsReflective::PostgresAdapter
     field.udt_name
   end
 
-  def reflective_attributes field, attrs = {}
+  def reflective_attributes field, attrs={}
     # strip data type
     if field.column_default
       field.column_default.gsub!(/(.*?)::[\w\s]*/, '\1')
     end
 
+    idx = field.indices[field.column_name.to_sym]
+    attrs.merge!(idx) if idx
+
     attrs[:serial] = true if field.column_default =~ /nextval\('\w+'\)/
-    attrs[:key]    = true if field.key?
-
-    attrs[:unique_index] = field.unique_index if field.unique_index
-    attrs[       :index] = field.       index if field.       index
-
     attrs[:allow_nil] = field.is_nullable == 'YES'
     # strip string quotation
     attrs[:default] = field.column_default.gsub(/^'(.*?)'$/, '\1') if

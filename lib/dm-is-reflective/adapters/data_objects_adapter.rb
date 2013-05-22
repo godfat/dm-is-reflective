@@ -133,4 +133,12 @@ module DmIsReflective::DataObjectsAdapter
     Adapters.const_get(class_name).__send__(:include,
       DmIsReflective.const_get(class_name))
   end
+
+  def reflective_indices_hash key, idx_uni, idx_com
+    h = {}
+    h[:key]          = key     if key
+    h[:unique_index] = idx_uni if idx_uni
+    h[       :index] = idx_com if idx_com
+    h
+  end
 end

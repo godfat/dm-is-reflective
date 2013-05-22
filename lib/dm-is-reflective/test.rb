@@ -69,6 +69,15 @@ end
 include Abstract
 
 shared :reflective do
+  def cat_indices
+    @cat_indices ||=
+    [[           :id, {:unique_index => :abstract_cats_pkey, :key => true}],
+     [:super_user_id, {:unique_index => :unique_abstract_cats_usu          ,
+                              :index => :index_abstract_cats_su }]         ,
+     [      :user_id, {:unique_index => [:unique_abstract_cats_usu         ,
+                                         :unique_abstract_cats_u]}]        ]
+  end
+
   def cat_fields
     @cat_fields ||=
     [[:id,         DataMapper::Property::Serial,
@@ -204,6 +213,10 @@ shared :reflective do
                 'abstract_comments'    =>    comment_fields,
                 'abstract_users'       =>       user_fields,
                 'abstract_super_users' => super_user_fields)
+  end
+
+  should 'indices' do
+    sort_fields(@dm.indices('abstract_cats')).should.eq cat_indices
   end
 
   should 'reflect type' do
