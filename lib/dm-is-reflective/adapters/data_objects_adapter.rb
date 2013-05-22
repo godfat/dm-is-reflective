@@ -10,6 +10,12 @@ module DmIsReflective::DataObjectsAdapter
     storages # call the overrided method
   end
 
+  # returns all indices in the storage.
+  def indices storage
+    reflective_auto_load_adapter_extension
+    indices(storage) # call the overrided method
+  end
+
   # returns all fields, with format [[name, type, attrs]]
   #  e.g.
   #       [[:created_at,  DateTime, {:required => false}],
