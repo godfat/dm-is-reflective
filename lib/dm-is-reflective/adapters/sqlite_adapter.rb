@@ -11,49 +11,46 @@ module DmIsReflective::SqliteAdapter
     select(Ext::String.compress_lines(sql))
   end
 
-  private
-  def reflective_query_storage storage
-    sql_indices = <<-SQL
+  def indices storage
+    sql = <<-SQL
       SELECT name, sql FROM sqlite_master
       WHERE type = 'index' AND tbl_name = ?
     SQL
 
-    indices = select(sql_indices, storage).inject({}){ |r, field|
-      columns    =   field.sql[/\(.+\)/].scan(/\w+/)
-      uniqueness = !!field.sql[/CREATE UNIQUE INDEX/]
+    select(Ext::String.compress_lines(sql), storage).inject({}){ |r, idx|
+      columns    = idx.sql[/\(.+\)/].scan(/\w+/)
+      uniqueness = !!idx.sql[/CREATE UNIQUE INDEX/]
 
       columns.each{ |c|
         type = if uniqueness then :unique_index else :index end
         r[c] ||= {:unique_index => [], :index => []}
-        r[c][type] << field.name
+        r[c][type] << idx.name.to_sym
       }
 
       r
+    }.inject({}){ |r, (column, idxs)|
+      idx_uni, idx_com = [:unique_index, :index].map{ |type|
+        i = idxs[type]
+        if i.empty?
+          nil
+        elsif i.size == 1
+          i.first.to_sym
+        else
+          i.map(&:to_sym)
+        end
+      }
+      r[column.to_sym] = reflective_indices_hash(false, idx_uni, idx_com)
+      r
     }
+  end
 
-    select('PRAGMA table_info(?)', storage).map{ |field|
-      if idx = indices[field.name]
-        idx_uni, idx_com = [:unique_index, :index].map{ |type|
-          i = idx[type]
-          if i.empty?
-            nil
-          elsif i.size == 1
-            i.first.to_sym
-          else
-            i.map(&:to_sym)
-          end
-        }
-      else
-        idx_uni, idx_com = nil
-      end
-
-      field.instance_eval <<-RUBY
-        def table_name  ; '#{storage}'      ; end
-        def index       ; #{idx_com.inspect}; end
-        def unique_index; #{idx_uni.inspect}; end
-      RUBY
-
-      field
+  private
+  def reflective_query_storage storage
+    idxs = indices(storage)
+    select('PRAGMA table_info(?)', storage).map{ |f|
+      f.define_singleton_method(:storage){ storage             }
+      f.define_singleton_method(:indices){ idxs[f.name.to_sym] }
+      f
     }
   end
 
@@ -65,15 +62,14 @@ module DmIsReflective::SqliteAdapter
     field.type.gsub(/\(\d+\)/, '')
   end
 
-  def reflective_attributes field, attrs = {}
+  def reflective_attributes field, attrs={}
+    attrs.merge!(field.indices) if field.indices
+
     if field.pk != 0
       attrs[:key]          = true
       attrs[:serial]       = true
-      attrs[:unique_index] = :"#{field.table_name}_pkey"
+      attrs[:unique_index] = :"#{field.storage}_pkey"
     end
-
-    attrs[:unique_index]   = field.unique_index if field.unique_index
-    attrs[       :index]   = field.       index if field.       index
 
     attrs[:allow_nil] = field.notnull == 0
     attrs[:default] = field.dflt_value[1..-2] if field.dflt_value
