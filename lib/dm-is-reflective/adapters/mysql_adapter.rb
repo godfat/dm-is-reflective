@@ -6,53 +6,51 @@ module DmIsReflective::MysqlAdapter
     select('SHOW TABLES')
   end
 
-  private
-  # construct needed table metadata
-  def reflective_query_storage storage
-    sql_indices = <<-SQL
+  def indices storage
+    sql = <<-SQL
       SELECT column_name, index_name, non_unique
       FROM   `information_schema`.`statistics`
       WHERE  table_schema = ? AND table_name = ?
     SQL
 
-    sql_columns = <<-SQL
+    select(Ext::String.compress_lines(sql),
+      reflective_table_schema, storage).group_by(&:column_name).
+        inject({}) do |r, (column, idxs)|
+          primary = idxs.find{ |i| i.index_name == 'PRIMARY' }
+          primary.index_name = :"#{storage}_pkey" if primary
+          key                = !!primary
+          idx_uni, idx_com = idxs.partition{ |i| i.non_unique == 0 }.map{ |i|
+            if i.empty?
+              nil
+            elsif i.size == 1
+              i.first.index_name.to_sym
+            else
+              i.map{ |ii| ii.index_name.to_sym }
+            end
+          }
+
+          r[column.to_sym] = reflective_indices_hash(key, idx_uni, idx_com)
+          r
+        end
+  end
+
+  private
+  # construct needed table metadata
+  def reflective_query_storage storage
+    sql = <<-SQL
       SELECT column_name, column_key, column_default, is_nullable,
              data_type, character_maximum_length, extra, table_name
       FROM      `information_schema`.`columns`
       WHERE  table_schema = ? AND table_name = ?
     SQL
 
-    # TODO: can we fix this shit in dm-mysql-adapter?
-    path = (options[:path]     || options['path'] ||
-            options[:database] || options['database']).sub('/', '')
+    idxs = indices(storage)
 
-    indices =
-    select(Ext::String.compress_lines(sql_indices), path, storage).
-      group_by(&:column_name)
-
-    select(Ext::String.compress_lines(sql_columns), path, storage).
-    map do |column|
-      if idx = indices[column.column_name]
-        idx_uni, idx_com = idx.partition{ |i| i.non_unique == 0 }.map{ |i|
-          if i.empty?
-            nil
-          elsif i.size == 1
-            i.first.index_name.to_sym
-          else
-            i.map{ |ii| ii.index_name.to_sym }
-          end
-        }
-      else
-        idx_uni, idx_com = nil
+    select(Ext::String.compress_lines(sql),
+      reflective_table_schema, storage).map do |f|
+        f.define_singleton_method(:indices){ idxs[f.column_name.to_sym] }
+        f
       end
-
-      column.instance_eval <<-RUBY
-        def unique_index; #{idx_uni.inspect}; end
-        def index       ; #{idx_com.inspect}; end
-      RUBY
-
-      column
-    end
   end
 
   def reflective_field_name field
@@ -63,15 +61,14 @@ module DmIsReflective::MysqlAdapter
     field.data_type
   end
 
-  def reflective_attributes field, attrs = {}
+  def reflective_attributes field, attrs={}
+    attrs.merge!(field.indices) if field.indices
+
     attrs[:serial] = true if field.extra == 'auto_increment'
 
     if field.column_key == 'PRI'
       attrs[:key] = true
       attrs[:unique_index] = :"#{field.table_name}_pkey"
-    else
-      attrs[:unique_index] = field.unique_index if field.unique_index
-      attrs[       :index] = field.       index if field.       index
     end
 
     attrs[:allow_nil] = field.is_nullable == 'YES'
@@ -98,5 +95,11 @@ module DmIsReflective::MysqlAdapter
     when 'BOOL', 'BOOLEAN'                ; Property::Boolean
     when /\w*TEXT/                        ; Property::Text
     end || super(primitive)
+  end
+
+  def reflective_table_schema
+    # TODO: can we fix this shit in dm-mysql-adapter?
+    (options[:path]     || options['path'] ||
+     options[:database] || options['database']).sub('/', '')
   end
 end
