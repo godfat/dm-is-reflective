@@ -70,12 +70,20 @@ include Abstract
 
 shared :reflective do
   def cat_indices
-    @cat_indices ||=
-    [[           :id, {:unique_index => :abstract_cats_pkey, :key => true}],
+    @cat_indices ||= begin
+      id = case DataMapper.repository.adapter.class.name
+           when 'DataMapper::Adapters::SqliteAdapter'
+             nil
+           else
+             [:id, {:unique_index => :abstract_cats_pkey, :key => true}]
+           end
+    [id                                                                    ,
      [:super_user_id, {:unique_index => :unique_abstract_cats_usu          ,
                               :index => :index_abstract_cats_su }]         ,
      [      :user_id, {:unique_index => [:unique_abstract_cats_usu         ,
-                                         :unique_abstract_cats_u]}]        ]
+                                         :unique_abstract_cats_u]}]        ].
+     compact
+    end
   end
 
   def cat_fields
