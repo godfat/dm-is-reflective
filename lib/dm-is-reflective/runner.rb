@@ -73,8 +73,9 @@ module DmIsReflective::Runner
   end
 
   def help
-    maxn = options.transpose.first.map(&:size).max
-    maxd = options.transpose.last .map(&:size).max
+    optt = options.transpose
+    maxn = optt.first.map(&:size).max
+    maxd = optt.last .map(&:size).max
     "Usage: dm-is-reflective DATABASE_URI\n" +
     options.map{ |(name, desc)|
       if desc.empty?
