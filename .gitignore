@@ -1,7 +1,2 @@
-tmp
-pkg
-doc
-ann-*
-Gemfile.lock
-
+/pkg/
 *.rbc

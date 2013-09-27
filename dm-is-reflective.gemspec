@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# stub: dm-is-reflective 1.3.1 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "dm-is-reflective"
@@ -6,7 +7,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lin Jen-Shin (godfat)"]
-  s.date = "2013-05-22"
+  s.date = "2013-09-28"
   s.description = "DataMapper plugin that helps you manipulate an existing database.\nIt creates mappings between existing columns and model's properties."
   s.email = ["godfat (XD) godfat.org"]
   s.executables = ["dm-is-reflective"]
@@ -41,7 +42,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/godfat/dm-is-reflective"
   s.licenses = ["Apache License 2.0"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "2.0.3"
+  s.rubygems_version = "2.1.5"
   s.summary = "DataMapper plugin that helps you manipulate an existing database."
   s.test_files = [
   "test/test_mysql.rb",
