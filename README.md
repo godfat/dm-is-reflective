@@ -140,6 +140,7 @@ puts User.to_source
 
 * Andrew Kreps (@onewheelskyward)
 * Lin Jen-Shin (@godfat)
+* Mischa Molhoek (@mmolhoek)
 
 ## LICENSE:
 
