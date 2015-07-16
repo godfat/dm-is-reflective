@@ -55,13 +55,19 @@ module DmIsReflective
 
         reflected = targets.each{ |target|
           case target
-          when Regexp;
-            break name if name.to_s =~ target
+          when Regexp
+            if name.to_s =~ target
+              if name.to_s =~ /^\d/
+                break :"_#{name}"
+              else
+                break name
+              end
+            end
 
-          when Symbol, String;
+          when Symbol, String
             break name if name == target.to_sym
 
-          when Class;
+          when Class
             break name if type == target
 
           else
