@@ -58,7 +58,7 @@ module DmIsReflective
           when Regexp
             if name.to_s =~ target
               if name.to_s =~ /^\d/
-                break :"_#{name}"
+                break :"_#{name}" # TODO: missing test for this
               else
                 break name
               end
