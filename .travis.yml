@@ -14,5 +14,7 @@ addons:
   postgresql: 9.3
 
 before_install:
+  - sudo apt-get update
+  - sudo apt-get install postgresql-server-dev-9.3 libpq-dev
   - mysql -e 'create database myapp_test;'
   - psql -c 'create database myapp_test;' -U postgres
