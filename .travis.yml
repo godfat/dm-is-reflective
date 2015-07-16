@@ -18,3 +18,8 @@ before_install:
   - sudo apt-get install postgresql-server-dev-9.3 libpq-dev
   - mysql -e 'create database myapp_test;'
   - psql -c 'create database myapp_test;' -U postgres
+
+matrix:
+  allow_failures:
+    - rvm: jruby
+    - rvm: jruby-head
