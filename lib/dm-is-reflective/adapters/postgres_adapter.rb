@@ -5,7 +5,7 @@ module DmIsReflective::PostgresAdapter
   def storages
     sql = <<-SQL
       SELECT table_name FROM "information_schema"."tables"
-      WHERE table_schema = current_schema()
+      WHERE table_schema = current_schema() AND table_type LIKE 'BASE TABLE'
     SQL
 
     select(Ext::String.compress_lines(sql))
