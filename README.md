@@ -142,6 +142,7 @@ puts User.to_source
 * Lin Jen-Shin (@godfat)
 * Mischa Molhoek (@mmolhoek)
 * @philfine
+* Sebastian Marr (@sebastianmarr)
 
 ## LICENSE:
 
