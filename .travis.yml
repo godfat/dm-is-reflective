@@ -1,14 +1,22 @@
+sudo: false
 language: ruby
-rvm:
-  - 2.0
-  - 2.1
-  - 2.2
-  - rbx-2
-  - jruby
-  - jruby-head
 
-install: 'bundle install --retry=3'
-script: 'ruby -r bundler/setup -S rake test'
+install: 'gem install bundler; bundle install --retry=3'
+script: 'ruby -vr bundler/setup -S rake test'
+
+matrix:
+  include:
+    - rvm: 2.2
+    - rvm: 2.3
+    - rvm: 2.4
+    - rvm: ruby-head
+    - rvm: jruby
+      env: JRUBY_OPTS=--debug
+    - rvm: rbx
+
+  allow_failures:
+    - rvm: rbx
+    - rvm: jruby
 
 addons:
   postgresql: 9.3
@@ -18,8 +26,3 @@ before_install:
   - sudo apt-get install postgresql-server-dev-9.3 libpq-dev
   - mysql -e 'create database myapp_test;'
   - psql -c 'create database myapp_test;' -U postgres
-
-matrix:
-  allow_failures:
-    - rvm: jruby
-    - rvm: jruby-head
