@@ -1,5 +1,15 @@
 # CHANGES
 
+## dm-is-reflective 1.3.2 -- 2017-12-29
+
+* Prefix an underscore whenever the property begins with a number, which
+  cannot be used as a method name. See:
+  [#9](https://github.com/godfat/dm-is-reflective/pull/9)
+  Thanks Mischa Molhoek (@mmolhoek)
+* Don't create the model for PostgreSQL views. See:
+  [#10](https://github.com/godfat/dm-is-reflective/pull/10)
+  Thanks @philfine
+
 ## dm-is-reflective 1.3.1, 2013-05-22
 
 * Introduce `indices` method which would return all indices in the storage.
